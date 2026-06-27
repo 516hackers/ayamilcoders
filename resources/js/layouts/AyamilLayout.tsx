@@ -61,6 +61,14 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     image: 'https://ayamilcoders.com/logo/ac.jpg',
                     foundingDate: '2023-07-21',
                     founder: { '@type': 'Person', name: 'Muhammad Muzamil' },
+                    employee: [
+                        {
+                            '@type': 'Person',
+                            name: 'Hidden Partner',
+                            jobTitle: 'Chief Executive Officer',
+                            description: "Ayamil Coders' CEO, known publicly as the Hidden Partner. Their real-world identity is intentionally kept private by company policy.",
+                        },
+                    ],
                     email: 'info@ayamilcoders.com',
                     telephone: '+92-312-759-2672',
                     address: {
