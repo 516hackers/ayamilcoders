@@ -158,6 +158,11 @@ export default function About() {
             title: '600+ Projects. 50+ Countries. Still Growing.',
             desc: 'Ayamil Coders now serves clients across 50+ countries with a structured remote team — specialising in Web Development, Blockchain Development, AI Development, and Bug Fixing.',
         },
+        {
+            year: '2026',
+            title: 'Deeper Specialisation, Same Core Four',
+            desc: "Ayamil Coders doubles down on its four core services rather than spreading thin — sharpening Web Development, Blockchain Development, AI Development, and Bug Fixing with a dedicated QA/Bug Fixing team. The CEO and Founder continue to steer strategy together, with the Hidden Partner's identity still kept private by choice.",
+        },
     ];
 
     const values = [
@@ -194,6 +199,17 @@ export default function About() {
     ];
 
     const team = [
+        {
+            initials: '?',
+            name: 'Hidden Partner',
+            role: 'Chief Executive Officer',
+            roleColor: '#a78bfa',
+            bg: 'linear-gradient(135deg,#2d1b69,#5b21b6,#7c3aed)',
+            avBg: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)',
+            desc: "The silent strategist behind Ayamil Coders' direction. A real, active CEO whose identity is intentionally kept private by company policy — their influence shows in the company's work, not a name on a page.",
+            tags: [['tp', 'Strategy'], ['tb', 'Vision'], ['tg', 'Private by Choice']],
+            showBadge: true,
+        },
         {
             initials: 'MM',
             name: 'Muhammad Muzamil',
@@ -488,10 +504,13 @@ export default function About() {
                             From a Small City.<br />To a Global Stage.
                         </h2>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '16px' }}>
-                            Ayamil Coders was born in July 2023 out of a simple conviction: high-quality software shouldn't require a big-city address or a Western price tag. Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> started the company in <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab, Pakistan</strong> — operating fully remotely and building a team of full-stack engineers, blockchain specialists, AI developers, and dedicated bug-fixing/QA testers.
+                            Ayamil Coders was born in July 2023 out of a simple conviction: high-quality software shouldn't require a big-city address or a Western price tag. Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> started the company in <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab, Pakistan</strong>, guided from day one by the strategic direction of the company's CEO — known publicly as the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong> — operating fully remotely and building a team of full-stack engineers, blockchain specialists, AI developers, and dedicated bug-fixing/QA testers.
+                        </p>
+                        <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '16px' }}>
+                            While Muhammad Muzamil leads publicly as Founder, the Hidden Partner has steered the company's long-term vision and decision-making as CEO since its earliest days — their identity kept private by choice, not absence. Every major milestone in this timeline carries their fingerprint, even where their name doesn't appear.
                         </p>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '24px' }}>
-                            In just over two years, the company grew from a solo freelancer on Fiverr to a structured software house with a dedicated CTO (<strong style={{ color: 'var(--txt)' }}>Zunaira Asif</strong>), COO (<strong style={{ color: 'var(--txt)' }}>Zayan Ali</strong>), and a full engineering team — shipping everything from React/Laravel web apps to audited Solidity smart contracts, DeFi protocols, AI automation pipelines, and fast-turnaround bug fixing for projects built by other teams.
+                            In just over two years, the company grew from a solo freelancer on Fiverr to a structured software house led by the CEO and Founder together, with a dedicated CTO (<strong style={{ color: 'var(--txt)' }}>Zunaira Asif</strong>), COO (<strong style={{ color: 'var(--txt)' }}>Zayan Ali</strong>), and a full engineering team — shipping everything from React/Laravel web apps to audited Solidity smart contracts, DeFi protocols, AI automation pipelines, and fast-turnaround bug fixing for projects built by other teams.
                         </p>
                         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                             <span className="tag tb">🇵🇰 Sadiqabad, Punjab</span>
