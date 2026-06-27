@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect, FormEvent } from 'react';
+import SEO from '@/components/SEO';
 
 interface CareerFormData {
     name: string;
@@ -125,8 +126,36 @@ export default function Careers() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+        const pageSchema = {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        "title": "Careers at Ayamil Coders",
+        "description": "Join Ayamil Coders! Remote-first software house hiring Full-Stack Developers, Blockchain Developers, Mobile Developers, Bug Fixing / QA Engineers, and AI Engineers.",
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": "Ayamil Coders",
+            "sameAs": "https://ayamilcoders.com"
+        },
+        "jobLocation": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Sadiqabad",
+                "addressRegion": "Punjab",
+                "addressCountry": "Pakistan"
+            }
+        }
+    };
+
     return (
         <>
+            <SEO 
+                title="Careers — Ayamil Coders"
+                description="Join Ayamil Coders! Remote-first software house hiring Full-Stack Developers, Blockchain Developers, Mobile Developers, Bug Fixing / QA Engineers, and AI Engineers."
+                keywords="careers, jobs, software development, Pakistan, remote work"
+                url="https://ayamilcoders.com/careers"
+                schema={pageSchema}
+            />
             <Head title="Careers — Ayamil Coders" />
 
             {/* ── PAGE HERO ── */}
@@ -331,27 +360,27 @@ export default function Careers() {
                     </ul>
                 </div>
 
-                {/* Role 4 — UI/UX */}
+                {/* Role 4 — Bug Fixing / QA */}
                 <div className="job-card" data-a="up" data-d="4">
                     <div className="job-head">
                         <div>
-                            <div className="job-title">UI/UX Designer</div>
-                            <div className="job-dept">Design · Remote · Part-Time / Full-Time</div>
+                            <div className="job-title">Bug Fixing / QA Engineer</div>
+                            <div className="job-dept">Quality Assurance · Remote · Part-Time / Full-Time</div>
                         </div>
                         <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#6b3500,#d97706,#fbbf24)' }}>Apply →</a>
                     </div>
                     <div className="job-meta">
-                        <span className="tag ta">Figma</span>
-                        <span className="tag ta">UI Design</span>
-                        <span className="tag tb">Prototyping</span>
-                        <span className="tag tg">Design Systems</span>
+                        <span className="tag ta">Debugging</span>
+                        <span className="tag ta">Code Review</span>
+                        <span className="tag tb">Testing</span>
+                        <span className="tag tg">Performance</span>
                     </div>
-                    <div className="job-desc">Design user interfaces for web apps, mobile products, and client marketing materials. You'll collaborate directly with developers and define the visual language for Ayamil Coders projects.</div>
+                    <div className="job-desc">Diagnose and fix bugs across web, mobile, blockchain, and AI codebases — including projects originally built by other teams. You'll do root-cause debugging, code review, and regression testing for our Bug Fixing service line.</div>
                     <ul className="job-reqs">
-                        <li>Strong Figma skills with a portfolio of shipped UI work</li>
-                        <li>Understanding of design systems, component libraries, and responsive layout</li>
-                        <li>Ability to produce developer-ready specs with accurate measurements and assets</li>
-                        <li>Bonus: experience designing for SaaS dashboards or Web3 products</li>
+                        <li>Strong debugging skills across at least two stacks (e.g. JS/React + PHP/Laravel)</li>
+                        <li>Comfortable reading unfamiliar/legacy code and tracing root causes quickly</li>
+                        <li>Experience with browser dev tools, error tracking, and basic performance profiling</li>
+                        <li>Bonus: experience auditing Solidity contracts or debugging AI/ML pipelines</li>
                     </ul>
                 </div>
 
@@ -469,7 +498,7 @@ export default function Careers() {
                                     <option>Full-Stack Web Developer</option>
                                     <option>Blockchain / Solidity Developer</option>
                                     <option>Mobile Developer (Flutter)</option>
-                                    <option>UI/UX Designer</option>
+                                    <option>Bug Fixing / QA Engineer</option>
                                     <option>AI / Python Engineer</option>
                                     <option>General Application</option>
                                 </select>

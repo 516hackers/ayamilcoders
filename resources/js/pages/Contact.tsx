@@ -1,4 +1,5 @@
 import { useState, FormEvent } from 'react';
+import SEO from '@/components/SEO';
 
 interface ContactFormData {
     name: string;
@@ -68,9 +69,41 @@ export default function Contact() {
         { q: 'Do you offer ongoing support after launch?', a: 'Every project includes 30 days of free post-launch support. Beyond that we offer monthly retainer packages — from a light maintenance plan to a dedicated developer package.' },
         { q: 'Can you take over an existing project?', a: "Yes. We regularly pick up abandoned, half-built, or broken projects. Share the repo and a description via email and we'll send you an honest assessment within 24 hours." }
     ];
+        const pageSchema = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'ContactPage',
+                name: 'Contact Ayamil Coders',
+                description: 'Get in touch with Ayamil Coders for Web Development, Blockchain Development, AI Development, or Bug Fixing.',
+                url: 'https://ayamilcoders.com/contact',
+                isPartOf: {
+                    '@type': 'WebSite',
+                    name: 'Ayamil Coders',
+                    url: 'https://ayamilcoders.com',
+                },
+                about: { '@id': 'https://ayamilcoders.com/#organization' },
+            },
+            {
+                '@type': 'FAQPage',
+                mainEntity: faqs.map(f => ({
+                    '@type': 'Question',
+                    name: f.q,
+                    acceptedAnswer: { '@type': 'Answer', text: f.a },
+                })),
+            },
+        ],
+    };
 
     return (
         <>
+            <SEO 
+                title="Contact Ayamil Coders - Web, Blockchain & AI Development + Bug Fixing"
+                description="Reach out to Ayamil Coders for Web Development, Blockchain Development, AI Development, or Bug Fixing. Get a quote within 24 hours."
+                keywords="contact software house Pakistan, get a quote web development, hire blockchain developer, hire AI developer, bug fixing service contact, Ayamil Coders contact"
+                url="https://ayamilcoders.com/contact"
+                schema={pageSchema}
+            />
             {/* ── CONTACT-SPECIFIC STYLES ── */}
             {/* BUG FIX 1: All contact-page CSS was in the HTML <style> block but was
                 NEVER added to any .css file or the TSX. These classes are missing
@@ -271,15 +304,13 @@ export default function Contact() {
                                     <label className="fl">Service You Need</label>
                                     <select className="ff" name="service" value={formData.service} onChange={handleChange} required>
                                         <option value="" disabled>Select a service</option>
-                                        <option>Web Development (Landing Page / Portfolio)</option>
-                                        <option>Full-Stack Web Application</option>
+                                        <option>Web Development (Website / Web App)</option>
                                         <option>E-Commerce Platform</option>
-                                        <option>Blockchain / Smart Contract</option>
+                                        <option>Mobile App (within Web Development)</option>
+                                        <option>Blockchain / Smart Contract Development</option>
                                         <option>Token Launch (ERC-20 / BEP-20)</option>
                                         <option>DeFi / NFT Development</option>
-                                        <option>Mobile App (Flutter / Android)</option>
-                                        <option>AI / Automation Integration</option>
-                                        <option>IT Consulting / DevOps</option>
+                                        <option>AI Development / Automation</option>
                                         <option>Bug Fixing / Code Audit</option>
                                         <option>Other — I'll explain below</option>
                                     </select>

@@ -113,4 +113,3 @@ function handleForm(e,btnId){
 document.addEventListener('DOMContentLoaded',()=>{
   buildTicker();initReveal();initCounters();initBars();initNavSpy();init3DTilt();initSmoothScroll();initCursorGlow();
 });
-

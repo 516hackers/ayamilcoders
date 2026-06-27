@@ -15,10 +15,10 @@ const publicPages = [
     'services',
     'contact',
     'careers',
-    'privacy-policy',
+    'privacypolicy',
     'terms',
-    'refund-policy',
-    'cookie-policy',
+    'refundpolicy',
+    'cookiepolicy',
     'disclaimer',
 ];
 
@@ -28,17 +28,17 @@ createInertiaApp({
     resolve: (name) => {
         // Eager-load all pages under resources/js/pages/
         const pages = import.meta.glob('./pages/**/*.tsx', { eager: true }) as Record<string, { default: React.ComponentType }>;
-        
+
         // Try exact match first, then lowercase fallback
         const exactKey = `./pages/${name}.tsx`;
         const lowerKey = `./pages/${name.toLowerCase()}.tsx`;
-        
+
         let page = pages[exactKey];
-        
+
         if (!page) {
             // Try with .tsx extension variations
             const tsxKeys = Object.keys(pages);
-            const match = tsxKeys.find(key => 
+            const match = tsxKeys.find(key =>
                 key.toLowerCase() === `./pages/${name.toLowerCase()}.tsx` ||
                 key.toLowerCase().endsWith(`/${name.toLowerCase()}.tsx`)
             );
@@ -46,11 +46,11 @@ createInertiaApp({
                 page = pages[match];
             }
         }
-        
+
         if (!page) {
             throw new Error(`Page not found: "${name}". Tried:\n  ${exactKey}\n  ${lowerKey}`);
         }
-        
+
         return page;
     },
 
@@ -59,7 +59,7 @@ createInertiaApp({
 
         // FIX: Don't return null for welcome - use AyamilLayout instead
         // if (page === 'welcome') return null;  // ← REMOVE THIS LINE
-        
+
         // For all public pages, use AyamilLayout (including welcome)
         if (publicPages.includes(page)) return AyamilLayout;
 

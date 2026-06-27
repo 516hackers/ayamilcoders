@@ -6,8 +6,6 @@ use App\Http\Middleware\EnsureTeamMembership;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
-
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
     ->group(function () {
@@ -21,21 +19,15 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/settings.php';
 
+// ===== PUBLIC PAGES =====
 
+// Sitemap
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
 // Home page
 Route::get('/', function () {
     return Inertia::render('Welcome', [], 'public');
 })->name('home');
-
-Route::get('/contact', function () {
-    return Inertia::render('Contact', [], 'public');
-})->name('contact');
-
-// Careers page
-Route::get('/careers', function () {
-    return Inertia::render('Careers', [], 'public');
-})->name('careers');
 
 // About page
 Route::get('/about', function () {
@@ -47,12 +39,40 @@ Route::get('/services', function () {
     return Inertia::render('Services');
 })->name('services');
 
+// Contact page
+Route::get('/contact', function () {
+    return Inertia::render('Contact', [], 'public');
+})->name('contact');
+
+// Careers page
+Route::get('/careers', function () {
+    return Inertia::render('Careers', [], 'public');
+})->name('careers');
+
+// ===== LEGAL PAGES =====
+
 // Privacy Policy page
 Route::get('/privacy-policy', function () {
     return Inertia::render('PrivacyPolicy');
 })->name('privacy-policy');
 
-// Terms page
+// Terms & Conditions page
 Route::get('/terms', function () {
     return Inertia::render('Terms');
 })->name('terms');
+
+
+Route::get('/refund-policy', function () {
+    return Inertia::render('RefundPolicy');
+})->name('refund-policy');
+
+
+// Cookie Policy page
+Route::get('/cookie-policy', function () {
+    return Inertia::render('CookiePolicy');
+})->name('cookie-policy');
+
+// Disclaimer page
+Route::get('/disclaimer', function () {
+    return Inertia::render('Disclaimer');
+})->name('disclaimer');
