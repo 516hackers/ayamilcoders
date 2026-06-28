@@ -4,12 +4,20 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="theme-color" content="#060d1a" id="theme-meta">
+        <meta name="color-scheme" content="dark">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+        <!-- Google Fonts: loaded non-blocking via preload + onload swap,
+             with a noscript fallback for JS-disabled clients. -->
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=swap"
+              onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+        </noscript>
 
         <!-- Favicon -->
         <link rel="icon" href="/logo/favicon.ico" sizes="any">

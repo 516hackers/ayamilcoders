@@ -727,7 +727,7 @@ export default function Welcome() {
     ───────────────────────────────────────── */
     return (
         <>
-             <SEO 
+             <SEO
                 title="Ayamil Coders - Software Development Company in Pakistan"
                 description="Pakistan's premier software house. Expert in Web Development, Blockchain, AI, and IT Consulting. 600+ projects, 50+ countries, 87% satisfaction."
                 keywords="software development, web development, blockchain development, AI development, IT consulting, Pakistan software house"
@@ -931,7 +931,7 @@ export default function Welcome() {
                     <div className="asc s-hide-r" id="scr-3">
                         <div className="ash">
                             <div className="ash-t">Contact</div>
-                            <a href="tel:+923127592672" className="ash-btn" style={{ textDecoration: 'none', color: 'var(--txt2)' }}>
+                            <a href="tel:+923127592672" className="ash-btn" aria-label="Call Ayamil Coders" style={{ textDecoration: 'none', color: 'var(--txt2)' }}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             </a>
                         </div>
@@ -978,20 +978,21 @@ export default function Welcome() {
                         <div className="mform">
                             <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '17px', color: 'var(--txt)', marginBottom: '16px' }}>Send a Message</div>
                             <form onSubmit={(e) => (window as any).handleMobForm?.(e)}>
-                                <label className="mfl">Your Name</label>
-                                <input type="text" placeholder="Muhammad Ali" className="mff" required />
-                                <label className="mfl">Email Address</label>
-                                <input type="email" placeholder="you@company.com" className="mff" required />
-                                <label className="mfl">Service Needed</label>
-                                <select className="mff">
+                                <label className="mfl" htmlFor="mob-name">Your Name</label>
+                                <input id="mob-name" type="text" placeholder="Muhammad Ali" className="mff" required />
+                                <label className="mfl" htmlFor="mob-email">Email Address</label>
+                                <input id="mob-email" type="email" placeholder="you@company.com" className="mff" required />
+                                <label className="mfl" htmlFor="mob-service">Service Needed</label>
+                                <select id="mob-service" className="mff" aria-label="Service Needed" defaultValue="">
+                                    <option value="" disabled>Select a service</option>
                                     <option>Web Development</option>
-                                    <option>Blockchain / Smart Contracts</option>
-                                    <option>AI & Automation</option>
+                                    <option>Blockchain Development</option>
+                                    <option>AI Development</option>
                                     <option>Bug Fixing</option>
                                     <option>Other</option>
                                 </select>
-                                <label className="mfl">Project Details</label>
-                                <textarea rows={4} placeholder="Describe your project briefly…" className="mff"></textarea>
+                                <label className="mfl" htmlFor="mob-details">Project Details</label>
+                                <textarea id="mob-details" rows={4} placeholder="Describe your project briefly…" className="mff"></textarea>
                                 <button id="mob-btn" type="submit" className="msub">
                                     Send Message
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>

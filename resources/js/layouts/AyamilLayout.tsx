@@ -113,6 +113,13 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         const style = document.createElement('style');
         style.id = styleId;
         style.textContent = `
+            /* Force native form controls / scrollbars to match the actual
+               dark theme. Without this, the browser computes color-scheme
+               as "light" by default, which mismatches data-theme="dark"
+               and was flagged by Lighthouse's contrast/accessibility audit. */
+            html[data-theme="dark"]{color-scheme:dark !important}
+            html[data-theme="light"]{color-scheme:light !important}
+
             /* ══════ FOOTER EXTRA ══════ */
             @media(max-width:639px){.footer{padding:36px 16px 80px}}
             [data-theme="light"] .flinks a:hover{color:var(--blue-dk)}
@@ -561,6 +568,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     <img 
         src="/logo/ac.png" 
         alt="Ayamil Coders" 
+        width={53}
+        height={53}
+        decoding="async"
         style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '9px' }}
     />
 </div>
@@ -591,6 +601,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     <img 
         src="/logo/ac.png" 
         alt="Ayamil Coders" 
+        width={53}
+        height={53}
+        decoding="async"
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
     />
 </div>
@@ -721,7 +734,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <div className="asc s-act" id="scr-page">
                         <div className="ash">
                             <div className="ash-t">{getPageTitle()}</div>
-                            <a href="tel:+923127592672" className="ash-btn" style={{ textDecoration: 'none', color: 'var(--txt2)' }}>
+                            <a href="tel:+923127592672" className="ash-btn" aria-label="Call Ayamil Coders" style={{ textDecoration: 'none', color: 'var(--txt2)' }}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             </a>
                         </div>
@@ -762,7 +775,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             </button>
 
             {/* ════════ SCROLL TO TOP ════════ */}
-            <button id="stt" onClick={() => {
+            <button id="stt" aria-label="Scroll to top" onClick={() => {
                 const activeScr = document.querySelector<HTMLElement>('.asc.s-act');
                 if (activeScr && activeScr.scrollHeight > activeScr.clientHeight) {
                     activeScr.scrollTo({ top: 0, behavior: 'smooth' });
