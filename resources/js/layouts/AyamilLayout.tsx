@@ -57,8 +57,8 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     '@id': 'https://ayamilcoders.com/#organization',
                     name: 'Ayamil Coders',
                     url: 'https://ayamilcoders.com',
-                    logo: 'https://ayamilcoders.com/logo/ac.jpg',
-                    image: 'https://ayamilcoders.com/logo/ac.jpg',
+                    logo: 'https://ayamilcoders.com/logo/ac-512.png',
+                    image: 'https://ayamilcoders.com/logo/ac-512.png',
                     foundingDate: '2023-07-21',
                     founder: { '@type': 'Person', name: 'Muhammad Muzamil' },
                     employee: [
@@ -565,14 +565,17 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             <div id="sb">
                 <div className="sb-brand">
                   <div className="sb-logo">
-    <img 
-        src="/logo/ac.png" 
-        alt="Ayamil Coders" 
-        width={53}
-        height={53}
-        decoding="async"
-        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '9px' }}
-    />
+    <picture>
+        <source srcSet="/logo/ac-160.webp" type="image/webp" />
+        <img 
+            src="/logo/ac-160.png" 
+            alt="Ayamil Coders" 
+            width={53}
+            height={53}
+            decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '9px' }}
+        />
+    </picture>
 </div>
                     <span className="sb-name">Ayamil Coders</span>
                 </div>
@@ -598,14 +601,17 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             {/* ════════ DESKTOP SIDEBAR ════════ */}
             <nav id="sidebar">
                 <div className="nav-logo">
-    <img 
-        src="/logo/ac.png" 
-        alt="Ayamil Coders" 
-        width={53}
-        height={53}
-        decoding="async"
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-    />
+    <picture>
+        <source srcSet="/logo/ac-160.webp" type="image/webp" />
+        <img 
+            src="/logo/ac-160.png" 
+            alt="Ayamil Coders" 
+            width={53}
+            height={53}
+            decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+    </picture>
 </div>
                 <div className="nav-links">
                     <Link href="/" className={`nav-a${isActive('/') ? ' act' : ''}`}><span className="nav-lbl">Home</span><span className="nav-dot"></span></Link>

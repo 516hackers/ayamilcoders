@@ -695,7 +695,7 @@ export default function Welcome() {
         "@type": "Organization",
         "name": "Ayamil Coders",
         "url": "https://ayamilcoders.com",
-        "logo": "https://ayamilcoders.com/logo/ac.jpg",
+        "logo": "https://ayamilcoders.com/logo/ac-512.png",
         "description": "Pakistan's premier software house specializing in Web Development, Blockchain, AI, and IT Consulting.",
         "founder": {
             "@type": "Person",
@@ -727,7 +727,7 @@ export default function Welcome() {
     ───────────────────────────────────────── */
     return (
         <>
-             <SEO
+             <SEO 
                 title="Ayamil Coders - Software Development Company in Pakistan"
                 description="Pakistan's premier software house. Expert in Web Development, Blockchain, AI, and IT Consulting. 600+ projects, 50+ countries, 87% satisfaction."
                 keywords="software development, web development, blockchain development, AI development, IT consulting, Pakistan software house"

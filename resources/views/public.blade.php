@@ -46,7 +46,7 @@
                     "@id": "https://ayamilcoders.com/#organization",
                     "name": "Ayamil Coders",
                     "url": "https://ayamilcoders.com",
-                    "logo": "https://ayamilcoders.com/logo/ac.jpg",
+                    "logo": "https://ayamilcoders.com/logo/ac-512.png",
                     "foundingDate": "2023-07-21",
                     "founder": { "@type": "Person", "name": "Muhammad Muzamil" },
                     "employee": [

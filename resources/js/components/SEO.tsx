@@ -16,7 +16,7 @@ export default function SEO({
     title = 'Ayamil Coders - Web Development, Blockchain Development, AI Development & Bug Fixing',
     description = "Ayamil Coders is a Pakistan-based software house offering four core services: Web Development, Blockchain Development, AI Development, and Bug Fixing for clients worldwide.",
     keywords = 'web development, blockchain development, AI development, bug fixing service, software house Pakistan, debug code, smart contract developer',
-    image = 'https://ayamilcoders.com/logo/ac.jpg',
+    image = 'https://ayamilcoders.com/logo/ac-512.png',
     url = 'https://ayamilcoders.com',
     type = 'website',
     schema
