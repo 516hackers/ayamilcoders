@@ -665,12 +665,12 @@ export default function Welcome() {
         }, { threshold: 0.4 });
         document.querySelectorAll('.bf').forEach(el => barObs.observe(el));
 
-        /* init first tab */
-        const timer = setTimeout(() => {
-            const firstTab = document.getElementById('scr-0');
-            if (firstTab) { firstTab.className = 'asc s-act'; void firstTab.offsetHeight; }
-            ['scr-1', 'scr-2', 'scr-3'].forEach(id => { const el = document.getElementById(id); if (el) el.className = 'asc s-hide-r'; });
-        }, 50);
+        /* NOTE: scr-0..3 already get their correct initial classes
+           ("asc s-act" / "asc s-hide-r") directly from JSX on first render,
+           so no post-mount re-class / forced-reflow step is needed here.
+           The previous setTimeout(() => { ...; void firstTab.offsetHeight; }, 50)
+           was redundant and was the source of a forced reflow + large CLS
+           on #mscr flagged by Lighthouse — removed. */
 
         /* window globals */
         (window as any).switchTab     = switchTab;
@@ -683,7 +683,6 @@ export default function Welcome() {
         (window as any).handleMobForm  = handleMobForm;
 
         return () => {
-            clearTimeout(timer);
             revealObs.disconnect(); counterObs.disconnect(); barObs.disconnect();
             if (ms) { ms.removeEventListener('touchstart', onTouchStart); ms.removeEventListener('touchend', onTouchEnd); }
         };

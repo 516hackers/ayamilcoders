@@ -160,7 +160,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 .ti-btn.act .ti-icon{background:rgba(41,121,242,.18);transform:translateY(-2px) scale(1.08)}
                 .ti-ico{color:var(--txt3);transition:color .2s}
                 .ti-btn.act .ti-ico{color:var(--blue)}
-                .ti-lbl{font-size:10px;font-weight:600;color:var(--txt3);font-family:var(--font);transition:color .2s;letter-spacing:.01em}
+                .ti-lbl{font-size:10px;font-weight:600;color:var(--txt2);font-family:var(--font);transition:color .2s;letter-spacing:.01em}
                 .ti-btn.act .ti-lbl{color:var(--blue-lt)}
                 [data-theme="light"] .ti-btn.act .ti-lbl{color:var(--blue-dk)}
                 .ti-dot{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--blue);opacity:0;transition:opacity .2s}
