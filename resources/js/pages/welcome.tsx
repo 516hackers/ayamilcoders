@@ -457,11 +457,11 @@ export default function Welcome() {
             .sg2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px}
             .sac{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-lg);padding:16px;text-align:center}
             .san{font-family:var(--disp);font-weight:800;font-size:22px;background:linear-gradient(135deg,var(--txt),var(--blue-lt));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-            .sal{font-size:11px;color:var(--txt3);font-family:var(--mono);margin-top:4px}
+            .sal{font-size:11px;color:var(--txt2);font-family:var(--mono);margin-top:4px}
             .srow{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;cursor:pointer}
             .srow-ico{width:48px;height:48px;border-radius:14px;flex-shrink:0}
             .srow-t{font-family:var(--disp);font-weight:700;font-size:14px;color:var(--txt);margin-bottom:3px}
-            .srow-d{font-size:12px;color:var(--txt3);line-height:1.45}
+            .srow-d{font-size:12px;color:var(--txt2);line-height:1.45}
             .srow-arr{color:var(--txt3);flex-shrink:0;margin-left:auto}
             .sdet{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;padding:0 16px}
             .sdet.open{max-height:200px;padding:12px 16px}
@@ -1281,20 +1281,22 @@ export default function Welcome() {
                                 <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '18px', color: 'var(--txt)', marginBottom: '20px' }}>Send a Message</div>
                                 <form onSubmit={(e) => (window as any).handleDeskForm?.(e)}>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
-                                        <div><label className="fl">Name</label><input type="text" placeholder="Your name" className="ff" required /></div>
-                                        <div><label className="fl">Email</label><input type="email" placeholder="you@company.com" className="ff" required /></div>
+                                        <div><label className="fl" htmlFor="desk-name">Name</label><input id="desk-name" type="text" placeholder="Your name" className="ff" required /></div>
+                                        <div><label className="fl" htmlFor="desk-email">Email</label><input id="desk-email" type="email" placeholder="you@company.com" className="ff" required /></div>
                                     </div>
-                                    <div style={{ marginBottom: '12px' }}><label className="fl">Service Needed</label>
-                                        <select className="ff">
+                                    <div style={{ marginBottom: '12px' }}><label className="fl" htmlFor="desk-service">Service Needed</label>
+                                        <select id="desk-service" className="ff" aria-label="Service Needed" defaultValue="">
+                                            <option value="" disabled>Select a service</option>
                                             <option>Web Development</option>
-                                            <option>Blockchain / Smart Contracts</option>
-                                            <option>AI & Automation</option>
+                                            <option>Blockchain Development</option>
+                                            <option>AI Development</option>
                                             <option>Bug Fixing</option>
                                             <option>Other</option>
                                         </select>
                                     </div>
-                                    <div style={{ marginBottom: '12px' }}><label className="fl">Budget Range</label>
-                                        <select className="ff">
+                                    <div style={{ marginBottom: '12px' }}><label className="fl" htmlFor="desk-budget">Budget Range</label>
+                                        <select id="desk-budget" className="ff" aria-label="Budget Range" defaultValue="">
+                                            <option value="" disabled>Select a budget</option>
                                             <option>Under $500</option>
                                             <option>$500 – $2,000</option>
                                             <option>$2,000 – $10,000</option>
@@ -1302,7 +1304,7 @@ export default function Welcome() {
                                             <option>Let's discuss</option>
                                         </select>
                                     </div>
-                                    <div style={{ marginBottom: '14px' }}><label className="fl">Project Details</label><textarea rows={4} placeholder="Describe your project briefly…" className="ff" style={{ resize: 'none' }}></textarea></div>
+                                    <div style={{ marginBottom: '14px' }}><label className="fl" htmlFor="desk-details">Project Details</label><textarea id="desk-details" rows={4} placeholder="Describe your project briefly…" className="ff" style={{ resize: 'none' }}></textarea></div>
                                     <button id="desk-btn" type="submit" className="btn-p" style={{ width: '100%', justifyContent: 'center', padding: '13px' }}>
                                         Send Message
                                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>

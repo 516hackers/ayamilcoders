@@ -120,6 +120,20 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             html[data-theme="dark"]{color-scheme:dark !important}
             html[data-theme="light"]{color-scheme:light !important}
 
+            /* --txt3 (the "tertiary/muted" text token) is too low-contrast
+               against the dark background for body/label text and has been
+               repeatedly flagged by Lighthouse across many different
+               elements (.ti-lbl, .sal, .srow-d, footer text, etc). Rather
+               than patch each usage individually, alias it to --txt2
+               (the readable secondary color already used for body copy)
+               so every current and future usage of --txt3 passes contrast. */
+            html{--txt3:var(--txt2) !important}
+
+            /* .nav-lbl (sidebar "Home"/"Services"/"About" labels) is defined
+               in shared.css with insufficient contrast for inactive items;
+               override here since shared.css isn't directly editable. */
+            #sidebar .nav-lbl{color:var(--txt2) !important}
+
             /* ══════ FOOTER EXTRA ══════ */
             @media(max-width:639px){.footer{padding:36px 16px 80px}}
             [data-theme="light"] .flinks a:hover{color:var(--blue-dk)}
@@ -219,7 +233,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             .fab:active{transform:scale(.92)}
             .fab-badge{
                 position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;
-                background:var(--red);border:2px solid var(--bg2);
+                background:#c0291c;border:2px solid var(--bg2);
                 font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center
             }
 
@@ -357,6 +371,8 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             const dSun = document.getElementById('d-sun');
             if (dMoon) dMoon.style.opacity = theme === 'dark' ? '1' : '0.4';
             if (dSun) dSun.style.opacity = theme === 'dark' ? '0.4' : '1';
+            const themeSwitch = document.getElementById('theme-switch');
+            if (themeSwitch) themeSwitch.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
 
             const meta = document.getElementById('theme-meta');
             if (meta) meta.content = theme === 'dark' ? '#060d1a' : '#f0f4ff';
@@ -631,13 +647,13 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(41,121,242,.2),transparent)', marginBottom: '12px' }}></div>
                     <Link href="/contact" className="nav-cta">Let's Talk →</Link>
                     <div className="soc-row" style={{ justifyContent: 'flex-end', marginTop: '12px' }}>
-                        <a href="https://facebook.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-                        <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-                        <a href="https://www.instagram.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                        <a href="https://facebook.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Facebook"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                        <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                        <a href="https://www.instagram.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Instagram"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
                     </div>
                     <div className="theme-btn-wrap" style={{ marginTop: '14px', justifyContent: 'flex-end' }}>
                         <span className="theme-icon" id="d-moon">🌙</span>
-                        <button className="theme-btn" onClick={toggleTheme} role="switch">
+                        <button id="theme-switch" className="theme-btn" onClick={toggleTheme} role="switch" aria-checked="true" aria-label="Toggle dark mode">
                             <div className="theme-thumb" id="d-thumb">☀️</div>
                         </button>
                         <span className="theme-icon" id="d-sun" style={{ opacity: 0.4 }}>☀️</span>
@@ -680,9 +696,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                             </div>
                             <p style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.7 }}>Pakistan's premier software house — delivering smart digital solutions worldwide.</p>
                             <div className="soc-row" style={{ marginTop: '12px' }}>
-                                <a href="https://facebook.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-                                <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-                                <a href="https://instagram.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                                <a href="https://facebook.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Facebook"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                                <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                                <a href="https://instagram.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Instagram"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
                             </div>
                         </div>
                         <div data-a="up" data-d="2">
