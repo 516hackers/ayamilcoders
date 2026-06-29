@@ -76,3 +76,9 @@ Route::get('/cookie-policy', function () {
 Route::get('/disclaimer', function () {
     return Inertia::render('Disclaimer');
 })->name('disclaimer');
+
+
+// CEO page 
+Route::get('/ceo', function () {
+    return Inertia::render('Ceo');
+})->name('ceo');

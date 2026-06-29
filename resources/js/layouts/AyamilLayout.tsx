@@ -21,6 +21,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         if (currentPath.startsWith('/refund')) return 'Refund Policy';
         if (currentPath.startsWith('/cookie')) return 'Cookie Policy';
         if (currentPath.startsWith('/disclaimer')) return 'Disclaimer';
+        if (currentPath.startsWith('/ceo')) return 'Ceo';
         return 'Ayamil Coders';
     };
 

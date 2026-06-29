@@ -20,7 +20,8 @@ const publicPages = [
     'refundpolicy',
     'cookiepolicy',
     'disclaimer',
-];
+    'ceo',
+]; 
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
