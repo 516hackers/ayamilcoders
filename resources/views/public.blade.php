@@ -11,12 +11,17 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <!-- Google Fonts: loaded non-blocking via preload + onload swap,
-             with a noscript fallback for JS-disabled clients. -->
+             with a noscript fallback for JS-disabled clients.
+             Using display=optional (not swap): on slow connections the
+             browser keeps the fallback font instead of swapping fonts
+             after first paint, which was causing a large layout shift
+             (CLS ~0.95) when DM Sans/Manrope arrived late and reflowed
+             the whole hero section. -->
         <link rel="preload" as="style"
-              href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=swap"
+              href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=optional"
               onload="this.onload=null;this.rel='stylesheet'">
         <noscript>
-            <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=optional" rel="stylesheet">
         </noscript>
 
         <!-- Favicon -->

@@ -29,4 +29,3 @@ User-agent: anthropic-ai
 Allow: /
 
 Sitemap: https://ayamilcoders.com/sitemap.xml
-Host: https://ayamilcoders.com

@@ -624,6 +624,9 @@ export default function About() {
                                     </div>
                                 </div>
                             </div>
+                            <a href="/ceo" className="btn-g" style={{ display: 'inline-flex', marginTop: '22px', padding: '11px 24px', fontSize: '13.5px' }}>
+                                Meet Our CEO →
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -661,6 +664,11 @@ export default function About() {
                                         <span key={label} className={`tag ${cls}`}>{label}</span>
                                     ))}
                                 </div>
+                                {member.name === 'Hidden Partner' && (
+                                    <a href="/ceo" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '14px', fontSize: '12.5px', fontWeight: 600, color: '#a78bfa', textDecoration: 'none' }}>
+                                        Learn more about our CEO →
+                                    </a>
+                                )}
                             </div>
                         </div>
                     ))}

@@ -377,8 +377,8 @@ export default function Welcome() {
             .cc-fn{margin-left:8px;font-family:var(--mono);font-size:12px;color:var(--txt3)}
             .cc-body{padding:22px;font-family:var(--mono);font-size:13px;line-height:2}
             .cc-sb{padding:8px 16px;background:rgba(41,121,242,.06);border-top:1px solid var(--brd);display:flex;align-items:center;gap:12px}
-            .tk{color:#79b8ff}.tf{color:#85e89d}.ts{color:#9ecbff}.tn{color:#ffab70}.tc{color:#4d6a90;font-style:italic}.to{color:#f97583}.tv{color:#cdd9e5}
-            [data-theme="light"] .tk{color:#0550ae}[data-theme="light"] .tf{color:#116329}[data-theme="light"] .ts{color:#0a3069}[data-theme="light"] .tn{color:#953800}[data-theme="light"] .tc{color:#8b949e}[data-theme="light"] .to{color:#cf222e}[data-theme="light"] .tv{color:#1f2328}
+            .tk{color:#79b8ff}.tf{color:#85e89d}.ts{color:#9ecbff}.tn{color:#ffab70}.tc{color:#8a9fc0;font-style:italic}.to{color:#f97583}.tv{color:#cdd9e5}
+            [data-theme="light"] .tk{color:#0550ae}[data-theme="light"] .tf{color:#116329}[data-theme="light"] .ts{color:#0a3069}[data-theme="light"] .tn{color:#953800}[data-theme="light"] .tc{color:#5b6573}[data-theme="light"] .to{color:#cf222e}[data-theme="light"] .tv{color:#1f2328}
 
             /* ── Stats grid ── */
             .sgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;padding:40px 60px}

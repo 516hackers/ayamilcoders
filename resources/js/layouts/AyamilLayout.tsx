@@ -21,7 +21,6 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         if (currentPath.startsWith('/refund')) return 'Refund Policy';
         if (currentPath.startsWith('/cookie')) return 'Cookie Policy';
         if (currentPath.startsWith('/disclaimer')) return 'Disclaimer';
-        if (currentPath.startsWith('/ceo')) return 'Ceo';
         return 'Ayamil Coders';
     };
 
@@ -715,6 +714,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                             <div className="fct">Company</div>
                             <ul className="flinks">
                                 <li><Link href="/about">About Us</Link></li>
+                                <li><Link href="/ceo">Our CEO</Link></li>
                                 <li><a href="https://apply.ayamilcoders.com/careers" target="_blank" rel="noopener noreferrer">Careers</a></li>
                             </ul>
                         </div>
