@@ -1,0 +1,75 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+    
+    # ==============================================
+    # 1. REWRITE FOR BUILD FILES
+    # ==============================================
+    # Rewrite requests for /build/* to /public/build/*
+    RewriteCond %{REQUEST_URI} ^/build/
+    RewriteRule ^build/(.*)$ /public/build/$1 [L]
+
+    # ==============================================
+    # 2. REMOVE /public FROM IMAGES & ASSETS
+    # ==============================================
+    # If the request is for an image, css, or js file
+    # AND it's NOT already starting with /public/
+    # Then rewrite to add /public/ prefix
+    
+    # For images
+    RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|webp|ico)$
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+    
+    # For CSS files
+    RewriteCond %{REQUEST_URI} \.css$
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+    
+    # For JS files
+    RewriteCond %{REQUEST_URI} \.js$
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+    
+    # For font files
+    RewriteCond %{REQUEST_URI} \.(woff|woff2|ttf|eot)$
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # ==============================================
+    # 3. COMBINED RULE (Alternative - SIMPLER)
+    # ==============================================
+    # If the request is for a static file (not PHP)
+    # AND it's NOT already starting with /public/
+    # AND the file exists in /public/
+    # Then rewrite to add /public/ prefix
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_URI} \.(css|js|jpg|jpeg|png|gif|svg|webp|ico|woff|woff2|ttf|eot|pdf|json)$
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # ==============================================
+    # 4. STANDARD LARAVEL RULES
+    # ==============================================
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
