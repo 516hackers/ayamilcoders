@@ -26,6 +26,62 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
 
     const isHomePage = currentPath === '/';
 
+    // ===== AUTO-HIDE FLOATING CONTROLS ON SCROLL (MOBILE) =====
+    // The WhatsApp FAB, "Legal & Policies" pill, and scroll-to-top button are
+    // fixed-position, so on long pages (Terms, Refund Policy, Disclaimer)
+    // they permanently sit on top of whatever text has scrolled underneath
+    // them. Fix: slide them off-screen while the user is actively scrolling
+    // down, and bring them back on scroll-up or once scrolling stops — a
+    // standard, minimal pattern (also used by Safari's own toolbar).
+    // Capture-phase listener so it also catches scroll events from the
+    // custom `.asc` mobile scroll containers (scroll doesn't bubble, but it
+    // can be captured).
+    useEffect(() => {
+        let lastY = 0;
+        let ticking = false;
+        let idleTimer: ReturnType<typeof setTimeout>;
+
+        const getY = (target: EventTarget | null) => {
+            if (!target || target === document || target === window) return window.scrollY;
+            const el = target as HTMLElement;
+            return typeof el.scrollTop === 'number' ? el.scrollTop : window.scrollY;
+        };
+
+        const setHidden = (hidden: boolean) => {
+            document.querySelectorAll<HTMLElement>('.fab, #legal-pill, #stt').forEach(el => {
+                el.classList.toggle('floaty-hide', hidden);
+            });
+        };
+
+        const onScroll = (e: Event) => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                const y = getY(e.target);
+                const delta = y - lastY;
+
+                clearTimeout(idleTimer);
+                if (y < 32) {
+                    setHidden(false);
+                } else if (delta > 6) {
+                    setHidden(true);
+                } else if (delta < -6) {
+                    setHidden(false);
+                }
+                idleTimer = setTimeout(() => setHidden(false), 900);
+
+                lastY = y;
+                ticking = false;
+            });
+        };
+
+        document.addEventListener('scroll', onScroll, true);
+        return () => {
+            document.removeEventListener('scroll', onScroll, true);
+            clearTimeout(idleTimer);
+        };
+    }, []);
+
     // ===== SITEWIDE WEBSITE + ORGANIZATION JSON-LD =====
     // Injected once into every page via the shared layout so search engines
     // and LLM answer engines (AEO/GEO/LLMO) see a single consistent entity
@@ -577,15 +633,30 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
 
     return (
         <>
+            {/* Slide the WhatsApp FAB / Legal pill / scroll-to-top button out
+                of the way while the page is actively scrolling, so they stop
+                permanently covering body text on long pages (Terms, Refund
+                Policy, Disclaimer). Restricted to phone widths — on tablet/
+                desktop these controls don't sit on top of reading content. */}
+            <style>{`
+                .fab, #legal-pill, #stt {
+                    transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+                }
+                @media (max-width: 767px) {
+                    .fab.floaty-hide { transform: translateY(90px) !important; opacity: 0 !important; pointer-events: none !important; }
+                    #legal-pill.floaty-hide { transform: translateY(70px) !important; opacity: 0 !important; pointer-events: none !important; }
+                    #stt.floaty-hide { transform: translateY(70px) !important; opacity: 0 !important; pointer-events: none !important; }
+                }
+            `}</style>
             {/* ════════ MOBILE STATUS BAR ════════ */}
             <div id="sb">
                 <div className="sb-brand">
                   <div className="sb-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
-        <img 
-            src="/logo/ac-160.png" 
-            alt="Ayamil Coders" 
+        <img
+            src="/logo/ac-160.png"
+            alt="Ayamil Coders"
             width={53}
             height={53}
             decoding="async"
@@ -619,9 +690,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 <div className="nav-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
-        <img 
-            src="/logo/ac-160.png" 
-            alt="Ayamil Coders" 
+        <img
+            src="/logo/ac-160.png"
+            alt="Ayamil Coders"
             width={53}
             height={53}
             decoding="async"
@@ -761,7 +832,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             </a>
                         </div>
-                        <div style={{ paddingBottom: '80px' }}>
+                        <div style={{ paddingBottom: '104px' }}>
                             {children}
                         </div>
                     </div>

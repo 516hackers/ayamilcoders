@@ -22,6 +22,8 @@ export default function Contact() {
     const [success, setSuccess] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const [justSent, setJustSent] = useState(false);
+    const [showToast, setShowToast] = useState(false);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -45,6 +47,15 @@ export default function Contact() {
                 setSuccess(data.message || "Message sent! We'll be in touch within 24 hours.");
                 setFormData({ name: '', email: '', company: '', service: '', budget: '', message: '', whatsapp: '', timeline: '', source: '' });
                 setCharCount(0);
+                // Pop the toast in, hold it, then fade it back out — mirrors
+                // the minimal, spring-y confirmation feel of Apple's own
+                // system toasts (e.g. AirDrop / "Copied") rather than a
+                // banner that shoves the page content down.
+                setJustSent(true);
+                setTimeout(() => setJustSent(false), 900);
+                requestAnimationFrame(() => setShowToast(true));
+                setTimeout(() => setShowToast(false), 4000);
+                setTimeout(() => setSuccess(null), 4500);
             } else {
                 setError(data.message || 'Something went wrong');
             }
@@ -97,7 +108,7 @@ export default function Contact() {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title="Contact Ayamil Coders - Web, Blockchain & AI Development + Bug Fixing"
                 description="Reach out to Ayamil Coders for Web Development, Blockchain Development, AI Development, or Bug Fixing. Get a quote within 24 hours."
                 keywords="contact software house Pakistan, get a quote web development, hire blockchain developer, hire AI developer, bug fixing service contact, Ayamil Coders contact"
@@ -134,13 +145,87 @@ export default function Contact() {
                 .avail-slot{padding:5px 12px;border-radius:999px;background:rgba(45,211,111,.08);border:1px solid rgba(45,211,111,.2);font-size:11px;font-family:var(--mono);color:var(--green)}
                 .avail-slot.busy{background:rgba(255,55,95,.07);border-color:rgba(255,55,95,.2);color:var(--red)}
 
-                .faq-contact-item{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+                .faq-contact-item{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;transition:border-color .3s}
                 .faq-contact-item.open{border-color:var(--brd2)}
-                .faq-contact-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none}
-                .faq-contact-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;font-size:13px;color:var(--txt3);line-height:1.7;padding:0 20px}
-                .faq-contact-item.open .faq-contact-a{max-height:160px;padding:0 20px 16px}
+                .faq-contact-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none;gap:12px}
+                /* Grid-rows collapse animates to the real content height, so
+                   long answers never get clipped like the old max-height:160px did. */
+                .faq-contact-a-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1)}
+                .faq-contact-item.open .faq-contact-a-wrap{grid-template-rows:1fr}
+                .faq-contact-a-inner{overflow:hidden;min-height:0}
+                .faq-contact-a{font-size:13px;color:var(--txt3);line-height:1.7;padding:0 20px 16px}
                 .faq-arr{transition:transform .3s;color:var(--blue-lt)}
                 .faq-contact-item.open .faq-arr{transform:rotate(45deg)}
+
+                /* ── Apple-style submit success popup (glass toast) ── */
+                @keyframes cf-check-circle{
+                    0%{stroke-dashoffset:76}
+                    100%{stroke-dashoffset:0}
+                }
+                @keyframes cf-check-mark{
+                    0%{stroke-dashoffset:24}
+                    100%{stroke-dashoffset:0}
+                }
+                @keyframes cf-fade-up{
+                    0%{opacity:0;transform:translateY(4px)}
+                    100%{opacity:1;transform:translateY(0)}
+                }
+                .cf-toast{
+                    position:fixed;
+                    top:28px;left:50%;
+                    transform:translateX(-50%) translateY(-14px) scale(.92);
+                    opacity:0;pointer-events:none;
+                    z-index:999;
+                    display:flex;align-items:center;gap:14px;
+                    padding:16px 22px;border-radius:20px;
+                    max-width:min(92vw,440px);
+                    background:rgba(24,26,32,.72);
+                    -webkit-backdrop-filter:blur(20px) saturate(180%);
+                    backdrop-filter:blur(20px) saturate(180%);
+                    border:1px solid rgba(255,255,255,.09);
+                    box-shadow:0 24px 60px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.25);
+                    transition:opacity .35s cubic-bezier(.4,0,.2,1),
+                               transform .55s cubic-bezier(.34,1.56,.64,1);
+                }
+                .cf-toast.cf-toast-show{
+                    opacity:1;pointer-events:auto;
+                    transform:translateX(-50%) translateY(0) scale(1);
+                }
+                @media(max-width:639px){
+                    .cf-toast{ top:16px; padding:14px 18px; border-radius:16px; gap:12px; }
+                }
+                .cf-toast-icon{flex-shrink:0}
+                .cf-toast-icon circle{
+                    stroke-dasharray:76;stroke-dashoffset:76;
+                }
+                .cf-toast-icon path{
+                    stroke-dasharray:24;stroke-dashoffset:24;
+                }
+                .cf-toast-show .cf-toast-icon circle{
+                    animation:cf-check-circle .5s cubic-bezier(.65,0,.35,1) .05s forwards;
+                }
+                .cf-toast-show .cf-toast-icon path{
+                    animation:cf-check-mark .35s ease-out .45s forwards;
+                }
+                .cf-toast-title{
+                    font-family:var(--disp);font-weight:700;font-size:14px;color:#fff;
+                    margin-bottom:2px;
+                }
+                .cf-toast-msg{
+                    font-size:12.5px;color:rgba(255,255,255,.72);line-height:1.55;
+                }
+                .cf-toast-show .cf-toast-title,.cf-toast-show .cf-toast-msg{
+                    animation:cf-fade-up .4s ease .32s both;
+                }
+                .btn-success{
+                    background:linear-gradient(135deg,#059669,#22c55e)!important;
+                    transition:background .4s ease,transform .25s cubic-bezier(.34,1.56,.64,1)!important;
+                }
+                .btn-success-pop{transform:scale(1.03)}
+                @media(prefers-reduced-motion:reduce){
+                    .cf-toast,.cf-toast-icon circle,.cf-toast-icon path,
+                    .cf-toast-title,.cf-toast-msg{animation:none!important;transition:opacity .2s ease!important}
+                }
 
                 .social-lg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
                 @media(max-width:639px){.social-lg{grid-template-columns:1fr 1fr}}
@@ -176,7 +261,18 @@ export default function Contact() {
             <div className="divider"></div>
 
             {/* SUCCESS / ERROR MESSAGES */}
-            {success && <div style={{ margin: '20px 60px', padding: '14px 20px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '10px', color: '#22c55e', fontSize: '14px' }}>✅ {success}</div>}
+            {success && (
+                <div className={`cf-toast${showToast ? ' cf-toast-show' : ''}`} role="status">
+                    <svg className="cf-toast-icon" width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="#30d158" strokeWidth="2" />
+                        <path d="M7.5 12.5l3 3 6-6.5" stroke="#30d158" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <div>
+                        <div className="cf-toast-title">Message sent</div>
+                        <div className="cf-toast-msg">{success}</div>
+                    </div>
+                </div>
+            )}
             {error && <div style={{ margin: '20px 60px', padding: '14px 20px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '10px', color: '#ef4444', fontSize: '14px' }}>❌ {error}</div>}
 
             {/* CONTACT MAIN LAYOUT */}
@@ -357,8 +453,13 @@ export default function Contact() {
                                         <option>Other</option>
                                     </select>
                                 </div>
-                                <button type="submit" className="btn-p" disabled={loading} style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '15px' }}>
-                                    {loading ? 'Sending...' : 'Send Message →'}
+                                <button
+                                    type="submit"
+                                    className={`btn-p${justSent ? ' btn-success btn-success-pop' : ''}`}
+                                    disabled={loading}
+                                    style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '15px' }}
+                                >
+                                    {justSent ? 'Sent ✓' : loading ? 'Sending...' : 'Send Message →'}
                                 </button>
                             </form>
                             <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--txt3)', marginTop: '16px', fontFamily: 'var(--mono)' }}>
@@ -386,15 +487,19 @@ export default function Contact() {
                             {/* BUG FIX 7: Template literal for className was using backtick
                                 interpolation inside JSX which works but the space before 'open'
                                 was inconsistent. Used explicit conditional concat instead.
-                                Also: the original HTML closed all other FAQs when one opens
-                                (accordion behaviour). The TSX correctly toggles, but the CSS
-                                max-height:160px can clip longer answers. That's an HTML parity
-                                issue — kept as-is since it matches the original CSS. */}
+                                BUG FIX 8: the old max-height:160px transition clipped longer
+                                answers instead of opening. Switched to a grid-template-rows
+                                collapse (faq-contact-a-wrap/-inner) which animates to the
+                                answer's real height, however long it is. */}
                             <div className="faq-contact-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                                 {faq.q}
                                 <span className="faq-arr">+</span>
                             </div>
-                            <div className="faq-contact-a">{faq.a}</div>
+                            <div className="faq-contact-a-wrap">
+                                <div className="faq-contact-a-inner">
+                                    <div className="faq-contact-a">{faq.a}</div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>

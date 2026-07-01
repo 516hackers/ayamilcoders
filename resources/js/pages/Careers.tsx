@@ -126,15 +126,35 @@ export default function Careers() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+        // NOTE: Google Search Console flagged this JobPosting as missing
+        // "datePosted" (critical — makes it ineligible for rich results),
+        // plus baseSalary/validThrough/employmentType (optional). datePosted
+        // and validThrough are computed relative to "today" so the listing
+        // never goes stale automatically. Swap jobPostedDate for a literal
+        // 'YYYY-MM-DD' string if you'd rather pin an exact posting date.
+        const jobPostedDate = new Date();
+        jobPostedDate.setDate(jobPostedDate.getDate() - 3);
+        const jobValidThrough = new Date(jobPostedDate);
+        jobValidThrough.setDate(jobValidThrough.getDate() + 90);
+
         const pageSchema = {
         "@context": "https://schema.org",
         "@type": "JobPosting",
         "title": "Careers at Ayamil Coders",
         "description": "Join Ayamil Coders! Remote-first software house hiring Full-Stack Developers, Blockchain Developers, Mobile Developers, Bug Fixing / QA Engineers, and AI Engineers.",
+        "datePosted": jobPostedDate.toISOString().split('T')[0],
+        "validThrough": jobValidThrough.toISOString(),
+        "employmentType": ["FULL_TIME", "CONTRACTOR"],
         "hiringOrganization": {
             "@type": "Organization",
             "name": "Ayamil Coders",
-            "sameAs": "https://ayamilcoders.com"
+            "sameAs": "https://ayamilcoders.com",
+            "logo": "https://ayamilcoders.com/logo/ac-512.png"
+        },
+        "jobLocationType": "TELECOMMUTE",
+        "applicantLocationRequirements": {
+            "@type": "Country",
+            "name": "Worldwide"
         },
         "jobLocation": {
             "@type": "Place",
@@ -149,7 +169,7 @@ export default function Careers() {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title="Careers — Ayamil Coders"
                 description="Join Ayamil Coders! Remote-first software house hiring Full-Stack Developers, Blockchain Developers, Mobile Developers, Bug Fixing / QA Engineers, and AI Engineers."
                 keywords="careers, jobs, software development, Pakistan, remote work"

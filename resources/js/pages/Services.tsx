@@ -12,23 +12,55 @@ export default function Services() {
         const style = document.createElement('style');
         style.id = 'services-page-css';
         style.textContent = `
-            .svc-full{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-xl);padding:36px;margin-bottom:20px;transition:all .3s}
+            .svc-full{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-xl);padding:36px;margin-bottom:20px;transition:all .3s;overflow:hidden}
             .svc-full:hover{border-color:var(--brd2);box-shadow:0 16px 50px rgba(41,121,242,.08)}
-            .svc-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+            @media(max-width:639px){.svc-full{padding:22px 18px}}
+            @media(max-width:400px){.svc-full{padding:18px 14px}}
+            .svc-head{display:flex;align-items:flex-start;gap:20px;margin-bottom:20px}
+            @media(max-width:480px){.svc-head{gap:14px}}
+            .svc-icon-box{width:64px;height:64px;border-radius:18px;flex-shrink:0}
+            @media(max-width:480px){.svc-icon-box{width:48px;height:48px;border-radius:14px}}
+            .svc-title-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+            .svc-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;min-width:0}
             @media(max-width:767px){.svc-feats{grid-template-columns:1fr}}
+            .svc-feat{min-width:0;word-break:break-word}
             .svc-feat{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--txt2);line-height:1.5}
             .feat-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:6px}
-            .tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+            .tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;perspective:800px}
             @media(max-width:1023px){.tech-grid{grid-template-columns:repeat(3,1fr)}}
             @media(max-width:639px){.tech-grid{grid-template-columns:repeat(2,1fr)}}
-            .tech-card{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);padding:18px;text-align:center;transition:all .3s}
-            .tech-card:hover{border-color:var(--brd2);transform:translateY(-3px)}
-            .faq-item{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+            .tech-card{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);padding:20px 16px;text-align:center;transition:transform .35s cubic-bezier(.4,0,.2,1),border-color .3s,box-shadow .35s}
+            .tech-card:hover{border-color:var(--brd2);transform:translateY(-4px) rotateX(4deg);box-shadow:0 18px 34px rgba(0,0,0,.18)}
+            /* 3D-style tech icon: gradient face + top highlight + drop shadow
+               to read as an embossed/glossy icon instead of a flat emoji */
+            .tech-ico3d{
+                width:52px;height:52px;margin:0 auto 12px;border-radius:15px;
+                display:flex;align-items:center;justify-content:center;
+                font-size:24px;position:relative;
+                box-shadow:0 10px 18px -6px var(--ti-shadow,rgba(41,121,242,.45)),
+                           inset 0 1px 0 rgba(255,255,255,.35),
+                           inset 0 -6px 10px rgba(0,0,0,.18);
+                transition:transform .35s cubic-bezier(.4,0,.2,1);
+            }
+            .tech-card:hover .tech-ico3d{transform:translateZ(12px) rotateX(-6deg) scale(1.06)}
+            .tech-ico3d::after{
+                content:'';position:absolute;inset:0;border-radius:inherit;
+                background:linear-gradient(135deg,rgba(255,255,255,.25),transparent 55%);
+                pointer-events:none;
+            }
+            .faq-item{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;transition:border-color .3s}
             .faq-item.open{border-color:var(--brd2)}
-            .faq-q{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none}
-            .faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;font-size:13px;color:var(--txt3);line-height:1.7;padding:0 20px}
-            .faq-item.open .faq-a{max-height:200px;padding:0 20px 18px}
-            .faq-arr{transition:transform .3s;color:var(--blue-lt);font-size:20px;font-weight:300}
+            .faq-q{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none;gap:12px}
+            @media(max-width:480px){.faq-q{padding:15px 16px;font-size:13px}}
+            /* Grid-rows collapse: animates to the answer's real height, so
+               long FAQ answers never get clipped like the old max-height:200px
+               did (that made some answers look like they "wouldn't open"). */
+            .faq-a-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1)}
+            .faq-item.open .faq-a-wrap{grid-template-rows:1fr}
+            .faq-a-inner{overflow:hidden;min-height:0}
+            .faq-a{font-size:13px;color:var(--txt3);line-height:1.7;padding:0 20px 18px}
+            @media(max-width:480px){.faq-a{padding:0 16px 15px;font-size:12.5px}}
+            .faq-arr{transition:transform .3s;color:var(--blue-lt);font-size:20px;font-weight:300;flex-shrink:0}
             .faq-item.open .faq-arr{transform:rotate(45deg)}
             .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
             @media(max-width:1023px){.pricing-grid{grid-template-columns:1fr 1fr}}
@@ -63,9 +95,11 @@ export default function Services() {
                     const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
-                } else {
-                    (entry.target as HTMLElement).style.transitionDelay = '0s';
-                    entry.target.classList.remove('in');
+                    // Reveal once, then stop watching. Continuing to observe
+                    // means any later layout shift on the element itself
+                    // (e.g. an accordion expanding) can flip isIntersecting
+                    // back to false and fade the whole card out again.
+                    revealObs.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
@@ -167,14 +201,14 @@ export default function Services() {
     };
 
     const technologies = [
-        { icon: '⚛️', name: 'React / Next.js', label: 'Frontend' },
-        { icon: '🔷', name: 'Laravel / PHP', label: 'Backend' },
-        { icon: '🟢', name: 'Node.js', label: 'Runtime' },
-        { icon: '🐍', name: 'Python / AI', label: 'ML / Automation' },
-        { icon: '⛓️', name: 'Solidity', label: 'Smart Contracts' },
-        { icon: '🗄️', name: 'MySQL / MongoDB', label: 'Database' },
-        { icon: '🐞', name: 'Sentry / DevTools', label: 'Bug Tracking' },
-        { icon: '✅', name: 'Jest / PHPUnit', label: 'Testing & QA' }
+        { icon: '⚛️', name: 'React / Next.js', label: 'Frontend', bg: 'linear-gradient(155deg,#1e63e0,#4f9dff)', shadow: 'rgba(41,121,242,.5)' },
+        { icon: '🔷', name: 'Laravel / PHP', label: 'Backend', bg: 'linear-gradient(155deg,#7c3aed,#a78bfa)', shadow: 'rgba(124,58,237,.5)' },
+        { icon: '🟢', name: 'Node.js', label: 'Runtime', bg: 'linear-gradient(155deg,#059669,#34d399)', shadow: 'rgba(5,150,105,.5)' },
+        { icon: '🐍', name: 'Python / AI', label: 'ML / Automation', bg: 'linear-gradient(155deg,#0369a1,#38bdf8)', shadow: 'rgba(3,105,161,.5)' },
+        { icon: '⛓️', name: 'Solidity', label: 'Smart Contracts', bg: 'linear-gradient(155deg,#334155,#64748b)', shadow: 'rgba(51,65,85,.5)' },
+        { icon: '🗄️', name: 'MySQL / MongoDB', label: 'Database', bg: 'linear-gradient(155deg,#b45309,#fbbf24)', shadow: 'rgba(180,83,9,.5)' },
+        { icon: '🐞', name: 'Sentry / DevTools', label: 'Bug Tracking', bg: 'linear-gradient(155deg,#be123c,#fb7185)', shadow: 'rgba(190,18,60,.5)' },
+        { icon: '✅', name: 'Jest / PHPUnit', label: 'Testing & QA', bg: 'linear-gradient(155deg,#0f766e,#2dd36f)', shadow: 'rgba(15,118,110,.5)' }
     ];
 
     const pricing = [
@@ -276,7 +310,7 @@ export default function Services() {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title="Services - Web Development, Blockchain Development, AI Development & Bug Fixing"
                 description="Ayamil Coders offers four core services: Web Development (React, Laravel, Node.js), Blockchain Development (Solidity, DeFi, NFT), AI Development (Python, OpenAI, ML), and Bug Fixing for any existing codebase."
                 keywords="web development services, blockchain development company, smart contract developer, AI development company, bug fixing service, fix website bugs, debug code, hire software developer Pakistan, Ayamil Coders services"
@@ -301,12 +335,12 @@ export default function Services() {
             <section className="sp">
                 {services.map((svc, index) => (
                     <div key={svc.id} id={slugMap[svc.id]} className="svc-full" data-a="up" data-d={index + 1}>
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginBottom: '20px' }}>
-                            <div className={`i3 ${svc.cls}`} style={{ width: '64px', height: '64px', borderRadius: '18px', flexShrink: 0 }}>
+                        <div className="svc-head">
+                            <div className={`i3 ${svc.cls} svc-icon-box`}>
                                 {svc.icon}
                             </div>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                                <div className="svc-title-row">
                                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '22px', color: 'var(--txt)' }}>{svc.title}</h2>
                                     {svc.badge && <span className={`tag ${svc.badgeCls}`}>{svc.badge}</span>}
                                 </div>
@@ -347,7 +381,7 @@ export default function Services() {
                 <div className="tech-grid">
                     {technologies.map((tech, index) => (
                         <div key={tech.name} className="tech-card" data-a="scale" data-d={(index % 4) + 1}>
-                            <div style={{ fontSize: '28px', marginBottom: '8px' }}>{tech.icon}</div>
+                            <div className="tech-ico3d" style={{ background: tech.bg, '--ti-shadow': tech.shadow } as React.CSSProperties}>{tech.icon}</div>
                             <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '13px', color: 'var(--txt)' }}>{tech.name}</div>
                             <div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)', marginTop: '3px' }}>{tech.label}</div>
                         </div>
@@ -401,12 +435,16 @@ export default function Services() {
                         </h2>
                     </div>
                     {faqs.map((faq, index) => (
-                        <div key={index} className={`faq-item${openFaq === index ? ' open' : ''}`} data-a="up" data-d={index + 1}>
+                        <div key={index} className={`faq-item${openFaq === index ? ' open' : ''}`}>
                             <div className="faq-q" onClick={() => toggleFaq(index)}>
                                 {faq.q}
                                 <span className="faq-arr">+</span>
                             </div>
-                            <div className="faq-a">{faq.a}</div>
+                            <div className="faq-a-wrap">
+                                <div className="faq-a-inner">
+                                    <div className="faq-a">{faq.a}</div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
