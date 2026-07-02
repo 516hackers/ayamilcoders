@@ -27,17 +27,22 @@ const publicPages = [
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
 
-    resolve: (name) => {
-        // Eager-load all pages under resources/js/pages/
-        const pages = import.meta.glob('./pages/**/*.tsx', { eager: true }) as Record<string, { default: React.ComponentType }>;
+    resolve: async (name) => {
+        // Lazy-load pages under resources/js/pages/ — each page becomes its
+        // own chunk instead of all pages being bundled into one file that
+        // loads on every visit. (Previously `eager: true` forced every
+        // page — Terms, Privacy, Careers, Contact, etc. — into the initial
+        // bundle even when just viewing the homepage; this is what
+        // PageSpeed's "reduce unused JavaScript" flag was catching.)
+        const pages = import.meta.glob('./pages/**/*.tsx') as Record<string, () => Promise<{ default: React.ComponentType }>>;
 
         // Try exact match first, then lowercase fallback
         const exactKey = `./pages/${name}.tsx`;
         const lowerKey = `./pages/${name.toLowerCase()}.tsx`;
 
-        let page = pages[exactKey];
+        let loader = pages[exactKey];
 
-        if (!page) {
+        if (!loader) {
             // Try with .tsx extension variations
             const tsxKeys = Object.keys(pages);
             const match = tsxKeys.find(key =>
@@ -45,15 +50,15 @@ createInertiaApp({
                 key.toLowerCase().endsWith(`/${name.toLowerCase()}.tsx`)
             );
             if (match) {
-                page = pages[match];
+                loader = pages[match];
             }
         }
 
-        if (!page) {
+        if (!loader) {
             throw new Error(`Page not found: "${name}". Tried:\n  ${exactKey}\n  ${lowerKey}`);
         }
 
-        return page;
+        return await loader();
     },
 
     layout: (name) => {

@@ -552,9 +552,12 @@ export default function Terms() {
                     const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
-                } else {
-                    (entry.target as HTMLElement).style.transitionDelay = '0s';
-                    entry.target.classList.remove('in');
+                    // Reveal once, then stop watching — repeatedly toggling
+                    // 'in' on/off as the intersection ratio flickers (which
+                    // happens easily on tall elements viewed through a short
+                    // mobile viewport) was causing content to fade/slide
+                    // unpredictably while reading.
+                    revealObs.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
@@ -635,7 +638,7 @@ export default function Terms() {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title="Terms & Conditions"
                 description="Terms and conditions for using Ayamil Coders' services and website."
                 keywords="terms and conditions, software development, Ayamil Coders"
@@ -700,7 +703,7 @@ export default function Terms() {
                     </aside>
 
                     {/* BODY */}
-                    <div className="legal-body" data-a="right">
+                    <div className="legal-body">
 
                         {/* Meta info strip */}
                         <div className="legal-meta">

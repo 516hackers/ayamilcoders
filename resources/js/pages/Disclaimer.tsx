@@ -493,9 +493,7 @@ export default function Disclaimer() {
                     const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
-                } else {
-                    (entry.target as HTMLElement).style.transitionDelay = '0s';
-                    entry.target.classList.remove('in');
+                    revealObs.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
@@ -566,7 +564,7 @@ export default function Disclaimer() {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title="Disclaimer"
                 description="Important legal notices about using Ayamil Coders' website, services, and content."
                 keywords="disclaimer, legal notice, Ayamil Coders"
@@ -652,7 +650,7 @@ export default function Disclaimer() {
                     </aside>
 
                     {/* BODY */}
-                    <div className="legal-body" data-a="right">
+                    <div className="legal-body">
 
                         {/* Meta strip */}
                         <div className="legal-meta">

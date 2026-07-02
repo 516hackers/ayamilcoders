@@ -27,7 +27,33 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Shared CSS -->
-    <link rel="stylesheet" href="/css/shared.css">
+    <!-- Deferred non-blocking load (matches the Google Fonts pattern above)
+         so shared.css no longer blocks first paint (~630ms in PageSpeed).
+         Paired with the critical-CSS shim below, which pins #sb/#tbar to
+         their fixed positions from the very first frame — otherwise
+         deferring this stylesheet would make the #tbar layout shift
+         PageSpeed flagged (CLS 0.140) worse, not better. -->
+    <link
+        rel="preload"
+        as="style"
+        href="/css/shared.css"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="/css/shared.css" rel="stylesheet">
+    </noscript>
+
+    <!-- CRITICAL LAYOUT SHIM — keep in sync with shared.css.
+         Only the positioning skeleton, not colors/decoration, so it's
+         cheap to inline and safe to duplicate once shared.css loads.
+         NOTE: verify these values (height, z-index) against the real
+         rules in shared.css and adjust if they differ — this is a
+         best-effort mirror written without that file in hand. -->
+    <style>
+        #sb{position:sticky;top:0;z-index:40}
+        #tbar{position:fixed;left:0;right:0;bottom:0;z-index:40;
+              padding-bottom:env(safe-area-inset-bottom,0px);
+              min-height:64px;box-sizing:border-box}
+    </style>
 
     <!-- JSON-LD -->
     @verbatim

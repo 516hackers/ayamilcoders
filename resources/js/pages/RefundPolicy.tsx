@@ -658,9 +658,7 @@ export default function RefundPolicy() {
                     const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
-                } else {
-                    (entry.target as HTMLElement).style.transitionDelay = '0s';
-                    entry.target.classList.remove('in');
+                    revealObs.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
@@ -779,7 +777,7 @@ export default function RefundPolicy() {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title="Refund Policy"
                 description="Ayamil Coders' refund policy for software development services."
                 keywords="refund policy, software development, Ayamil Coders"
@@ -848,7 +846,7 @@ export default function RefundPolicy() {
                     </aside>
 
                     {/* BODY */}
-                    <div className="legal-body" data-a="right">
+                    <div className="legal-body">
 
                         {/* Meta strip */}
                         <div className="legal-meta">
