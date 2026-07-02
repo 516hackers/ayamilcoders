@@ -28,12 +28,26 @@ createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
 
     resolve: async (name) => {
-        // Lazy-load pages under resources/js/pages/ — each page becomes its
-        // own chunk instead of all pages being bundled into one file that
-        // loads on every visit. (Previously `eager: true` forced every
-        // page — Terms, Privacy, Careers, Contact, etc. — into the initial
-        // bundle even when just viewing the homepage; this is what
-        // PageSpeed's "reduce unused JavaScript" flag was catching.)
+        // Every page EXCEPT the homepage is lazy-loaded as its own chunk —
+        // that's still correct, it's what fixed the "reduce unused
+        // JavaScript" flag (Terms/Privacy/Careers/etc. no longer bloat
+        // every visit).
+        //
+        // The homepage is the one exception: it's loaded EAGERLY, bundled
+        // into the main chunk like before. Reason: once React mounts, it
+        // renders the layout shell (header/tab bar) immediately, but a
+        // lazy page component still has to finish its own network fetch
+        // before it can paint — that gap was showing as a blank flash
+        // (or, on a slow connection, getting stuck) right after the
+        // pre-JS skeleton disappeared. Keeping just this one page eager
+        // means its code is already present the instant React mounts, so
+        // there's no second gap to fall into.
+        if (name.toLowerCase() === 'welcome') {
+            const eagerHome = import.meta.glob('./pages/welcome.tsx', { eager: true }) as Record<string, { default: React.ComponentType }>;
+            const key = Object.keys(eagerHome)[0];
+            if (key) return eagerHome[key];
+        }
+
         const pages = import.meta.glob('./pages/**/*.tsx') as Record<string, () => Promise<{ default: React.ComponentType }>>;
 
         // Try exact match first, then lowercase fallback
