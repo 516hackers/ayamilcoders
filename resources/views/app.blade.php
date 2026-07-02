@@ -167,6 +167,77 @@
 <body class="font-sans antialiased">
     <x-inertia::app />
 
+    {{-- ═══════════ HOMEPAGE SKELETON ═══════════
+         Only for '/', shown the instant the raw HTML paints — before the
+         JS bundle even starts loading — and automatically cleared the
+         moment React mounts real content into #app (mounting replaces the
+         container's children, no manual removal needed). Mirrors the real
+         hero layout instead of a generic spinner/progress bar. Styled
+         inline and self-contained so it renders correctly even before
+         shared.css has loaded. --}}
+    @if(request()->is('/'))
+    <style>
+        #wskel{position:fixed;inset:0;background:#060d1a;z-index:1;display:flex;flex-direction:column;overflow:hidden}
+        #wskel *{box-sizing:border-box}
+        @keyframes wskel-pulse{0%,100%{opacity:.55}50%{opacity:1}}
+        .wskel-b{background:linear-gradient(90deg,rgba(148,163,184,.09),rgba(148,163,184,.16),rgba(148,163,184,.09));background-size:200% 100%;border-radius:8px;animation:wskel-pulse 1.6s ease-in-out infinite}
+        #wskel-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;flex-shrink:0}
+        #wskel-topbar .wskel-b:first-child{width:130px;height:26px;border-radius:9px}
+        #wskel-topbar .wskel-b:last-child{width:38px;height:38px;border-radius:11px}
+        #wskel-body{flex:1;padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+        #wskel-badge{width:190px;height:24px;border-radius:999px;margin-bottom:22px}
+        .wskel-h{height:34px;border-radius:9px;margin-bottom:10px}
+        #wskel-h1{width:72%}
+        #wskel-h2{width:58%}
+        #wskel-h3{width:45%}
+        #wskel-sub1{width:80%;height:13px;margin-top:16px;border-radius:6px}
+        #wskel-sub2{width:60%;height:13px;margin-top:8px;border-radius:6px;margin-bottom:24px}
+        #wskel-btns{display:flex;gap:10px;margin-bottom:36px}
+        #wskel-btns .wskel-b:first-child{width:132px;height:42px;border-radius:12px}
+        #wskel-btns .wskel-b:last-child{width:112px;height:42px;border-radius:12px}
+        #wskel-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:360px}
+        .wskel-stat{display:flex;flex-direction:column;align-items:center;gap:6px}
+        .wskel-stat .wskel-b:first-child{width:38px;height:20px;border-radius:6px}
+        .wskel-stat .wskel-b:last-child{width:50px;height:9px;border-radius:5px}
+        @media(min-width:640px){ #wskel{display:none} }
+    </style>
+    <div id="wskel" aria-hidden="true">
+        <div id="wskel-topbar">
+            <div class="wskel-b"></div>
+            <div class="wskel-b"></div>
+            <div class="wskel-b"></div>
+        </div>
+        <div id="wskel-body">
+            <div id="wskel-badge" class="wskel-b"></div>
+            <div id="wskel-h1" class="wskel-h wskel-b"></div>
+            <div id="wskel-h2" class="wskel-h wskel-b"></div>
+            <div id="wskel-h3" class="wskel-h wskel-b"></div>
+            <div id="wskel-sub1" class="wskel-b"></div>
+            <div id="wskel-sub2" class="wskel-b"></div>
+            <div id="wskel-btns">
+                <div class="wskel-b"></div>
+                <div class="wskel-b"></div>
+            </div>
+            <div id="wskel-stats">
+                <div class="wskel-stat"><div class="wskel-b"></div><div class="wskel-b"></div></div>
+                <div class="wskel-stat"><div class="wskel-b"></div><div class="wskel-b"></div></div>
+                <div class="wskel-stat"><div class="wskel-b"></div><div class="wskel-b"></div></div>
+                <div class="wskel-stat"><div class="wskel-b"></div><div class="wskel-b"></div></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Move the skeleton inside #app so React's mount (which replaces
+        // #app's children) clears it automatically — no manual teardown,
+        // no risk of it lingering if a route change is fast.
+        (function(){
+            var app = document.getElementById('app');
+            var skel = document.getElementById('wskel');
+            if (app && skel) app.appendChild(skel);
+        })();
+    </script>
+    @endif
+
     <script src="/js/shared.js" defer></script>
 </body>
 </html>

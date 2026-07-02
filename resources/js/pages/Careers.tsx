@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect, FormEvent } from 'react';
+import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
 
 interface CareerFormData {
@@ -27,6 +28,8 @@ export default function Careers() {
     const [success, setSuccess] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [agreed, setAgreed] = useState(false);
+    const [justSent, setJustSent] = useState(false);
+    const [showToast, setShowToast] = useState(false);
 
     // Inject careers-specific CSS (matches careers.html <style> block exactly)
     useEffect(() => {
@@ -83,6 +86,81 @@ export default function Careers() {
             .culture-card:hover{border-color:var(--brd2);background:var(--card-hov)}
 
             @media(max-width:1023px){.career-split{grid-template-columns:1fr!important;gap:40px!important}}
+
+            /* ── Apple-style submit success popup (glass toast) — same
+               treatment as the Contact page, for consistency ── */
+            @keyframes cf-check-circle{
+                0%{stroke-dashoffset:76}
+                100%{stroke-dashoffset:0}
+            }
+            @keyframes cf-check-mark{
+                0%{stroke-dashoffset:24}
+                100%{stroke-dashoffset:0}
+            }
+            @keyframes cf-fade-up{
+                0%{opacity:0;transform:translateY(4px)}
+                100%{opacity:1;transform:translateY(0)}
+            }
+            .cf-toast{
+                position:fixed;
+                top:calc(env(safe-area-inset-top,0px) + 18px);
+                left:50%;right:auto;
+                transform:translateX(-50%) translateY(-14px) scale(.92);
+                opacity:0;pointer-events:none;
+                z-index:9999;
+                display:flex;align-items:center;gap:14px;
+                padding:16px 22px;border-radius:20px;
+                width:max-content;max-width:min(92vw,440px);
+                background:rgba(24,26,32,.86);
+                -webkit-backdrop-filter:blur(20px) saturate(180%);
+                backdrop-filter:blur(20px) saturate(180%);
+                border:1px solid rgba(255,255,255,.09);
+                box-shadow:0 24px 60px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.25);
+                transition:opacity .35s cubic-bezier(.4,0,.2,1),
+                           transform .55s cubic-bezier(.34,1.56,.64,1);
+            }
+            .cf-toast.cf-toast-show{
+                opacity:1;pointer-events:auto;
+                transform:translateX(-50%) translateY(0) scale(1);
+            }
+            @media(max-width:639px){
+                .cf-toast{
+                    top:calc(env(safe-area-inset-top,0px) + 12px);
+                    left:16px;right:16px;
+                    transform:translateY(-14px) scale(.94);
+                    max-width:none;width:auto;
+                    padding:14px 16px;border-radius:16px;gap:12px;
+                }
+                .cf-toast.cf-toast-show{ transform:translateY(0) scale(1); }
+            }
+            .cf-toast-icon{flex-shrink:0}
+            .cf-toast-icon circle{ stroke-dasharray:76;stroke-dashoffset:76; }
+            .cf-toast-icon path{ stroke-dasharray:24;stroke-dashoffset:24; }
+            .cf-toast-show .cf-toast-icon circle{
+                animation:cf-check-circle .5s cubic-bezier(.65,0,.35,1) .05s forwards;
+            }
+            .cf-toast-show .cf-toast-icon path{
+                animation:cf-check-mark .35s ease-out .45s forwards;
+            }
+            .cf-toast-title{
+                font-family:var(--disp);font-weight:700;font-size:14px;color:#fff;
+                margin-bottom:2px;
+            }
+            .cf-toast-msg{
+                font-size:12.5px;color:rgba(255,255,255,.72);line-height:1.55;
+            }
+            .cf-toast-show .cf-toast-title,.cf-toast-show .cf-toast-msg{
+                animation:cf-fade-up .4s ease .32s both;
+            }
+            .btn-success{
+                background:linear-gradient(135deg,#059669,#22c55e)!important;
+                transition:background .4s ease,transform .25s cubic-bezier(.34,1.56,.64,1)!important;
+            }
+            .btn-success-pop{transform:scale(1.03)}
+            @media(prefers-reduced-motion:reduce){
+                .cf-toast,.cf-toast-icon circle,.cf-toast-icon path,
+                .cf-toast-title,.cf-toast-msg{animation:none!important;transition:opacity .2s ease!important}
+            }
         `;
         document.head.appendChild(style);
         return () => { document.getElementById(styleId)?.remove(); };
@@ -112,6 +190,11 @@ export default function Careers() {
                 setSuccess(data.message || 'Application submitted! We\'ll be in touch within 48 hours.');
                 setFormData({ name: '', email: '', phone: '', role: '', experience: '', portfolio_url: '', message: '' });
                 setAgreed(false);
+                setJustSent(true);
+                setTimeout(() => setJustSent(false), 900);
+                requestAnimationFrame(() => setShowToast(true));
+                setTimeout(() => setShowToast(false), 4000);
+                setTimeout(() => setSuccess(null), 4500);
             } else {
                 setError(data.message || 'Something went wrong. Please try again.');
             }
@@ -484,10 +567,18 @@ export default function Careers() {
 
                 <div className="apply-form" data-a="scale">
                     {/* Success / Error messages */}
-                    {success && (
-                        <div style={{ marginBottom: '20px', padding: '14px 20px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '10px', color: '#22c55e', fontSize: '14px' }}>
-                            ✅ {success}
-                        </div>
+                    {success && createPortal(
+                        <div className={`cf-toast${showToast ? ' cf-toast-show' : ''}`} role="status">
+                            <svg className="cf-toast-icon" width="28" height="28" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#30d158" strokeWidth="2" />
+                                <path d="M7.5 12.5l3 3 6-6.5" stroke="#30d158" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            <div>
+                                <div className="cf-toast-title">Application sent</div>
+                                <div className="cf-toast-msg">{success}</div>
+                            </div>
+                        </div>,
+                        document.documentElement
                     )}
                     {error && (
                         <div style={{ marginBottom: '20px', padding: '14px 20px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '10px', color: '#ef4444', fontSize: '14px' }}>
@@ -557,11 +648,11 @@ export default function Careers() {
                         </div>
                         <button
                             type="submit"
-                            className="btn-p"
+                            className={`btn-p${justSent ? ' btn-success btn-success-pop' : ''}`}
                             disabled={loading}
                             style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '15px', marginTop: '6px', opacity: loading ? 0.7 : 1 }}
                         >
-                            {loading ? 'Submitting...' : 'Submit Application →'}
+                            {justSent ? 'Sent ✓' : loading ? 'Submitting...' : 'Submit Application →'}
                         </button>
                     </form>
                     <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--txt3)', marginTop: '16px', fontFamily: 'var(--mono)' }}>
