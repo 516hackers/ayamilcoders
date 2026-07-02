@@ -11,30 +11,12 @@ class SitemapController extends Controller
     public function index()
     {
         $pages = [
-            // Main Pages
+            // ===== Main Pages =====
             [
                 'loc' => '/',
                 'lastmod' => '2025-01-01',
                 'changefreq' => 'weekly',
                 'priority' => '1.00'
-            ],
-            [
-                'loc' => '/ceo',
-                'lastmod' => '2025-01-01',
-                'changefreq' => 'weekly',
-                'priority' => '0.95'
-            ],
-            [
-                'loc' => '/services',
-                'lastmod' => '2025-01-01',
-                'changefreq' => 'weekly',
-                'priority' => '0.95'
-            ],
-            [
-                'loc' => '/contact',
-                'lastmod' => '2025-01-01',
-                'changefreq' => 'monthly',
-                'priority' => '0.90'
             ],
             [
                 'loc' => '/about',
@@ -43,13 +25,39 @@ class SitemapController extends Controller
                 'priority' => '0.85'
             ],
             [
+                'loc' => '/services',
+                'lastmod' => '2025-01-01',
+                'changefreq' => 'weekly',
+                'priority' => '0.95'
+            ],
+            [
                 'loc' => '/careers',
                 'lastmod' => '2025-01-01',
                 'changefreq' => 'weekly',
                 'priority' => '0.80'
             ],
-            
-            // Legal Pages
+            [
+                'loc' => '/contact',
+                'lastmod' => '2025-01-01',
+                'changefreq' => 'monthly',
+                'priority' => '0.90'
+            ],
+
+            // ===== Leadership Pages =====
+            [
+                'loc' => '/ceo',
+                'lastmod' => '2025-01-01',
+                'changefreq' => 'weekly',
+                'priority' => '0.95'
+            ],
+            [
+                'loc' => '/founder',
+                'lastmod' => '2025-01-01',
+                'changefreq' => 'weekly',
+                'priority' => '0.95'
+            ],
+
+            // ===== Legal Pages =====
             [
                 'loc' => '/privacy-policy',
                 'lastmod' => '2025-01-01',

@@ -21,7 +21,8 @@ const publicPages = [
     'cookiepolicy',
     'disclaimer',
     'ceo',
-]; 
+    'founder',
+];
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),

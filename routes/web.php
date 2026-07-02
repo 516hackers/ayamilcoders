@@ -78,7 +78,12 @@ Route::get('/disclaimer', function () {
 })->name('disclaimer');
 
 
-// CEO page 
+// CEO page
 Route::get('/ceo', function () {
     return Inertia::render('Ceo');
 })->name('ceo');
+
+// CEO page
+Route::get('/founder', function () {
+    return Inertia::render('Founder');
+})->name('founder');

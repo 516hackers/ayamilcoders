@@ -1,4 +1,5 @@
 import { useState, FormEvent } from 'react';
+import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
 
 interface ContactFormData {
@@ -172,14 +173,15 @@ export default function Contact() {
                 }
                 .cf-toast{
                     position:fixed;
-                    top:28px;left:50%;
+                    top:calc(env(safe-area-inset-top,0px) + 18px);
+                    left:50%;right:auto;
                     transform:translateX(-50%) translateY(-14px) scale(.92);
                     opacity:0;pointer-events:none;
-                    z-index:999;
+                    z-index:9999;
                     display:flex;align-items:center;gap:14px;
                     padding:16px 22px;border-radius:20px;
-                    max-width:min(92vw,440px);
-                    background:rgba(24,26,32,.72);
+                    width:max-content;max-width:min(92vw,440px);
+                    background:rgba(24,26,32,.86);
                     -webkit-backdrop-filter:blur(20px) saturate(180%);
                     backdrop-filter:blur(20px) saturate(180%);
                     border:1px solid rgba(255,255,255,.09);
@@ -192,7 +194,14 @@ export default function Contact() {
                     transform:translateX(-50%) translateY(0) scale(1);
                 }
                 @media(max-width:639px){
-                    .cf-toast{ top:16px; padding:14px 18px; border-radius:16px; gap:12px; }
+                    .cf-toast{
+                        top:calc(env(safe-area-inset-top,0px) + 12px);
+                        left:16px;right:16px;
+                        transform:translateY(-14px) scale(.94);
+                        max-width:none;width:auto;
+                        padding:14px 16px;border-radius:16px;gap:12px;
+                    }
+                    .cf-toast.cf-toast-show{ transform:translateY(0) scale(1); }
                 }
                 .cf-toast-icon{flex-shrink:0}
                 .cf-toast-icon circle{
@@ -261,7 +270,7 @@ export default function Contact() {
             <div className="divider"></div>
 
             {/* SUCCESS / ERROR MESSAGES */}
-            {success && (
+            {success && createPortal(
                 <div className={`cf-toast${showToast ? ' cf-toast-show' : ''}`} role="status">
                     <svg className="cf-toast-icon" width="28" height="28" viewBox="0 0 24 24" fill="none">
                         <circle cx="12" cy="12" r="10" stroke="#30d158" strokeWidth="2" />
@@ -271,7 +280,8 @@ export default function Contact() {
                         <div className="cf-toast-title">Message sent</div>
                         <div className="cf-toast-msg">{success}</div>
                     </div>
-                </div>
+                </div>,
+                document.documentElement
             )}
             {error && <div style={{ margin: '20px 60px', padding: '14px 20px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '10px', color: '#ef4444', fontSize: '14px' }}>❌ {error}</div>}
 

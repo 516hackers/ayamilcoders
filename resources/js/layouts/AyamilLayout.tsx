@@ -26,25 +26,27 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
 
     const isHomePage = currentPath === '/';
 
-    // ===== AUTO-HIDE FLOATING CONTROLS ON SCROLL (MOBILE) =====
+    // ===== AUTO-HIDE FLOATING CONTROLS WHILE SCROLLING (MOBILE) =====
     // The WhatsApp FAB, "Legal & Policies" pill, and scroll-to-top button are
     // fixed-position, so on long pages (Terms, Refund Policy, Disclaimer)
     // they permanently sit on top of whatever text has scrolled underneath
-    // them. Fix: slide them off-screen while the user is actively scrolling
-    // down, and bring them back on scroll-up or once scrolling stops — a
-    // standard, minimal pattern (also used by Safari's own toolbar).
-    // Capture-phase listener so it also catches scroll events from the
-    // custom `.asc` mobile scroll containers (scroll doesn't bubble, but it
-    // can be captured).
+    // them. Fix: slide them off-screen while the user is actively scrolling,
+    // and bring them back near the top/bottom of the page or once scrolling
+    // stops.
+    // Mobile pages scroll inside #scr-page (class "asc s-act"), not the
+    // window — this polls that element's scrollTop directly every frame
+    // instead of relying on a 'scroll' event, since custom scroll
+    // containers don't always fire native scroll events reliably in every
+    // in-app browser/WebView.
     useEffect(() => {
         let lastY = 0;
-        let ticking = false;
+        let rafId: number;
         let idleTimer: ReturnType<typeof setTimeout>;
 
-        const getY = (target: EventTarget | null) => {
-            if (!target || target === document || target === window) return window.scrollY;
-            const el = target as HTMLElement;
-            return typeof el.scrollTop === 'number' ? el.scrollTop : window.scrollY;
+        const getScrollTop = () => {
+            const container = document.getElementById('scr-page');
+            if (container) return container.scrollTop;
+            return window.scrollY;
         };
 
         const setHidden = (hidden: boolean) => {
@@ -53,31 +55,28 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             });
         };
 
-        const onScroll = (e: Event) => {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(() => {
-                const y = getY(e.target);
-                const delta = y - lastY;
+        const tick = () => {
+            const y = getScrollTop();
+            const delta = y - lastY;
 
+            if (y < 32) {
+                setHidden(false);
+            } else if (delta > 1.5) {
+                setHidden(true);
                 clearTimeout(idleTimer);
-                if (y < 32) {
-                    setHidden(false);
-                } else if (delta > 6) {
-                    setHidden(true);
-                } else if (delta < -6) {
-                    setHidden(false);
-                }
                 idleTimer = setTimeout(() => setHidden(false), 900);
+            } else if (delta < -1.5) {
+                setHidden(false);
+                clearTimeout(idleTimer);
+            }
 
-                lastY = y;
-                ticking = false;
-            });
+            lastY = y;
+            rafId = requestAnimationFrame(tick);
         };
 
-        document.addEventListener('scroll', onScroll, true);
+        rafId = requestAnimationFrame(tick);
         return () => {
-            document.removeEventListener('scroll', onScroll, true);
+            cancelAnimationFrame(rafId);
             clearTimeout(idleTimer);
         };
     }, []);
