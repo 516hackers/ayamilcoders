@@ -726,7 +726,7 @@ export default function Welcome() {
     ───────────────────────────────────────── */
     return (
         <>
-             <SEO 
+             <SEO
                 title="Ayamil Coders - Software Development Company in Pakistan"
                 description="Pakistan's premier software house. Expert in Web Development, Blockchain, AI, and IT Consulting. 600+ projects, 50+ countries, 87% satisfaction."
                 keywords="software development, web development, blockchain development, AI development, IT consulting, Pakistan software house"
@@ -1015,7 +1015,7 @@ export default function Welcome() {
                     <div className="hero-blob" style={{ width: '380px', height: '380px', background: 'rgba(0,200,232,.04)', top: '50%', left: '40%', animationDelay: '3s' }}></div>
                     <div style={{ position: 'absolute', inset: 0, opacity: '.025', backgroundImage: 'linear-gradient(rgba(100,150,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(100,150,255,.8) 1px,transparent 1px)', backgroundSize: '52px 52px', pointerEvents: 'none' }}></div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center', width: '100%', position: 'relative', zIndex: 2 }} data-a="up">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center', width: '100%', position: 'relative', zIndex: 2 }}>
                         {/* Code card */}
                         <div>
                             <div style={{ position: 'relative' }}>

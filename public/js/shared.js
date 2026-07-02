@@ -45,7 +45,8 @@ function initReveal(){
       if(e.isIntersecting){
         const d=e.target.dataset.d?parseFloat(e.target.dataset.d)*.07:0;
         e.target.style.transitionDelay=d+'s';e.target.classList.add('in');
-      } else {e.target.style.transitionDelay='0s';e.target.classList.remove('in');}
+        revObs.unobserve(e.target);
+      }
     });
   },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
   animEls.forEach(el=>revObs.observe(el));
@@ -97,9 +98,18 @@ function initSmoothScroll(){
 function initCursorGlow(){
   if(window.innerWidth<=639)return;
   const cg=document.createElement('div');
-  cg.style.cssText='position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(41,121,242,.06) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:left .1s,top .1s;';
+  cg.style.cssText='position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(41,121,242,.06) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);will-change:transform;';
   document.body.appendChild(cg);
-  document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
+  let pendingX=0,pendingY=0,ticking=false;
+  document.addEventListener('mousemove',e=>{
+    pendingX=e.clientX;pendingY=e.clientY;
+    if(ticking)return;
+    ticking=true;
+    requestAnimationFrame(()=>{
+      cg.style.transform=`translate(${pendingX-150}px, ${pendingY-150}px)`;
+      ticking=false;
+    });
+  },{passive:true});
 }
 
 /* ═══ FORM HANDLER ═══ */

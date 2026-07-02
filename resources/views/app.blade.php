@@ -42,17 +42,19 @@
         <link href="/css/shared.css" rel="stylesheet">
     </noscript>
 
-    <!-- CRITICAL LAYOUT SHIM — keep in sync with shared.css.
-         Only the positioning skeleton, not colors/decoration, so it's
-         cheap to inline and safe to duplicate once shared.css loads.
-         NOTE: verify these values (height, z-index) against the real
-         rules in shared.css and adjust if they differ — this is a
-         best-effort mirror written without that file in hand. -->
+    <!-- CRITICAL LAYOUT SHIM — mirrors shared.css's #sb rules exactly
+         (verified directly against the real shared.css, not guessed).
+         #tbar isn't defined in shared.css at all — it's styled via
+         Tailwind utility classes compiled into app.css, which already
+         loads render-blocking via @vite(), so it doesn't need a shim. -->
     <style>
-        #sb{position:sticky;top:0;z-index:40}
-        #tbar{position:fixed;left:0;right:0;bottom:0;z-index:40;
-              padding-bottom:env(safe-area-inset-bottom,0px);
-              min-height:64px;box-sizing:border-box}
+        #sb{display:none}
+        @media(max-width:639px){
+            #sb{position:fixed;top:0;left:0;right:0;z-index:200;
+                height:calc(50px + env(safe-area-inset-top,0px));
+                padding:env(safe-area-inset-top,0px) 16px 0;
+                box-sizing:border-box}
+        }
     </style>
 
     <!-- JSON-LD -->
