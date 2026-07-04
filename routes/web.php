@@ -78,12 +78,20 @@ Route::get('/disclaimer', function () {
 })->name('disclaimer');
 
 
-// CEO page
+// CEO page 
 Route::get('/ceo', function () {
     return Inertia::render('Ceo');
 })->name('ceo');
 
-// CEO page
+// Founder page — NOT linked from navbar/footer/legal sheet on purpose.
+// Reachable only via direct URL: /founder
 Route::get('/founder', function () {
     return Inertia::render('Founder');
 })->name('founder');
+
+// Top IT Company in Sadiqabad — local SEO landing page.
+// This one IS meant to be discoverable: linked in the footer and
+// included in the sitemap (unlike /founder above).
+Route::get('/top-it-company-sadiqabad', function () {
+    return Inertia::render('TopItCompanySadiqabad');
+})->name('sadiqabad-it-company');

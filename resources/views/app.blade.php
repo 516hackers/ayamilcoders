@@ -27,35 +27,15 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Shared CSS -->
-    <!-- Deferred non-blocking load (matches the Google Fonts pattern above)
-         so shared.css no longer blocks first paint (~630ms in PageSpeed).
-         Paired with the critical-CSS shim below, which pins #sb/#tbar to
-         their fixed positions from the very first frame — otherwise
-         deferring this stylesheet would make the #tbar layout shift
-         PageSpeed flagged (CLS 0.140) worse, not better. -->
-    <link
-        rel="preload"
-        as="style"
-        href="/css/shared.css"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link href="/css/shared.css" rel="stylesheet">
-    </noscript>
-
-    <!-- CRITICAL LAYOUT SHIM — mirrors shared.css's #sb rules exactly
-         (verified directly against the real shared.css, not guessed).
-         #tbar isn't defined in shared.css at all — it's styled via
-         Tailwind utility classes compiled into app.css, which already
-         loads render-blocking via @vite(), so it doesn't need a shim. -->
-    <style>
-        #sb{display:none}
-        @media(max-width:639px){
-            #sb{position:fixed;top:0;left:0;right:0;z-index:200;
-                height:calc(50px + env(safe-area-inset-top,0px));
-                padding:env(safe-area-inset-top,0px) 16px 0;
-                box-sizing:border-box}
-        }
-    </style>
+    <!-- NOTE: this must stay render-blocking. It was briefly deferred to
+         shave paint time, but shared.css defines the site-wide CSS custom
+         properties (--font, --mono, --disp, theme colors, etc.) that
+         nearly everything depends on. Deferring it meant text rendered in
+         the browser's raw default font until it loaded, then jumped to
+         the real font stack — a second, uncontrolled font-swap on top of
+         the Google Fonts link's own (already CLS-safe) display:optional
+         handling above. That's what caused the 0.222 CLS regression. -->
+    <link rel="stylesheet" href="/css/shared.css">
 
     <!-- JSON-LD -->
     @verbatim
