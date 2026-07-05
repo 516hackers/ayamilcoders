@@ -1,11 +1,21 @@
 import { createInertiaApp } from '@inertiajs/react';
+import { lazy, Suspense } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
-import AppLayout from '@/layouts/app-layout';
-import AuthLayout from '@/layouts/auth-layout';
-import SettingsLayout from '@/layouts/settings/layout';
 import AyamilLayout from '@/layouts/AyamilLayout';
+
+// Lazy-loaded: these three layouts are only used on authenticated
+// dashboard/settings/teams routes. Public pages (the vast majority of
+// traffic — homepage, services, about, contact, the Sadiqabad SEO page,
+// etc.) use AyamilLayout below, which stays a normal eager import. Before
+// this change, AppLayout/AuthLayout/SettingsLayout were bundled into
+// every public page's JS even though they were never rendered there —
+// this was the "reduce unused JavaScript" (~86 KiB) flag PageSpeed kept
+// reporting.
+const AppLayout = lazy(() => import('@/layouts/app-layout'));
+const AuthLayout = lazy(() => import('@/layouts/auth-layout'));
+const SettingsLayout = lazy(() => import('@/layouts/settings/layout'));
 
 const appName = import.meta.env.VITE_APP_NAME || 'Ayamil Coders';
 
@@ -98,10 +108,12 @@ createInertiaApp({
 
     withApp(app) {
         return (
-            <TooltipProvider delayDuration={0}>
-                {app}
-                <Toaster />
-            </TooltipProvider>
+            <Suspense fallback={null}>
+                <TooltipProvider delayDuration={0}>
+                    {app}
+                    <Toaster />
+                </TooltipProvider>
+            </Suspense>
         );
     },
 

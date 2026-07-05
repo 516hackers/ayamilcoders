@@ -28,16 +28,11 @@ export default function Founder() {
                vertical drift, eased with an expo-style curve. */
             [data-f]{
                 opacity:0;
-                filter:blur(6px);
-                transform:translateY(22px);
-                transition:opacity .9s cubic-bezier(.16,1,.3,1),
-                           filter .9s cubic-bezier(.16,1,.3,1),
-                           transform .9s cubic-bezier(.16,1,.3,1);
-                will-change:opacity,transform,filter;
+                transition:opacity .7s cubic-bezier(.16,1,.3,1);
             }
-            [data-f].in{opacity:1;filter:blur(0);transform:translateY(0)}
+            [data-f].in{opacity:1}
             @media(prefers-reduced-motion:reduce){
-                [data-f]{opacity:1;filter:none;transform:none;transition:none}
+                [data-f]{opacity:1;transition:none}
             }
 
             /* ── Hero ── */

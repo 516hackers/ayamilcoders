@@ -32,9 +32,9 @@ export default function TopItCompanySadiqabad() {
             .divider{height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:0}
             .section-lbl{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue-lt);background:rgba(41,121,242,.1);border:1px solid rgba(41,121,242,.2);padding:5px 12px;border-radius:999px}
 
-            [data-f]{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-            [data-f].in{opacity:1;transform:translateY(0)}
-            @media(prefers-reduced-motion:reduce){[data-f]{opacity:1;transform:none;transition:none}}
+            [data-f]{opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
+            [data-f].in{opacity:1}
+            @media(prefers-reduced-motion:reduce){[data-f]{opacity:1;transition:none}}
 
             .sad-hero{padding:80px 0 56px;text-align:center}
             @media(max-width:639px){.sad-hero{padding:52px 0 36px}}
