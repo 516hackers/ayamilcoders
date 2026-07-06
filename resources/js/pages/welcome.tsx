@@ -12,6 +12,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
+import WelcomeNotification from '@/components/WelcomeNotification';
 
 /* ─────────────────────────────────────────────
    SEO HEAD HELPER
@@ -733,6 +734,8 @@ export default function Welcome() {
                 url="https://ayamilcoders.com"
                 schema={orgSchema}
             />
+
+            <WelcomeNotification />
 
             {/* ══════════════════════════════════════
                 MOBILE PORTAL — escapes .mw so it's
