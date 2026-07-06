@@ -31,6 +31,12 @@ class SitemapController extends Controller
                 'priority' => '0.95'
             ],
             [
+                'loc' => '/solutions',
+                'lastmod' => '2026-07-06',
+                'changefreq' => 'weekly',
+                'priority' => '0.90'
+            ],
+            [
                 'loc' => '/top-it-company-sadiqabad',
                 'lastmod' => '2026-07-03',
                 'changefreq' => 'weekly',
