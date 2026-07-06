@@ -8,7 +8,7 @@
   --amber: #f0a732; --red: #ff375f;
   --safe-t: env(safe-area-inset-top,0px);
   --safe-b: env(safe-area-inset-bottom,0px);
-  --nav-w: 220px; --nav-sm: 64px;
+  --nav-w: 220px; --nav-sm:64px;
   --r-sm:12px; --r-md:16px; --r-lg:20px; --r-xl:24px;
   --shadow-blue: 0 6px 20px rgba(41,121,242,.35);
 }
@@ -54,15 +54,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);overflow-x:hi
 @keyframes progressBar{from{width:0}to{width:100%}}
 
 /* ══════════ SCROLL REVEAL ══════════ */
-/* Opacity-only — deliberately no transform/translate/scale/rotate/blur.
-   Chrome's CLS metric counts ANY visible element movement between
-   frames, including CSS-transform-driven entrance animations, not just
-   accidental layout bugs. This system runs on nearly every section of
-   every page (heroes, cards, the footer), so the old translateY/scale
-   motion was a persistent, sitewide CLS cost. A pure opacity fade keeps
-   the reveal effect with zero position change — zero CLS impact. */
-[data-a]{transition:opacity .5s cubic-bezier(.22,1,.36,1);opacity:0}
-[data-a].in{opacity:1!important}
+[data-a]{transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1),filter .5s;will-change:transform,opacity}
+[data-a="up"]{opacity:0;transform:translateY(28px)}
+[data-a="left"]{opacity:0;transform:translateX(-28px)}
+[data-a="right"]{opacity:0;transform:translateX(28px)}
+[data-a="scale"]{opacity:0;transform:scale(.9) translateY(14px)}
+[data-a="flip"]{opacity:0;transform:perspective(600px) rotateX(10deg) translateY(14px)}
+[data-a="blur"]{opacity:0;filter:blur(6px);transform:scale(1.04)}
+[data-a].in{opacity:1!important;transform:none!important;filter:none!important}
 [data-d="1"]{transition-delay:.07s}[data-d="2"]{transition-delay:.14s}
 [data-d="3"]{transition-delay:.21s}[data-d="4"]{transition-delay:.28s}
 
@@ -129,13 +128,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);overflow-x:hi
 /* ══════════ TOPBAR ══════════ */
 .topbar{position:sticky;top:0;z-index:50;padding:9px 24px;display:flex;align-items:center;justify-content:space-between;background:var(--topbar-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);transition:background .3s}
 
-/* ══════════ SECTION PADDING ══════════ */
+/* ══════════ PADDING SECTION ══════════ */
 .sp{padding:72px 60px}
 @media(max-width:1279px){.sp{padding:60px 40px}}
 @media(max-width:1023px){.sp{padding:52px 32px}}
 @media(max-width:767px){.sp{padding:48px 24px}}
 
-/* ══════════ PAGE HERO (inner pages) ══════════ */
+/* ══════════ HERO PAGE (inner pages) ══════════ */
 .page-hero{padding:80px 60px 60px;position:relative;overflow:hidden;background:var(--bg2);border-bottom:1px solid var(--brd)}
 @media(max-width:767px){.page-hero{padding:60px 24px 40px}}
 .page-hero-blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
@@ -173,9 +172,16 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);overflow-x:hi
 select.ff{background-color:var(--bg2);cursor:pointer;-webkit-appearance:none}
 textarea.ff{resize:none}
 
-/* ticker */
-.twr{overflow:hidden;background:var(--bg2);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);padding:14px 0;transition:background .3s}
-.tin{display:flex;width:max-content;animation:ticker 30s linear infinite}
+/* ticker — min-height reserved so the space is already correct at first
+   paint. buildTicker() in shared.js only fills #tkr on DOMContentLoaded,
+   which is AFTER first paint — without a reserved height here, that
+   late content injection grows .twr and pushes everything below it
+   down, which is exactly the desktop CLS (0.222) PageSpeed keeps
+   flagging on the "All systems operational" topbar. This box is only
+   visible on desktop (.topbar is display:none under 639px below), which
+   is why the shift never shows up on mobile. */
+.twr{overflow:hidden;background:var(--bg2);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);padding:14px 0;min-height:52px;box-sizing:border-box;transition:background .3s}
+.tin{display:flex;width:max-content;min-height:24px;animation:ticker 30s linear infinite}
 .tin:hover{animation-play-state:paused}
 .ti{display:flex;align-items:center;gap:10px;padding:0 28px;border-right:1px solid var(--brd);white-space:nowrap}
 

@@ -33,7 +33,8 @@ const publicPages = [
     'ceo',
     'founder',
     'topitcompanysadiqabad',
-]; 
+    'solutions',
+];
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),

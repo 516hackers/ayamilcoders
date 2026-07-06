@@ -95,3 +95,8 @@ Route::get('/founder', function () {
 Route::get('/top-it-company-sadiqabad', function () {
     return Inertia::render('TopItCompanySadiqabad');
 })->name('sadiqabad-it-company');
+
+
+Route::get('/solutions', function () {
+    return Inertia::render('Solutions');
+})->name('solutions');
