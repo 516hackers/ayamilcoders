@@ -258,11 +258,10 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 .asc.s-act{transform:translateX(0);opacity:1;transition:transform .38s cubic-bezier(.4,0,.2,1),opacity .3s}
             }
 
-            /* Mobile Screen Header */
-            .ash{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;background:var(--bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd);transition:background .3s}
-            .ash-t{font-family:var(--disp);font-weight:800;font-size:20px;color:var(--txt)}
-            .ash-btn{width:36px;height:36px;border-radius:11px;background:var(--surf);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt2);-webkit-tap-highlight-color:transparent;transition:all .15s}
-            .ash-btn:active{transform:scale(.92)}
+            /* Mobile Status Bar — notification & call icon buttons */
+            .sb-icon-btn{width:38px;height:38px;border-radius:11px;background:var(--surf);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt2);-webkit-tap-highlight-color:transparent;transition:all .15s;text-decoration:none;position:relative;flex-shrink:0}
+            .sb-icon-btn:active{transform:scale(.92)}
+            .sb-icon-btn .sb-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px var(--bg)}
 
             /* notification toast */
             .notif{
@@ -666,8 +665,13 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <span className="sb-name">Ayamil Coders</span>
                 </div>
                 <div className="sb-r">
-
-
+                    <Link href="/solutions" className="sb-icon-btn" aria-label="What's new">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span className="sb-dot"></span>
+                    </Link>
+                    <a href="tel:+923127592672" className="sb-icon-btn" aria-label="Call Ayamil Coders">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </a>
                     <div className="mobile-theme" id="m-theme-btn" onClick={toggleTheme}>🌙</div>
                 </div>
             </div>
@@ -826,12 +830,6 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             {!isHomePage && (
                 <div id="mscr">
                     <div className="asc s-act" id="scr-page">
-                        <div className="ash">
-                            <div className="ash-t">{getPageTitle()}</div>
-                            <a href="tel:+923127592672" className="ash-btn" aria-label="Call Ayamil Coders" style={{ textDecoration: 'none', color: 'var(--txt2)' }}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            </a>
-                        </div>
                         <div style={{ paddingBottom: '104px' }}>
                             {children}
                         </div>

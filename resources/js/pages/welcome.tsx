@@ -746,17 +746,7 @@ export default function Welcome() {
 
                     {/* ── SCREEN 0: HOME ── */}
                     <div className="asc s-act" id="scr-0">
-                        <div className="ash">
-                            <div className="ash-t">Home</div>
-                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <div className="ash-btn" onClick={() => (window as any).openSrch?.()}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                                </div>
-                                <div className="ash-btn" onClick={() => (window as any).showNotif?.('👋 Welcome!', 'Pakistan\'s #1 software house')}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                                </div>
-                            </div>
-                        </div>
+
 
                         {/* Hero card */}
                         <div className="app-hero" style={{ marginTop: '16px' }}>
@@ -813,12 +803,7 @@ export default function Welcome() {
 
                     {/* ── SCREEN 1: SERVICES ── */}
                     <div className="asc s-hide-r" id="scr-1">
-                        <div className="ash">
-                            <div className="ash-t">Services</div>
-                            <div className="ash-btn" onClick={() => (window as any).showNotif?.('🛠️ 4 Core Services', 'Web · Blockchain · AI · Bug Fixing')}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                            </div>
-                        </div>
+
 
                         <div style={{ padding: '16px 16px 0' }}>
                             <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '8px' }}>What We Do</span>
@@ -870,12 +855,7 @@ export default function Welcome() {
 
                     {/* ── SCREEN 2: ABOUT ── */}
                     <div className="asc s-hide-r" id="scr-2">
-                        <div className="ash">
-                            <div className="ash-t">About</div>
-                            <div className="ash-btn" onClick={() => (window as any).showNotif?.('ℹ️ Est. July 21, 2023', 'Sadiqabad, Punjab 🇵🇰')}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                            </div>
-                        </div>
+
 
                         <div style={{ margin: '16px', background: 'var(--bg2)', border: '1px solid var(--brd)', borderRadius: 'var(--r-xl)', padding: '20px', position: 'relative', overflow: 'hidden' }}>
                             <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', borderRadius: '50%', background: 'rgba(41,121,242,.06)', filter: 'blur(20px)', pointerEvents: 'none' }}></div>
@@ -931,12 +911,7 @@ export default function Welcome() {
 
                     {/* ── SCREEN 3: CONTACT ── */}
                     <div className="asc s-hide-r" id="scr-3">
-                        <div className="ash">
-                            <div className="ash-t">Contact</div>
-                            <a href="tel:+923127592672" className="ash-btn" aria-label="Call Ayamil Coders" style={{ textDecoration: 'none', color: 'var(--txt2)' }}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            </a>
-                        </div>
+
 
                         <div style={{ padding: '16px 16px 0' }}>
                             <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '10px' }}>Get In Touch</span>
