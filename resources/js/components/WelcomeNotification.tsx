@@ -23,6 +23,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from '@inertiajs/react';
 
 /* ══════════════ CONTENT — edit this for a new popup message ══════════════ */
@@ -77,15 +78,16 @@ export default function WelcomeNotification() {
     };
 
     if (!visible) return null;
+    if (typeof document === 'undefined') return null;
 
-    return (
+    return createPortal(
         <>
             <style>{`
                 .wn-toast{
                     position:fixed;
                     right:20px;
                     bottom:20px;
-                    z-index:300;
+                    z-index:9999;
                     width:320px;
                     max-width:calc(100vw - 32px);
                     background:var(--card-bg);
@@ -107,7 +109,7 @@ export default function WelcomeNotification() {
                     .wn-toast{
                         left:16px;
                         right:16px;
-                        bottom:16px;
+                        bottom:calc(16px + var(--safe-b));
                         width:auto;
                     }
                 }
@@ -161,6 +163,7 @@ export default function WelcomeNotification() {
                     <button className="wn-close" onClick={handleClose} aria-label="Dismiss notification">✕</button>
                 </div>
             </div>
-        </>
+        </>,
+        document.body
     );
 }
