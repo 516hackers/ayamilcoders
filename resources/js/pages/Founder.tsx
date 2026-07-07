@@ -150,22 +150,23 @@ export default function Founder() {
     }, []);
 
     const timeline = [
-        { year: '2023', title: 'Started as a solo freelancer', desc: 'Began taking on web and blockchain projects independently on Fiverr, working directly with clients from Pakistan and abroad.' },
+        { year: '2016', title: 'Started teaching himself to code, age 11', desc: 'No coding bootcamp, no institute, no mentor nearby in Sadiqabad — just an internet connection and HTML/CSS documentation worked through line by line.' },
+        { year: 'Matric Years', title: 'First real clients, while still in school', desc: 'Took on paid international client work through direct professional contacts — years before most developers finish their education.' },
         { year: 'Jul 21, 2023', title: 'Founded Ayamil Coders', desc: 'Officially launched Ayamil Coders in Sadiqabad, Punjab, Pakistan — a date chosen as a birthday tribute to the company\'s Hidden Partner.' },
-        { year: '2024', title: 'Built a full remote team', desc: 'Brought on a CTO, COO, and a dedicated engineering team, expanding from solo work into a structured, remote-first software house.' },
-        { year: '2025 — Today', title: 'Four core services, 600+ projects', desc: 'Grew the company\'s focus into Web Development, Blockchain Development, AI Development, and Bug Fixing — delivered for clients worldwide.' },
+        { year: '2025 — Today', title: '600+ projects, 50+ international clients', desc: 'A 72% repeat-client rate across web development, cybersecurity, and blockchain work delivered from Sadiqabad to clients worldwide.' },
+        { year: 'What\'s Next', title: 'Pakistan\'s first blockchain platform, from Sadiqabad', desc: 'Growing into a full agency team and building toward international recognition — without moving out of the city where it all started.' },
     ];
 
     const skills = [
-        { icon: '🧩', title: 'Full-Stack Development', desc: 'React, Next.js, Laravel, and Node.js — from pixel-level UI to backend architecture.', bg: 'linear-gradient(155deg,#1e63e0,#4f9dff)', shadow: 'rgba(41,121,242,.5)' },
-        { icon: '⛓️', title: 'Blockchain & Smart Contracts', desc: 'Solidity, Web3.js, and audited contract design across EVM-compatible chains.', bg: 'linear-gradient(155deg,#334155,#64748b)', shadow: 'rgba(51,65,85,.5)' },
-        { icon: '🎯', title: 'Client-First Delivery', desc: 'Years of direct freelance work shaped a habit of clear scoping and honest timelines.', bg: 'linear-gradient(155deg,#0f766e,#2dd36f)', shadow: 'rgba(15,118,110,.5)' },
+        { icon: '💻', title: 'Web Development', desc: 'Laravel, Core PHP, HTML5, CSS3, Bootstrap 5, Tailwind CSS, and MySQL — business sites, e-commerce, web apps, and custom admin panels.', bg: 'linear-gradient(155deg,#1e63e0,#4f9dff)', shadow: 'rgba(41,121,242,.5)' },
+        { icon: '🛡️', title: 'Cybersecurity', desc: 'Security audits, hardening, SSL setup, and DDoS protection — 2,000+ compromised websites secured and recovered.', bg: 'linear-gradient(155deg,#7c2d12,#dc2626)', shadow: 'rgba(220,38,38,.5)' },
+        { icon: '⛓️', title: 'Blockchain & Web3', desc: 'Smart contracts, DApp interfaces, crypto project websites, and token presale pages across EVM-compatible chains.', bg: 'linear-gradient(155deg,#334155,#64748b)', shadow: 'rgba(51,65,85,.5)' },
     ];
 
     const values = [
-        { icon: '🛠️', title: 'Build in Public, Ship in Private', desc: 'Talk openly about how we work — but never ship half-finished promises. The work speaks first.' },
-        { icon: '🌍', title: 'Remote by Choice', desc: 'A distributed team means access to the right people for the job, not just the nearest ones.' },
-        { icon: '🤝', title: 'Long-Term Over Quick Wins', desc: 'Every client relationship is built to outlast a single project — that\'s how referrals and reputation compound.' },
+        { icon: '🔒', title: 'Security First', desc: 'Every website, application, and API is secured from the ground up — not patched after the fact.' },
+        { icon: '⚡', title: 'Performance Always', desc: 'Every project targets a 90+ Google PageSpeed score. Slow, unoptimized code is not an acceptable trade-off.' },
+        { icon: '✅', title: 'Quality Without Compromise', desc: 'A small business in Sadiqabad and an enterprise in the UK get held to the exact same standard.' },
     ];
 
     const pageSchema = {
@@ -175,7 +176,7 @@ export default function Founder() {
                 '@type': 'ProfilePage',
                 '@id': 'https://ayamilcoders.com/founder#webpage',
                 name: 'Muhammad Muzamil — Founder of Ayamil Coders',
-                description: 'An introduction to Muhammad Muzamil, Founder of Ayamil Coders — his journey from solo freelancer to leading a remote software house.',
+                description: 'The self-taught programmer from Sadiqabad who founded Ayamil Coders — from teaching himself HTML/CSS at age 11 to leading 600+ delivered projects worldwide.',
                 url: 'https://ayamilcoders.com/founder',
                 isPartOf: { '@type': 'WebSite', name: 'Ayamil Coders', url: 'https://ayamilcoders.com' },
                 mainEntity: { '@id': 'https://ayamilcoders.com/founder#person' },
@@ -184,10 +185,13 @@ export default function Founder() {
                 '@type': 'Person',
                 '@id': 'https://ayamilcoders.com/founder#person',
                 name: 'Muhammad Muzamil',
-                jobTitle: 'Founder & Full-Stack/Blockchain Developer',
-                description: 'Founder of Ayamil Coders; full-stack developer and blockchain architect leading client engagements since July 2023.',
+                birthDate: '2005-10-21',
+                birthPlace: 'Sadiqabad, Rahim Yar Khan, Punjab, Pakistan',
+                jobTitle: 'Founder & Lead Programmer',
+                description: 'Self-taught programmer and founder of Ayamil Coders. Holds a Matric certificate; taught himself web development starting at age 11 with no coding institute or formal mentor.',
                 worksFor: { '@id': 'https://ayamilcoders.com/#organization' },
                 url: 'https://ayamilcoders.com/founder',
+                knowsAbout: ['Web Development', 'Laravel', 'PHP', 'Cybersecurity', 'Blockchain Development', 'Smart Contracts'],
             },
         ],
     };
@@ -195,9 +199,9 @@ export default function Founder() {
     return (
         <>
             <SEO
-                title="Muhammad Muzamil — Founder of Ayamil Coders"
-                description="Meet Muhammad Muzamil, Founder of Ayamil Coders — his journey from a solo freelancer on Fiverr to leading a remote software house delivering 600+ projects worldwide."
-                keywords="Muhammad Muzamil, Ayamil Coders founder, founder of Ayamil Coders, software house founder Pakistan"
+                title="Muhammad Muzamil — The Self-Taught Programmer Who Built Ayamil Coders"
+                description="Muhammad Muzamil taught himself to code at age 11 in Sadiqabad with no institute, no mentor, and only a Matric certificate — now founder of Ayamil Coders, with 600+ projects delivered worldwide."
+                keywords="Muhammad Muzamil, Ayamil Coders founder, self-taught programmer Pakistan, Sadiqabad developer, software house founder Pakistan"
                 url="https://ayamilcoders.com/founder"
                 schema={pageSchema}
             />
@@ -207,9 +211,9 @@ export default function Founder() {
                 <div className="fnd-blob" style={{ width: '480px', height: '480px', background: 'radial-gradient(circle,rgba(41,121,242,.10),transparent 70%)', top: '-160px', left: '50%', transform: 'translateX(-50%)' }}></div>
                 <div className="fnd-avatar" data-f>MM</div>
                 <div className="fnd-name" data-f data-fd="1">Muhammad Muzamil</div>
-                <div className="fnd-role" data-f data-fd="2">FOUNDER · AYAMIL CODERS</div>
+                <div className="fnd-role" data-f data-fd="2">FOUNDER & LEAD PROGRAMMER · AYAMIL CODERS</div>
                 <p className="fnd-tagline" data-f data-fd="3">
-                    Started alone on Fiverr in 2023. Now leading a remote team that's shipped 600+ projects across web, blockchain, and AI — without losing the habit of answering messages personally.
+                    Taught himself to code at age 11 in Sadiqabad — no institute, no mentor, no coding teacher. Now, at 20, he leads Ayamil Coders through 600+ delivered projects across web development, cybersecurity, and blockchain.
                 </p>
             </section>
 
@@ -225,13 +229,24 @@ export default function Founder() {
                 </div>
                 <div className="fnd-bio" data-f data-fd="1">
                     <p>
-                        Ayamil Coders began the way a lot of real companies do — quietly, with one person taking on client work directly. <strong>Muhammad Muzamil</strong> spent his early years freelancing on Fiverr, building websites and blockchain tools one project at a time, and learning firsthand what clients actually need from a developer: clear communication, honest timelines, and code that holds up after launch.
+                        Born on <strong>October 21, 2005</strong>, in Sadiqabad, Rahim Yar Khan, Punjab, <strong>Muhammad Muzamil</strong> holds only a Matric certificate. No coding institute. No programming teacher. No bootcamp. In 2016, around age 11, he started teaching himself HTML and CSS with nothing but an internet connection and a stubborn need to understand how websites actually worked.
                     </p>
                     <p>
-                        On <strong>July 21, 2023</strong>, that freelance practice became something more deliberate: Ayamil Coders, founded in Sadiqabad, Punjab, Pakistan. The name itself is a small piece of that story — a linguistic fusion of Muhammad's name with the private name of the company's Hidden Partner, its CEO.
+                        He didn't wait to finish school before working with real clients. While still sitting for his Matric exams, he was already taking on paid international projects — built through direct professional contacts, not freelancing platforms — juggling early mornings, late nights, and exam pressure at the same time.
                     </p>
                     <p>
-                        Today, Muhammad still works hands-on as a full-stack and blockchain developer while leading the company's direction — a founder who'd rather be found in the codebase than in a boardroom.
+                        On <strong>July 21, 2023</strong>, that freelance practice became something more deliberate: Ayamil Coders, founded in Sadiqabad. The name itself carries the story — a fusion of Muhammad's name with the private name of the company's Hidden Partner, its CEO, and the date is a birthday tribute to them. Today, at 20, Muhammad still works hands-on as the company's technical backbone — architecture, development, and delivery all pass through him personally.
+                    </p>
+                </div>
+            </section>
+
+            <div className="divider"></div>
+
+            {/* ===== STRUGGLES ===== */}
+            <section className="sp" style={{ paddingTop: '0' }}>
+                <div className="fnd-bio" data-f>
+                    <p>
+                        None of it came easy. Early on, there was no financial safety net — every project had to count, because losing one client was a real financial setback, not just a professional one. Being a teenager offering professional development and cybersecurity work meant some people simply didn't take him seriously; he answered that the only way that actually works, by delivering results strong enough that age stopped being the conversation. And in a smaller city like Sadiqabad, where programming isn't always seen as a "serious" career, there was real family pressure to choose a more traditional path. He stayed the course.
                     </p>
                 </div>
             </section>
@@ -242,20 +257,20 @@ export default function Founder() {
             <section className="sp" style={{ paddingTop: '48px', paddingBottom: '48px' }}>
                 <div className="fnd-stats" data-f>
                     <div className="fnd-stat">
-                        <div className="fnd-stat-num">2023</div>
-                        <div className="fnd-stat-lbl">Founded</div>
+                        <div className="fnd-stat-num">11</div>
+                        <div className="fnd-stat-lbl">Age He Started Coding</div>
                     </div>
                     <div className="fnd-stat">
                         <div className="fnd-stat-num">600+</div>
                         <div className="fnd-stat-lbl">Projects Delivered</div>
                     </div>
                     <div className="fnd-stat">
-                        <div className="fnd-stat-num">87%</div>
-                        <div className="fnd-stat-lbl">Client Satisfaction</div>
+                        <div className="fnd-stat-num">50+</div>
+                        <div className="fnd-stat-lbl">International Clients</div>
                     </div>
                     <div className="fnd-stat">
-                        <div className="fnd-stat-num">4</div>
-                        <div className="fnd-stat-lbl">Core Services</div>
+                        <div className="fnd-stat-num">72%</div>
+                        <div className="fnd-stat-lbl">Repeat Client Rate</div>
                     </div>
                 </div>
             </section>
@@ -267,7 +282,7 @@ export default function Founder() {
                 <div style={{ textAlign: 'center', marginBottom: '48px' }} data-f>
                     <span className="section-lbl">The Journey</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
-                        Two Years, <br />Quietly Compounding
+                        From Sadiqabad, <br />Not Silicon Valley
                     </h2>
                 </div>
                 <div className="fnd-timeline">
@@ -287,9 +302,9 @@ export default function Founder() {
             {/* ===== SKILLS ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-f>
-                    <span className="section-lbl">What He Builds With</span>
+                    <span className="section-lbl">What He Personally Handles</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
-                        Hands-On, <br />Still
+                        Technical Backbone, <br />Not a Figurehead
                     </h2>
                 </div>
                 <div className="fnd-skill-grid">
@@ -310,7 +325,7 @@ export default function Founder() {
                 <div className="fnd-quote" data-f>
                     <div className="fnd-quote-mark">"</div>
                     <div className="fnd-quote-text">
-                        I never wanted Ayamil Coders to feel like a big impersonal agency. I still read every client message myself — that's not going to change just because the team grew.
+                        You don't need a degree from a famous university to become a world-class programmer. You don't need to be from Lahore, Karachi, or Silicon Valley. I'm proof of that — and I'm still building it, every day, from Sadiqabad.
                     </div>
                     <div className="fnd-quote-attr">— Muhammad Muzamil, Founder</div>
                 </div>
@@ -321,9 +336,9 @@ export default function Founder() {
             {/* ===== VALUES ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-f>
-                    <span className="section-lbl">How He Leads</span>
+                    <span className="section-lbl">Since Day One</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
-                        Principles Over <br />Playbooks
+                        Three Non-Negotiables
                     </h2>
                 </div>
                 <div className="fnd-val-grid">
@@ -334,6 +349,23 @@ export default function Founder() {
                             <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>{val.desc}</p>
                         </div>
                     ))}
+                </div>
+            </section>
+
+            <div className="divider"></div>
+
+            {/* ===== MESSAGE ===== */}
+            <section className="sp">
+                <div style={{ textAlign: 'center', marginBottom: '28px' }} data-f>
+                    <span className="section-lbl">The Message</span>
+                    <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
+                        Proof, Not Permission
+                    </h2>
+                </div>
+                <div className="fnd-bio" data-f data-fd="1">
+                    <p>
+                        To every young person in Sadiqabad, in Rahim Yar Khan, in Southern Punjab wondering whether it's worth learning to code — this is the answer. It's possible. It's been done. And it's still being done, every single day, from a city called Sadiqabad.
+                    </p>
                 </div>
             </section>
 
@@ -350,7 +382,7 @@ export default function Founder() {
                         Reach out on WhatsApp or email — most first replies still come from Muhammad himself.
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <a href="/contact" className="btn-p fnd-cta-btn" style={{ padding: '14px 32px', fontSize: '15px' }}>Start a Project →</a>
+                        <a href="https://wa.me/923127592672" target="_blank" rel="noopener noreferrer" className="btn-p fnd-cta-btn" style={{ padding: '14px 32px', fontSize: '15px' }}>Message on WhatsApp →</a>
                         <a href="/about" className="btn-g fnd-cta-btn" style={{ padding: '14px 32px', fontSize: '15px' }}>Back to About</a>
                     </div>
                 </div>
