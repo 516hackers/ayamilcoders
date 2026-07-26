@@ -477,15 +477,17 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         const revealObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
+                    const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.03 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
-                } else {
-                    (entry.target as HTMLElement).style.transitionDelay = '0s';
-                    entry.target.classList.remove('in');
+                    // Reveal once, then stop watching — toggling 'in' off again
+                    // when scrolled past made fast scrolling feel laggy, since
+                    // content had to re-earn its delay + transition every time
+                    // it re-entered view.
+                    revealObs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.05, rootMargin: '0px 0px 60px 0px' });
         document.querySelectorAll('[data-a]').forEach(el => revealObs.observe(el));
 
         // ---- COUNTERS ----
@@ -652,9 +654,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                   <div className="sb-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
-        <img 
-            src="/logo/ac-160.png" 
-            alt="Ayamil Coders" 
+        <img
+            src="/logo/ac-160.png"
+            alt="Ayamil Coders"
             width={53}
             height={53}
             decoding="async"
@@ -693,9 +695,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 <div className="nav-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
-        <img 
-            src="/logo/ac-160.png" 
-            alt="Ayamil Coders" 
+        <img
+            src="/logo/ac-160.png"
+            alt="Ayamil Coders"
             width={53}
             height={53}
             decoding="async"

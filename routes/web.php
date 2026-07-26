@@ -100,3 +100,17 @@ Route::get('/top-it-company-sadiqabad', function () {
 Route::get('/solutions', function () {
     return Inertia::render('Solutions');
 })->name('solutions');
+
+// Client Benefits page — footer-only, not in main nav.
+// Makes the case to potential clients for why they should choose
+// Ayamil Coders (track record, pricing, support terms, etc).
+Route::get('/benefits', function () {
+    return Inertia::render('Benefits');
+})->name('benefits');
+
+// National SEO / reputation landing page — targets "best software
+// house in Pakistan" search intent, distinct from the local
+// /top-it-company-sadiqabad page. Linked in footer + sitemap.
+Route::get('/best-software-house-pakistan', function () {
+    return Inertia::render('BestSoftwareHousePakistan');
+})->name('best-software-house-pakistan');

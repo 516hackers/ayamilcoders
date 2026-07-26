@@ -34,6 +34,8 @@ const publicPages = [
     'founder',
     'topitcompanysadiqabad',
     'solutions',
+    'benefits',
+    'bestsoftwarehousepakistan',
 ];
 
 createInertiaApp({

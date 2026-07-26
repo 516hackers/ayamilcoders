@@ -522,15 +522,13 @@ export default function CookiePolicy() {
         const revealObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
+                    const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.03 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
-                } else {
-                    (entry.target as HTMLElement).style.transitionDelay = '0s';
-                    entry.target.classList.remove('in');
+                    revealObs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.05, rootMargin: '0px 0px 60px 0px' });
         document.querySelectorAll('[data-a]').forEach(el => revealObs.observe(el));
 
         // ---- HIGHLIGHT ACTIVE TOC LINK ON SCROLL ----
@@ -616,7 +614,7 @@ export default function CookiePolicy() {
 
     return (
         <>
-          <SEO 
+          <SEO
                 title="Cookie Policy"
                 description="Learn about how Ayamil Coders uses cookies on our website. We use minimal cookies for functionality and theme preference only. No tracking or advertising cookies."
                 keywords="cookie policy, cookies, privacy, data protection, tracking, Ayamil Coders"
