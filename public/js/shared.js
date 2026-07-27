@@ -43,12 +43,12 @@ function initReveal(){
   const revObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
-        const d=e.target.dataset.d?parseFloat(e.target.dataset.d)*.07:0;
+        const d=e.target.dataset.d?parseFloat(e.target.dataset.d)*.03:0;
         e.target.style.transitionDelay=d+'s';e.target.classList.add('in');
         revObs.unobserve(e.target);
       }
     });
-  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  },{threshold:.05,rootMargin:'0px 0px 60px 0px'});
   animEls.forEach(el=>revObs.observe(el));
 }
 

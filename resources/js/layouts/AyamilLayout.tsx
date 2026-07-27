@@ -654,9 +654,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                   <div className="sb-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
-        <img
-            src="/logo/ac-160.png"
-            alt="Ayamil Coders"
+        <img 
+            src="/logo/ac-160.png" 
+            alt="Ayamil Coders" 
             width={53}
             height={53}
             decoding="async"
@@ -695,9 +695,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 <div className="nav-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
-        <img
-            src="/logo/ac-160.png"
-            alt="Ayamil Coders"
+        <img 
+            src="/logo/ac-160.png" 
+            alt="Ayamil Coders" 
             width={53}
             height={53}
             decoding="async"

@@ -549,7 +549,7 @@ export default function Terms() {
         const revealObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.07 : 0;
+                    const delay = entry.target.getAttribute('data-d') ? parseFloat(entry.target.getAttribute('data-d')!) * 0.03 : 0;
                     (entry.target as HTMLElement).style.transitionDelay = delay + 's';
                     entry.target.classList.add('in');
                     // Reveal once, then stop watching — repeatedly toggling
@@ -560,7 +560,7 @@ export default function Terms() {
                     revealObs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.05, rootMargin: '0px 0px 60px 0px' });
         document.querySelectorAll('[data-a]').forEach(el => revealObs.observe(el));
 
         // ---- HIGHLIGHT ACTIVE TOC LINK ON SCROLL ----

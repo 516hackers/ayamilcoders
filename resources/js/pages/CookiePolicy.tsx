@@ -614,7 +614,7 @@ export default function CookiePolicy() {
 
     return (
         <>
-          <SEO
+          <SEO 
                 title="Cookie Policy"
                 description="Learn about how Ayamil Coders uses cookies on our website. We use minimal cookies for functionality and theme preference only. No tracking or advertising cookies."
                 keywords="cookie policy, cookies, privacy, data protection, tracking, Ayamil Coders"
