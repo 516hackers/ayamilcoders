@@ -114,3 +114,7 @@ Route::get('/benefits', function () {
 Route::get('/best-software-house-pakistan', function () {
     return Inertia::render('BestSoftwareHousePakistan');
 })->name('best-software-house-pakistan');
+
+Route::get('/company-registration', function () {
+    return Inertia::render('CompanyRegistration');
+})->name('company-registration');

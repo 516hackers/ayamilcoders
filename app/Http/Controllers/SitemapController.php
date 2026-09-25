@@ -106,6 +106,12 @@ class SitemapController extends Controller
                 'changefreq' => 'yearly',
                 'priority' => '0.40'
             ],
+            [
+    'loc' => '/company-registration',
+    'lastmod' => '2026-09-24',
+    'changefreq' => 'monthly',
+    'priority' => '0.80'
+],
         ];
 
         $sitemap = view('sitemap', ['pages' => $pages])->render();

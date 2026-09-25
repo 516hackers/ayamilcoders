@@ -36,6 +36,7 @@ const publicPages = [
     'solutions',
     'benefits',
     'bestsoftwarehousepakistan',
+    'companyregistration',
 ];
 
 createInertiaApp({
