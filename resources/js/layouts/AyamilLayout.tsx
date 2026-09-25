@@ -14,7 +14,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         if (currentPath === '/') return 'Home';
         if (currentPath === '/services') return 'Services';
         if (currentPath === '/about') return 'About';
-        if (currentPath === '/company-registration') { return 'Company Registration';}
+        if (currentPath === '/company-registration') return 'Company Registration';
         if (currentPath === '/careers') return 'Careers';
         if (currentPath === '/contact') return 'Contact';
         if (currentPath.startsWith('/privacy')) return 'Privacy Policy';
