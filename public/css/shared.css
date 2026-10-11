@@ -35,6 +35,13 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font);background:var(--bg);color:var(--txt);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+/* V20: restored original public-site typography.
+   The pre-redesign public Blade template had no Tailwind .font-sans on body.
+   Root selector ensures the intended DM Sans even when Inertia navigates
+   from another route without replacing the outer Blade <body> element.
+   Does not affect authenticated dashboard layouts. */
+#app:has(#sidebar) {font-family:var(--font);}
+
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px}

@@ -31,19 +31,30 @@
         </script>
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Consistent font loading for every Inertia page: correct weights, same families. -->
-    <!-- The previous local WOFF2 files are static 400-weight faces, not full weight ranges. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..800&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@600..800&amp;display=swap">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!-- Google Fonts: loaded non-blocking via preload + onload swap,
+             with a noscript fallback for JS-disabled clients.
+             Using display=optional (not swap): on slow connections the
+             browser keeps the fallback font instead of swapping fonts
+             after first paint, which was causing a large layout shift
+             (CLS ~0.95) when DM Sans/Manrope arrived late and reflowed
+             the whole hero section. -->
+        <link rel="preload" as="style"
+              href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=optional"
+              onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=optional" rel="stylesheet">
+        </noscript>
 
-<!-- Favicon -->
+        <!-- Favicon -->
         <link rel="icon" href="/logo/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <!-- Shared Styles & Scripts (static assets in public/css/ and public/js/) -->
-        <link rel="stylesheet" href="/css/shared.css?v=16">
+        <link rel="stylesheet" href="/css/shared.css?v=20-original-fonts">
 
         <!-- Sitewide Organization + WebSite JSON-LD, server-rendered so it is
              visible to crawlers/LLM bots that do not execute JavaScript
