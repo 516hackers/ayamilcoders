@@ -31,60 +31,18 @@
         </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- ══════════════════════════════════════════════════════════
-         SELF-HOSTED FONTS (replaces Google Fonts CSS API)
-         ══════════════════════════════════════════════════════════
-         Previously this was a <link rel="preconnect"> pair to
-         fonts.googleapis.com / fonts.gstatic.com + a synchronous
-         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?...">.
-         That created a 2-hop serial chain on the critical path:
-         HTML -> googleapis.com CSS (~780ms) -> gstatic.com font file
-         (~617ms) -> ~1.4s before a single font byte arrived, all of it
-         blocking paint (PageSpeed's "Render-blocking requests" +
-         "Network dependency tree" audits, ~1,730ms estimated savings).
+    <!-- Consistent font loading for every Inertia page: correct weights, same families. -->
+    <!-- The previous local WOFF2 files are static 400-weight faces, not full weight ranges. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..800&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@600..800&amp;display=swap">
 
-         Self-hosting collapses that to one hop: the @font-face rule is
-         inline in the HTML (no CSS file to fetch to find it), so the
-         browser can start fetching the woff2 file immediately, in
-         parallel with app.css/app.js, from the same origin (no extra
-         DNS/TLS handshake to a third-party domain either).
-
-         font-display:optional is preserved — this is what keeps CLS
-         at 0. Because the rule is inline and parsed before first paint,
-         the browser knows about it immediately regardless of network
-         speed, same as before.
-
-         SETUP REQUIRED (see chat for full steps):
-         1. Download the actual .woff2 files Google serves for this
-            font config (open the old Google Fonts CSS2 URL in a real
-            Chrome tab -> View Page Source -> copy each url(...)).
-         2. Place them at public/fonts/ with the filenames below
-            (rename after downloading, Google's filenames are hashes).
-         3. If Google served separate static files per weight instead
-            of one variable file per family, replace the single
-            @font-face block below with one block per weight, each
-            pointing at its own file - same idea, just more blocks.
-    -->
-    <style>
-        @font-face{font-family:'DM Sans';font-style:normal;font-weight:300 800;font-display:optional;src:url('/fonts/dm-sans.woff2') format('woff2')}
-        @font-face{font-family:'DM Mono';font-style:normal;font-weight:400 500;font-display:optional;src:url('/fonts/dm-mono.woff2') format('woff2')}
-        @font-face{font-family:'Manrope';font-style:normal;font-weight:600 800;font-display:optional;src:url('/fonts/manrope.woff2') format('woff2')}
-    </style>
-
-    <!-- Favicons -->
+<!-- Favicons -->
     <link rel="icon" href="/logo/favicon.ico?v=2026" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <!-- Shared CSS -->
-    <!-- NOTE: this must stay render-blocking. It was briefly deferred to
-         shave paint time, but shared.css defines the site-wide CSS custom
-         properties (--font, --mono, --disp, theme colors, etc.) that
-         nearly everything depends on. Deferring it meant text rendered in
-         the browser's raw default font until it loaded, then jumped to
-         the real font stack — a second, uncontrolled font-swap on top of
-         the @font-face rule's own (already CLS-safe) display:optional
-         handling above. That's what caused the 0.222 CLS regression. -->
+    <!-- Sitewide theme tokens; keep render-blocking to avoid theme/layout flash. -->
     <link rel="stylesheet" href="/css/shared.css?v=16">
 
     <!-- JSON-LD -->
