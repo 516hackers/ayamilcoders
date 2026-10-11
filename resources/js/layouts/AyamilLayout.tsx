@@ -1,8 +1,31 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Moon, Sun, House, Code2, UsersRound, BriefcaseBusiness, MessageCircle, ShieldCheck, FileText, RotateCcw } from 'lucide-react';
 
+// Identical ticker markup for server rendering and the browser's first render.
+const TICKER_ITEMS: Array<{ value: string; label: string } | { text: string }> = [
+    { value: '600+', label: 'Projects' }, { text: '✦ Web Dev' },
+    { value: '2,000+', label: 'Issues Fixed' }, { text: '✦ Blockchain' },
+    { value: '10+', label: 'Years Exp.' }, { text: '✦ AI & ML' },
+    { value: '87%', label: 'Satisfaction' }, { text: '✦ IT Consulting' },
+    { value: '50+', label: 'Countries' }, { text: '✦ Smart Contracts' },
+    { text: '✦ E-Commerce' },
+];
+
 export default function AyamilLayout({ children }: { children: React.ReactNode }) {
+    // SSR and the browser must render identical initial attributes. The saved
+    // theme is read only after hydration has completed.
+    const [activeTheme, setActiveTheme] = useState<'dark' | 'light'>('dark');
+
+    // Remove the pre-JS homepage skeleton OUTSIDE #app after React mounts.
+    // Inserting arbitrary nodes into #app before hydration breaks SSR.
+    useEffect(() => {
+        const skeleton = document.getElementById('wskel');
+        if (!skeleton) return;
+        const frame = requestAnimationFrame(() => skeleton.remove());
+        return () => cancelAnimationFrame(frame);
+    }, []);
+
     const { url } = usePage();
     const currentPath = url.split('?')[0].replace(/\/$/, '') || '/';
 
@@ -27,6 +50,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     };
 
     const isHomePage = currentPath === '/';
+
 
     // Clear route-specific overlays and retained mobile scroll positions before
     // the new page paints. Inertia keeps the public layout mounted between routes.
@@ -445,17 +469,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         document.documentElement.setAttribute('data-theme', savedTheme);
 
         const updateThemeIcons = (theme: string) => {
-            const mBtn = document.getElementById('m-theme-btn');
-            if (mBtn) mBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-            const dThumb = document.getElementById('d-thumb');
-            if (dThumb) dThumb.setAttribute('aria-label', theme === 'dark' ? 'Dark theme selected' : 'Light theme selected');
-            const dMoon = document.getElementById('d-moon');
-            const dSun = document.getElementById('d-sun');
-            if (dMoon) dMoon.style.opacity = theme === 'dark' ? '1' : '0.4';
-            if (dSun) dSun.style.opacity = theme === 'dark' ? '0.4' : '1';
-            const themeSwitch = document.getElementById('theme-switch');
-            if (themeSwitch) themeSwitch.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
-
+            // React owns the button attributes; never mutate them behind React.
+            // This state update occurs in an effect, AFTER the initial hydration.
+            setActiveTheme(theme === 'light' ? 'light' : 'dark');
             const meta = document.getElementById('theme-meta');
             if (meta) meta.content = theme === 'dark' ? '#060d1a' : '#f8faff';
         };
@@ -474,32 +490,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         updateClock();
         const clockInterval = setInterval(updateClock, 30000);
 
-        // ---- TICKER ----
-        const buildTicker = () => {
-            const tickerData = [
-                { v: '600+', l: 'Projects' }, { t: '✦ Web Dev' },
-                { v: '2,000+', l: 'Issues Fixed' }, { t: '✦ Blockchain' },
-                { v: '10+', l: 'Years Exp.' }, { t: '✦ AI & ML' },
-                { v: '87%', l: 'Satisfaction' }, { t: '✦ IT Consulting' },
-                { v: '50+', l: 'Countries' }, { t: '✦ Smart Contracts' },
-                { t: '✦ E-Commerce' }
-            ];
-            const tkrEl = document.getElementById('tkr');
-            if (tkrEl && !tkrEl.innerHTML) {
-                let html = '';
-                for (let i = 0; i < 2; i++) {
-                    tickerData.forEach(x => {
-                        if ('t' in x) {
-                            html += `<div class="ti"><span style="font-family:var(--mono);font-size:12px;color:var(--green);">${x.t}</span></div>`;
-                        } else {
-                            html += `<div class="ti"><span style="font-family:var(--disp);font-weight:700;font-size:15px;color:var(--blue);">${(x as any).v}</span><span style="font-size:13px;color:var(--txt3);">${(x as any).l}</span></div>`;
-                        }
-                    });
-                }
-                tkrEl.innerHTML = html;
-            }
-        };
-        buildTicker();
+        // The ticker is rendered declaratively in JSX below. Never inject
+        // innerHTML into a React-owned node (SSR/hydration safety).
+
 
         // ---- SCROLL REVEAL (desktop) ----
         const revealObs = new IntersectionObserver((entries) => {
@@ -765,7 +758,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <a href="tel:+923127592672" className="sb-icon-btn" aria-label="Call Ayamil Coders">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </a>
-                    <button type="button" className="mobile-theme" id="m-theme-btn" onClick={toggleTheme} aria-label="Toggle light or dark appearance"><Moon className="ac-theme-moon" size={19}/><Sun className="ac-theme-sun" size={19}/></button>
+                    <button type="button" className="mobile-theme" id="m-theme-btn" onClick={toggleTheme} aria-label={activeTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}><Moon className="ac-theme-moon" size={19}/><Sun className="ac-theme-sun" size={19}/></button>
                 </div>
             </div>
 
@@ -820,10 +813,10 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     </div>
                     <div className="theme-btn-wrap" style={{ marginTop: '14px', justifyContent: 'flex-end' }}>
                         <span className="theme-icon" id="d-moon"><Moon size={16}/></span>
-                        <button id="theme-switch" className="theme-btn" onClick={toggleTheme} role="switch" aria-checked="true" aria-label="Toggle dark mode">
+                        <button id="theme-switch" className="theme-btn" onClick={toggleTheme} type="button" role="switch" aria-checked={activeTheme === 'dark'} aria-label={activeTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
                             <div className="theme-thumb" id="d-thumb"><Sun className="ac-thumb-dark" size={12}/><Moon className="ac-thumb-light" size={12}/></div>
                         </button>
-                        <span className="theme-icon" id="d-sun" style={{ opacity: 0.4 }}><Sun size={16}/></span>
+                        <span className="theme-icon" id="d-sun"><Sun size={16}/></span>
                     </div>
                 </div>
             </nav>
@@ -845,7 +838,20 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     </div>
                 </div>
 
-                <div className="twr"><div className="tin" id="tkr"></div></div>
+                <div className="twr"><div className="tin" id="tkr">
+                    {[0, 1].flatMap((copy) => TICKER_ITEMS.map((item, index) => (
+                        <div className="ti" key={`${copy}-${index}`}>
+                            {'text' in item ? (
+                                <span style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--green)' }}>{item.text}</span>
+                            ) : (
+                                <>
+                                    <span style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: 15, color: 'var(--blue)' }}>{item.value}</span>
+                                    <span style={{ fontSize: 13, color: 'var(--txt3)' }}>{item.label}</span>
+                                </>
+                            )}
+                        </div>
+                    )))}
+                </div></div>
 
                 {/* DESKTOP PAGE CONTENT */}
                 <main id={!isHomePage ? "scr-page" : undefined} className={!isHomePage ? "public-page-content" : undefined}>{children}</main>

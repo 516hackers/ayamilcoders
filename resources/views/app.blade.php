@@ -85,7 +85,7 @@
          the real font stack — a second, uncontrolled font-swap on top of
          the @font-face rule's own (already CLS-safe) display:optional
          handling above. That's what caused the 0.222 CLS regression. -->
-    <link rel="stylesheet" href="/css/shared.css?v=20261012-mobile-v10">
+    <link rel="stylesheet" href="/css/shared.css?v=20261012-hydration-v12">
 
     <!-- JSON-LD -->
     @verbatim
@@ -209,7 +209,7 @@
          shared.css has loaded. --}}
     @if(request()->is('/'))
     <style>
-        #wskel{position:fixed;inset:0;background:#060d1a;z-index:1;display:flex;flex-direction:column;overflow:hidden}
+        #wskel{pointer-events:none;position:fixed;inset:0;background:#060d1a;z-index:1;display:flex;flex-direction:column;overflow:hidden}
         /* Unlike V5, the pre-React skeleton honors the saved light mode. */
         html[data-theme="light"] #wskel{background:#f8faff}
         html[data-theme="light"] .wskel-b{background:linear-gradient(90deg,#e9f0fb,#d9e5f5,#e9f0fb)}
@@ -261,16 +261,9 @@
             </div>
         </div>
     </div>
-    <script>
-        // Move the skeleton inside #app so React's mount (which replaces
-        // #app's children) clears it automatically — no manual teardown,
-        // no risk of it lingering if a route change is fast.
-        (function(){
-            var app = document.getElementById('app');
-            var skel = document.getElementById('wskel');
-            if (app && skel) app.appendChild(skel);
-        })();
-    </script>
+    {{-- The skeleton is deliberately a SIBLING of #app, never a child.
+         React/Inertia must be the only owner of the hydrated #app subtree.
+         AyamilLayout removes #wskel after mounting, including StrictMode. --}}
     @endif
 
     {{-- Legacy shared.js DOM effects are handled by AyamilLayout.tsx; avoid duplicate ticker, glow and scroll listeners. --}}

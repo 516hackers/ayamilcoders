@@ -39,7 +39,17 @@ const publicPages = [
     'companyregistration',
 ];
 
-createInertiaApp({
+// V12: Vite/HMR or duplicate script evaluation must never mount two React
+// roots into #app. The normal React Refresh boundary can update components
+// without calling createInertiaApp a second time.
+// Inertia/Vite 3 also evaluates this entry in Node for server-side rendering.
+// Do not reference `window` on the server: SSR must continue to work.
+const bootstrapWindow = typeof window === 'undefined'
+    ? null
+    : (window as Window & { __ayamilInertiaBootPromise?: Promise<unknown> });
+if (!bootstrapWindow || !bootstrapWindow.__ayamilInertiaBootPromise) {
+    if (bootstrapWindow) initializeTheme();
+    const boot = Promise.resolve(createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
 
     resolve: async (name) => {
@@ -124,6 +134,11 @@ createInertiaApp({
     progress: {
         color: '#4B5563',
     },
-});
-
-initializeTheme();
+}));
+    if (bootstrapWindow) {
+        bootstrapWindow.__ayamilInertiaBootPromise = boot.catch((error: unknown) => {
+            delete bootstrapWindow.__ayamilInertiaBootPromise;
+            console.error('Ayamil Coders: Inertia bootstrap failed', error);
+        });
+    }
+}

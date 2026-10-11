@@ -753,3 +753,9 @@ html[data-theme] :is(input.ff, textarea.ff, input.mff, textarea.mff)::placeholde
   .fab.fab-whatsapp,.fab-whatsapp-icon,.ti-icon { transition:none!important;animation:none!important; }
   #mscr .asc { transition:none!important; }
 }
+
+/* V12: theme icon emphasis follows CSS theme without mutating React-owned DOM. */
+#d-moon{opacity:1}
+#d-sun{opacity:.4}
+[data-theme="light"] #d-moon{opacity:.4}
+[data-theme="light"] #d-sun{opacity:1}
