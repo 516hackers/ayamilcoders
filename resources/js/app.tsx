@@ -35,6 +35,7 @@ const publicPages = [
     'topitcompanysadiqabad',
     'solutions',
     'benefits',
+    'updates',
     'bestsoftwarehousepakistan',
     'companyregistration',
 ];

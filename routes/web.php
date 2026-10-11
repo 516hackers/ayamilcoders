@@ -113,6 +113,11 @@ Route::get('/benefits', function () {
     return Inertia::render('Benefits');
 })->name('benefits');
 
+// Public, SEO-indexable 13-month development retrospective.
+Route::get('/updates', function () {
+    return Inertia::render('Updates');
+})->name('updates');
+
 // National SEO / reputation landing page — targets "best software
 // house in Pakistan" search intent, distinct from the local
 // /top-it-company-sadiqabad page. Linked in footer + sitemap.

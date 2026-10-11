@@ -55,6 +55,12 @@ class SitemapController extends Controller
                 'priority' => '0.75'
             ],
             [
+                'loc' => '/updates',
+                'lastmod' => '2026-10-12',
+                'changefreq' => 'monthly',
+                'priority' => '0.70'
+            ],
+            [
                 'loc' => '/contact',
                 'lastmod' => '2025-01-01',
                 'changefreq' => 'monthly',
