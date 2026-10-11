@@ -360,6 +360,12 @@ export default function Welcome() {
     const [inquiryFeedback, setInquiryFeedback] = useState<Record<InquiryChannel, InquiryFeedback>>({
         desk: initialFeedback(), mob: initialFeedback(),
     });
+    // Keep submission feedback visible as a floating toast, independently of
+    // the form's inline accessible status. React owns its DOM throughout.
+    type InquiryToast = { id: number; kind: 'success' | 'error'; title: string; message: string };
+    const [inquiryToast, setInquiryToast] = useState<InquiryToast | null>(null);
+    const inquiryToastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const toastSequence = useRef(0);
     const submittingRef = useRef<Record<InquiryChannel, boolean>>({ desk: false, mob: false });
     const pendingInquiryRequests = useRef(new Set<AbortController>());
     const mountedRef = useRef(false);
@@ -370,8 +376,24 @@ export default function Welcome() {
             mountedRef.current = false;
             for (const request of pendingInquiryRequests.current) request.abort();
             pendingInquiryRequests.current.clear();
+            if (inquiryToastTimer.current) clearTimeout(inquiryToastTimer.current);
         };
     }, []);
+
+    const showInquiryToast = (kind: 'success' | 'error', message: string) => {
+        if (!mountedRef.current) return;
+        if (inquiryToastTimer.current) clearTimeout(inquiryToastTimer.current);
+        setInquiryToast({
+            id: ++toastSequence.current,
+            kind,
+            title: kind === 'success' ? 'Message sent' : 'Unable to send',
+            message,
+        });
+        inquiryToastTimer.current = setTimeout(() => {
+            if (mountedRef.current) setInquiryToast(null);
+            inquiryToastTimer.current = null;
+        }, kind === 'success' ? 5500 : 6500);
+    };
 
     const updateInquiry = (channel: InquiryChannel, update: InquiryFeedback) => {
         if (mountedRef.current) setInquiryFeedback(prev => ({ ...prev, [channel]: update }));
@@ -387,11 +409,15 @@ export default function Welcome() {
         const service = field('service')?.value || '';
         const message = field('details')?.value.trim() || '';
         if (name.length < 2 || !email || !service || message.length < 10) {
-            updateInquiry(channel, { loading: false, message: 'Please complete all fields (minimum 10 characters in the brief).', error: true });
+            const validationMessage = 'Please complete all fields (minimum 10 characters in the brief).';
+            updateInquiry(channel, { loading: false, message: validationMessage, error: true });
+            showInquiryToast('error', validationMessage);
             return;
         }
 
         submittingRef.current[channel] = true;
+        if (inquiryToastTimer.current) clearTimeout(inquiryToastTimer.current);
+        setInquiryToast(null);
         updateInquiry(channel, { loading: true, message: 'Sending your inquiry…', error: false });
         const controller = new AbortController();
         pendingInquiryRequests.current.add(controller);
@@ -418,15 +444,15 @@ export default function Welcome() {
                 throw new Error(firstError || data.message || 'Your inquiry could not be sent.');
             }
             form.reset();
-            updateInquiry(channel, { loading: false, message: 'Inquiry received successfully. We will be in touch.', error: false });
+            const confirmation = 'Inquiry received successfully. We will be in touch.';
+            updateInquiry(channel, { loading: false, message: confirmation, error: false });
+            showInquiryToast('success', confirmation);
         } catch (error) {
             if (mountedRef.current) {
-                updateInquiry(channel, {
-                    loading: false,
-                    message: controller.signal.aborted ? 'Request timed out. Please try again.'
-                        : error instanceof Error ? error.message : 'Unable to send. Please try again.',
-                    error: true,
-                });
+                const failureMessage = controller.signal.aborted ? 'Request timed out. Please try again.'
+                    : error instanceof Error ? error.message : 'Unable to send. Please try again.';
+                updateInquiry(channel, { loading: false, message: failureMessage, error: true });
+                showInquiryToast('error', failureMessage);
             }
         } finally {
             window.clearTimeout(timeoutId);
@@ -840,6 +866,32 @@ export default function Welcome() {
 
             <WelcomeNotification />
 
+            {/* Shared desktop/mobile inquiry feedback stays outside the sliding
+                mobile portal so it is never clipped by #mscr overflow. */}
+            {typeof document !== 'undefined' && inquiryToast && createPortal(
+                <div key={inquiryToast.id}
+                    className={`ac-inquiry-toast ac-inquiry-toast--${inquiryToast.kind}`}
+                    role={inquiryToast.kind === 'error' ? 'alert' : 'status'}
+                    aria-live={inquiryToast.kind === 'error' ? 'assertive' : 'polite'}
+                    aria-atomic="true">
+                    <span className="ac-inquiry-toast-icon" aria-hidden="true">
+                        {inquiryToast.kind === 'success' ?
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l4 4L19 6"/></svg> :
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round"><path d="M12 7v6"/><circle cx="12" cy="17" r="1"/><circle cx="12" cy="12" r="10"/></svg>}
+                    </span>
+                    <span className="ac-inquiry-toast-copy">
+                        <strong>{inquiryToast.title}</strong>
+                        <span>{inquiryToast.message}</span>
+                    </span>
+                    <button type="button" className="ac-inquiry-toast-close"
+                        aria-label="Dismiss notification"
+                        onClick={() => { if (inquiryToastTimer.current) clearTimeout(inquiryToastTimer.current); inquiryToastTimer.current = null; setInquiryToast(null); }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>,
+                document.body
+            )}
+
             {/* ══════════════════════════════════════
                 MOBILE PORTAL — escapes .mw so it's
                 a sibling of it, not a child.
@@ -891,6 +943,25 @@ export default function Welcome() {
                             ))}
                         </div>
 
+                        {/* Mobile: compact value propositions previously visible on desktop only. */}
+                        <section className="ac-mobile-section" aria-labelledby="mobile-why-title">
+                            <div className="msh"><h2 className="msh-t" id="mobile-why-title">Why Work With Us</h2></div>
+                            <div className="ac-mobile-value-list">
+                                <div className="ac-mobile-value">
+                                    <span className="ac-mobile-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></span>
+                                    <div><strong>Built Around Your Project</strong><p>Custom websites, applications and integrations shaped by your requirements—not a generic template.</p></div>
+                                </div>
+                                <div className="ac-mobile-value">
+                                    <span className="ac-mobile-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12l5 5L20 6"/><path d="M4 5h8M4 19h16"/></svg></span>
+                                    <div><strong>Clear Project Delivery</strong><p>Discuss the scope, review the approach and stay informed from development through launch.</p></div>
+                                </div>
+                                <div className="ac-mobile-value">
+                                    <span className="ac-mobile-value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="6"/><path d="M9 12l2 2 4-4"/></svg></span>
+                                    <div><strong>3 Months Included Support</strong><p>Complimentary post-launch support is included for three months, with maintenance options afterwards.</p></div>
+                                </div>
+                            </div>
+                        </section>
+
                         {/* CTA */}
                         <div style={{ padding: '4px 16px 28px' }}>
                             <div className="mc-el" style={{ padding: '18px', textAlign: 'center' }}>
@@ -937,6 +1008,16 @@ export default function Welcome() {
                                 </div>
                             ))}
                         </div>
+
+                        <section className="ac-mobile-section" aria-labelledby="mobile-scope-title">
+                            <div className="msh"><h2 className="msh-t" id="mobile-scope-title">What Can We Help With?</h2></div>
+                            <div className="ac-mobile-tags" aria-label="Common project requirements">
+                                <span>Custom web platforms</span><span>Smart contracts</span><span>Workflow automation</span><span>Performance &amp; bug fixes</span>
+                            </div>
+                            <button type="button" className="ac-mobile-text-link" onClick={() => (window as any).switchTab?.(3)}>
+                                Discuss your requirements <span aria-hidden="true">→</span>
+                            </button>
+                        </section>
 
                         {/* Process (mobile) */}
                         <div style={{ padding: '8px 16px 22px' }}>
@@ -992,6 +1073,14 @@ export default function Welcome() {
                                 <div className="sbm"><div className="sbm-r"><span style={{ color: 'var(--txt2)', fontSize: '12px' }}>Bug Fixing</span><span style={{ color: '#fbbf24', fontFamily: 'var(--mono)', fontSize: '12px' }}>95%</span></div><div className="sbm-t"><div className="sbm-f bf-a mob-bar" data-w="95%"></div></div></div>
                             </div>
                         </div>
+
+                        <section className="ac-mobile-section" aria-labelledby="mobile-values-title">
+                            <div className="msh"><h2 className="msh-t" id="mobile-values-title">How We Work</h2></div>
+                            <div className="ac-mobile-about-note mc-el">
+                                <p>From Sadiqabad to international client teams, our work is organized around reliable engineering, straightforward communication and a clear delivery process.</p>
+                                <button type="button" className="ac-mobile-text-link" onClick={() => (window as any).switchTab?.(3)}>Let's discuss your project <span aria-hidden="true">→</span></button>
+                            </div>
+                        </section>
 
                         {/* Team */}
                         <div style={{ padding: '0 16px', paddingBottom: '22px' }}>
@@ -1055,6 +1144,13 @@ export default function Welcome() {
                                 </div>
                             </div>
                         </div>
+
+                        <section className="ac-mobile-section" aria-labelledby="mobile-brief-title">
+                            <div className="ac-mobile-about-note mc-el">
+                                <h2 className="msh-t" id="mobile-brief-title">What to Include in Your Brief</h2>
+                                <p>Tell us what you want to build or fix, any existing platform or technology, and your preferred timeline. We'll use those details to suggest sensible next steps.</p>
+                            </div>
+                        </section>
 
                         {/* Mobile contact form */}
                         <div className="mform">
