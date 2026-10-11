@@ -32,20 +32,24 @@ export default function Contact() {
         setSuccess(null);
         setError(null);
 
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 25000);
         try {
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
                 },
+                signal: controller.signal,
                 body: JSON.stringify(formData)
             });
 
-            const data = await response.json();
+            const data = await response.json().catch(() => ({}));
 
             if (response.ok) {
-                setSuccess(data.message || "Message sent! We'll be in touch within 24 hours.");
+                setSuccess(data.message || "Your inquiry has been received. Our team will respond within 24 hours.");
                 setFormData({ name: '', email: '', company: '', service: '', budget: '', message: '', whatsapp: '', timeline: '', source: '' });
                 setCharCount(0);
                 // Pop the toast in, hold it, then fade it back out — mirrors
@@ -57,12 +61,18 @@ export default function Contact() {
                 requestAnimationFrame(() => setShowToast(true));
                 setTimeout(() => setShowToast(false), 4000);
                 setTimeout(() => setSuccess(null), 4500);
+            } else if (response.status === 429) {
+                setError('Too many requests. Please wait a minute before trying again.');
+            } else if (response.status === 422) {
+                const first = Object.values(data.errors || {}).flat().find((item): item is string => typeof item === 'string');
+                setError(first || data.message || 'Please review the required information.');
             } else {
-                setError(data.message || 'Something went wrong');
+                setError(data.message || 'We could not receive your inquiry. Please try again.');
             }
         } catch (err) {
-            setError('Network error. Please try again.');
+            setError(controller.signal.aborted ? 'The request timed out. Please check your connection and try again.' : 'Unable to connect. Please try again.');
         } finally {
+            window.clearTimeout(timeoutId);
             setLoading(false);
         }
     };
@@ -74,12 +84,12 @@ export default function Contact() {
     };
 
     const faqs = [
-        { q: 'How quickly will you respond?', a: 'We respond to all inquiries within 24 hours — usually much faster. WhatsApp messages typically get a reply within 1–2 hours during business hours (PKT, UTC+5).' },
-        { q: 'Do you sign NDAs?', a: 'Absolutely. We sign NDAs and custom IP agreements before any project discussion. Confidentiality is a baseline, not an upsell.' },
+        { q: 'What is your typical response time?', a: 'We aim to respond to inquiries within 24 hours during operating periods. WhatsApp is available for direct project discussions.' },
+        { q: 'Do you sign NDAs?', a: 'Confidentiality and intellectual-property terms can be addressed through an appropriate non-disclosure or project agreement before confidential materials are shared.' },
         { q: "Can I see samples of past work first?", a: "Yes. Reach out via WhatsApp or email and we'll share relevant portfolio samples for your specific project type within a few hours." },
         { q: 'What payment methods do you accept?', a: 'Bank transfer, PayPal, USDT/USDC (crypto), and local Pakistani payment methods (JazzCash, EasyPaisa). Standard terms are 50% upfront, 50% on delivery.' },
-        { q: 'Do you offer ongoing support after launch?', a: 'Every project includes 30 days of free post-launch support. Beyond that we offer monthly retainer packages — from a light maintenance plan to a dedicated developer package.' },
-        { q: 'Can you take over an existing project?', a: "Yes. We regularly pick up abandoned, half-built, or broken projects. Share the repo and a description via email and we'll send you an honest assessment within 24 hours." }
+        { q: 'Do you offer ongoing support after launch?', a: 'Every project includes three months of complimentary post-launch support, with optional ongoing maintenance available thereafter.' },
+        { q: 'Can Ayamil Coders take over an existing project?', a: "Yes. We regularly pick up abandoned, half-built, or broken projects. Share the repo and a description via email and we'll send you an honest assessment within 24 hours." }
     ];
         const pageSchema = {
         '@context': 'https://schema.org',
@@ -148,7 +158,7 @@ export default function Contact() {
 
                 .faq-contact-item{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;transition:border-color .3s}
                 .faq-contact-item.open{border-color:var(--brd2)}
-                .faq-contact-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none;gap:12px}
+                .faq-contact-q{padding:16px 20px;cursor:pointer;display:flex;width:100%;background:transparent;border:0;text-align:left;font-family:inherit;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none;gap:12px}
                 /* Grid-rows collapse animates to the real content height, so
                    long answers never get clipped like the old max-height:160px did. */
                 .faq-contact-a-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1)}
@@ -250,12 +260,12 @@ export default function Contact() {
                 <div className="page-hero-blob" style={{ width: '500px', height: '500px', background: 'radial-gradient(circle,rgba(0,200,232,.09),transparent 70%)', top: '-120px', right: '-60px' }}></div>
                 <div className="page-hero-blob" style={{ width: '300px', height: '300px', background: 'radial-gradient(circle,rgba(155,89,245,.07),transparent 70%)', bottom: '-80px', left: '80px' }}></div>
                 <div style={{ position: 'relative', zIndex: 1 }}>
-                    <span className="section-lbl">Get In Touch</span>
+                    <span className="section-lbl">Start a Conversation</span>
                     <h1 style={{ fontSize: 'clamp(36px,6vw,68px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.03em', lineHeight: 1.05, margin: '12px 0 16px' }}>
-                        Let's Build<br /><span className="shimmer-txt">Something Real.</span>
+                        Let's Shape<br /><span className="shimmer-txt">Your Next Milestone.</span>
                     </h1>
                     <p style={{ fontSize: '16px', color: 'var(--txt2)', maxWidth: '520px', lineHeight: 1.75 }}>
-                        Tell us what you're building and we'll get back to you within 24 hours with a clear plan, honest timeline, and a fair quote. No sales fluff — just direct answers.
+                        Share your vision and receive a considered response within 24 hours, including recommended next steps, a realistic timeline, and transparent quotation guidance.
                     </p>
                     {/* BUG FIX 2: The pulsing green dot had animation:pulse3d but that
                         keyframe is defined in shared.css/shared.js — the inline style
@@ -301,8 +311,8 @@ export default function Contact() {
                             styles were harmless but redundant — removed to let CSS control it
                             (especially sticky/static responsive behaviour). */}
                         <div className="contact-panel">
-                            <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '.1em', color: 'var(--txt3)', marginBottom: '4px' }}>Reach Us Directly</div>
-                            <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '18px', color: 'var(--txt)', marginBottom: '20px' }}>Choose your channel ↓</div>
+                            <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '.1em', color: 'var(--txt3)', marginBottom: '4px' }}>Connect With Our Specialists</div>
+                            <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '18px', color: 'var(--txt)', marginBottom: '20px' }}>Choose Your Preferred Channel ↓</div>
 
                             {/* WhatsApp */}
                             <div className="contact-method">
@@ -374,11 +384,11 @@ export default function Contact() {
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--blue-lt)' }}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                                     <span>Facebook</span>
                                 </a>
-                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="soc-lg-a">
+                                <a href="https://www.instagram.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-lg-a">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#e1306c' }}><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                                     <span>Instagram</span>
                                 </a>
-                                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="soc-lg-a">
+                                <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-lg-a">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#0a66c2' }}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                                     <span>LinkedIn</span>
                                 </a>
@@ -390,8 +400,8 @@ export default function Contact() {
                     <div>
                         <div className="contact-form">
                             <div style={{ marginBottom: '28px' }}>
-                                <div style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '22px', color: 'var(--txt)', marginBottom: '6px' }}>Start a Project</div>
-                                <div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.7 }}>The more detail you share, the more precise our quote. We respond within 24 hours — usually much faster.</div>
+                                <div style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '22px', color: 'var(--txt)', marginBottom: '6px' }}>Discuss Your Project</div>
+                                <div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.7 }}>A detailed project brief helps us prepare a more accurate proposal. We aim to respond within 24 hours.</div>
                             </div>
 
                             {/* BUG FIX 6: The original HTML had Token Launch, DeFi/NFT, and
@@ -399,17 +409,17 @@ export default function Contact() {
                                 Restored all original options to match the HTML exactly. */}
                             <form onSubmit={handleSubmit}>
                                 <div className="form-row">
-                                    <div className="fg"><label className="fl">Your Name</label><input className="ff" type="text" name="name" value={formData.name} onChange={handleChange} placeholder="John Smith" required /></div>
-                                    <div className="fg"><label className="fl">Company / Project</label><input className="ff" type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Acme Corp (optional)" /></div>
+                                    <div className="fg"><label className="fl" htmlFor="contact-name">Full Name</label><input className="ff" id="contact-name" type="text" name="name" value={formData.name} onChange={handleChange} placeholder="John Smith" required /></div>
+                                    <div className="fg"><label className="fl" htmlFor="contact-company">Company or Project Name</label><input className="ff" id="contact-company" type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Acme Corp (optional)" /></div>
                                 </div>
                                 <div className="form-row">
-                                    <div className="fg"><label className="fl">Email Address</label><input className="ff" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@company.com" required /></div>
-                                    <div className="fg"><label className="fl">WhatsApp (Optional)</label><input className="ff" type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="+1 555 000 0000" /></div>
+                                    <div className="fg"><label className="fl" htmlFor="contact-email">Email Address</label><input className="ff" id="contact-email" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@company.com" required /></div>
+                                    <div className="fg"><label className="fl" htmlFor="contact-whatsapp">WhatsApp Number (Optional)</label><input className="ff" id="contact-whatsapp" type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="+1 555 000 0000" /></div>
                                 </div>
                                 <div className="fg">
-                                    <label className="fl">Service You Need</label>
-                                    <select className="ff" name="service" value={formData.service} onChange={handleChange} required>
-                                        <option value="" disabled>Select a service</option>
+                                    <label className="fl" htmlFor="contact-service">Project Focus</label>
+                                    <select className="ff" id="contact-service" name="service" value={formData.service} onChange={handleChange} required>
+                                        <option value="" disabled>Select an area of expertise</option>
                                         <option>Web Development (Website / Web App)</option>
                                         <option>E-Commerce Platform</option>
                                         <option>Mobile App (within Web Development)</option>
@@ -423,21 +433,21 @@ export default function Contact() {
                                 </div>
                                 <div className="form-row">
                                     <div className="fg">
-                                        <label className="fl">Estimated Budget</label>
-                                        <select className="ff" name="budget" value={formData.budget} onChange={handleChange}>
-                                            <option value="" disabled>Select budget range</option>
+                                        <label className="fl" htmlFor="contact-budget">Estimated Investment</label>
+                                        <select className="ff" id="contact-budget" name="budget" value={formData.budget} onChange={handleChange}>
+                                            <option value="" disabled>Select your anticipated budget</option>
                                             <option>Under $500</option>
                                             <option>$500 – $1,500</option>
                                             <option>$1,500 – $5,000</option>
                                             <option>$5,000 – $15,000</option>
                                             <option>$15,000+</option>
-                                            <option>Not sure — advise me</option>
+                                            <option>Undecided — Request Guidance</option>
                                         </select>
                                     </div>
                                     <div className="fg">
-                                        <label className="fl">Timeline</label>
-                                        <select className="ff" name="timeline" value={formData.timeline} onChange={handleChange}>
-                                            <option value="" disabled>When do you need it?</option>
+                                        <label className="fl" htmlFor="contact-timeline">Preferred Delivery Timeline</label>
+                                        <select className="ff" id="contact-timeline" name="timeline" value={formData.timeline} onChange={handleChange}>
+                                            <option value="" disabled>Select your preferred timeframe</option>
                                             <option>ASAP (within 1 week)</option>
                                             <option>2–4 weeks</option>
                                             <option>1–2 months</option>
@@ -447,13 +457,13 @@ export default function Contact() {
                                     </div>
                                 </div>
                                 <div className="fg">
-                                    <label className="fl">Project Description</label>
-                                    <textarea className="ff" name="message" value={formData.message} onChange={handleChange} rows={6} maxLength={1000} placeholder="Describe your project in detail — what it does, who it's for, any existing systems, and what success looks like for you. The more context you give, the more accurate our response will be." required style={{ resize: 'none' }} />
+                                    <label className="fl" htmlFor="contact-message">Project Overview</label>
+                                    <textarea className="ff" id="contact-message" name="message" value={formData.message} onChange={handleChange} rows={6} minLength={10} maxLength={1000} placeholder="Describe your project in detail — what it does, who it's for, any existing systems, and what success looks like for you. The more context you give, the more accurate our response will be." required style={{ resize: 'none' }} />
                                     <div className="char-count"><span>{charCount}</span> / 1000</div>
                                 </div>
                                 <div className="fg">
-                                    <label className="fl">How Did You Find Us?</label>
-                                    <select className="ff" name="source" value={formData.source} onChange={handleChange}>
+                                    <label className="fl" htmlFor="contact-source">How Did You Find Us?</label>
+                                    <select className="ff" id="contact-source" name="source" value={formData.source} onChange={handleChange}>
                                         <option value="" disabled>Optional</option>
                                         <option>Fiverr</option>
                                         <option>Google Search</option>
@@ -484,7 +494,7 @@ export default function Contact() {
             <div className="divider"></div>
 
             {/* FAQ Section */}
-            <section className="sp" style={{ background: 'rgba(5,13,26,.3)' }}>
+            <section className="sp" style={{ background: 'var(--bg2)' }}>
                 <div style={{ maxWidth: '720px', margin: '0 auto' }}>
                     <div style={{ textAlign: 'center', marginBottom: '36px' }}>
                         <span className="section-lbl">FAQ</span>
@@ -501,11 +511,11 @@ export default function Contact() {
                                 answers instead of opening. Switched to a grid-template-rows
                                 collapse (faq-contact-a-wrap/-inner) which animates to the
                                 answer's real height, however long it is. */}
-                            <div className="faq-contact-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                            <button type="button" className="faq-contact-q" aria-expanded={openFaq === i} aria-controls={`contact-faq-${i}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                                 {faq.q}
-                                <span className="faq-arr">+</span>
-                            </div>
-                            <div className="faq-contact-a-wrap">
+                                <span className="faq-arr" aria-hidden="true">+</span>
+                            </button>
+                            <div id={`contact-faq-${i}`} className="faq-contact-a-wrap" aria-hidden={openFaq !== i}>
                                 <div className="faq-contact-a-inner">
                                     <div className="faq-contact-a">{faq.a}</div>
                                 </div>

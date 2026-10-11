@@ -3,19 +3,28 @@
 /* ═══ THEME ═══ */
 function toggleTheme(){
   const html=document.documentElement;
-  const isDark=html.getAttribute('data-theme')==='dark';
-  html.setAttribute('data-theme',isDark?'light':'dark');
+  const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  html.classList.toggle('dark',next==='dark');
+  html.style.colorScheme=next;
   const meta=document.getElementById('theme-meta');
-  if(meta)meta.content=isDark?'#f0f4ff':'#060d1a';
+  if(meta)meta.content=next==='dark'?'#060d1a':'#f8faff';
   const mt=document.getElementById('m-theme-btn');
-  if(mt)mt.textContent=isDark?'☀️':'🌙';
-  localStorage.setItem('theme',isDark?'light':'dark');
+  if(mt && !mt.querySelector('svg'))mt.textContent=next==='light'?'☀️':'🌙';
+  try {
+    localStorage.setItem('theme',next);
+    localStorage.setItem('appearance',next);
+    document.cookie='appearance='+next+';path=/;max-age=31536000;SameSite=Lax';
+  } catch (_err) { /* Graceful in privacy-restricted browsers. */ }
+  window.dispatchEvent(new CustomEvent('ayamil:theme-changed',{detail:next}));
 }
 (function(){
-  const t=localStorage.getItem('theme')||'dark';
-  document.documentElement.setAttribute('data-theme',t);
+  const html=document.documentElement;
+  const t=html.getAttribute('data-theme')==='light'?'light':'dark';
+  html.classList.toggle('dark',t==='dark');
+  html.style.colorScheme=t;
   const mt=document.getElementById('m-theme-btn');
-  if(mt)mt.textContent=t==='light'?'☀️':'🌙';
+  if(mt && !mt.querySelector('svg'))mt.textContent=t==='light'?'☀️':'🌙';
 })();
 
 /* ═══ CLOCK ═══ */
@@ -27,7 +36,7 @@ updateClock();setInterval(updateClock,30000);
 
 /* ═══ TICKER ═══ */
 function buildTicker(id){
-  const d=[{v:'600+',l:'Projects'},{t:'✦ Web Dev'},{v:'2,000+',l:'Issues Fixed'},{t:'✦ Blockchain'},{v:'5+',l:'Years Exp.'},{t:'✦ AI & ML'},{v:'100%',l:'Satisfaction'},{t:'✦ IT Consulting'},{v:'Global',l:'Client Reach'},{t:'✦ Smart Contracts'},{t:'✦ E-Commerce'}];
+  const d=[{v:'600+',l:'Projects'},{t:'✦ Web Dev'},{v:'2,000+',l:'Issues Fixed'},{t:'✦ Blockchain'},{v:'5+',l:'Years Exp.'},{t:'✦ AI & ML'},{v:'87%',l:'Client Satisfaction'},{t:'✦ IT Consulting'},{v:'Global',l:'Client Reach'},{t:'✦ Smart Contracts'},{t:'✦ E-Commerce'}];
   const el=document.getElementById(id||'tkr');if(!el)return;
   let h='';
   for(let r=0;r<2;r++)d.forEach(x=>{
@@ -112,12 +121,9 @@ function initCursorGlow(){
   },{passive:true});
 }
 
-/* ═══ FORM HANDLER ═══ */
-function handleForm(e,btnId){
-  e.preventDefault();const b=document.getElementById(btnId);if(!b)return;
-  b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .8s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="30 70"/></svg> Sending...';b.disabled=true;
-  setTimeout(()=>{b.innerHTML='✓ Sent! We\'ll be in touch shortly.';b.style.background='linear-gradient(135deg,#04432c,#059669,#34d399)';b.style.animation='none';},2000);
-}
+/* Homepage contact forms are handled by the React source in welcome.tsx.
+   The legacy timer-based "Sent" demonstration was removed because it did
+   not submit a request or save a customer inquiry. */
 
 /* ═══ INIT ALL ═══ */
 document.addEventListener('DOMContentLoaded',()=>{

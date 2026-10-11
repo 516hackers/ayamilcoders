@@ -21,6 +21,7 @@ class CareerApplication extends Model
      *
      * @var array<int, string>
      */
+    // Only existing SQL columns are mass assignable.
     protected $fillable = [
         'name',
         'email',
@@ -31,10 +32,6 @@ class CareerApplication extends Model
         'message',
         'resume_path',
         'status',
-        'ip_address',
-        'user_agent',
-        'reviewed_at',
-        'reviewer_notes',
     ];
 
     /**
@@ -43,7 +40,6 @@ class CareerApplication extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'reviewed_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -133,15 +129,21 @@ class CareerApplication extends Model
     }
 
     /**
-     * Mark as reviewed.
+     * Record an application review using the existing status column.
+     *
+     * The live SQL schema does not have reviewer_notes or reviewed_at columns.
+     * Do not attempt to write those absent columns. An optional note cannot
+     * be persisted until the database owner chooses a separate schema change.
      */
-    public function markAsReviewed(string $notes = null): void
+    public function markAsReviewed(?string $notes = null): void
     {
-        $this->update([
-            'status' => 'reviewed',
-            'reviewer_notes' => $notes,
-            'reviewed_at' => now(),
-        ]);
+        if ($notes !== null && trim($notes) !== '') {
+            \Illuminate\Support\Facades\Log::warning('Career review note not saved: reviewer_notes column is absent', [
+                'application_id' => $this->getKey(),
+            ]);
+        }
+
+        $this->update(['status' => 'reviewed']);
     }
 
     /**
@@ -153,14 +155,16 @@ class CareerApplication extends Model
     }
 
     /**
-     * Mark as rejected.
+     * Mark as rejected without writing columns missing from the live schema.
      */
-    public function markAsRejected(string $notes = null): void
+    public function markAsRejected(?string $notes = null): void
     {
-        $this->update([
-            'status' => 'rejected',
-            'reviewer_notes' => $notes,
-            'reviewed_at' => now(),
-        ]);
+        if ($notes !== null && trim($notes) !== '') {
+            \Illuminate\Support\Facades\Log::warning('Career rejection note not saved: reviewer_notes column is absent', [
+                'application_id' => $this->getKey(),
+            ]);
+        }
+
+        $this->update(['status' => 'rejected']);
     }
 }

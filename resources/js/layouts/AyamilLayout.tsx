@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
+import { Moon, Sun, House, Code2, UsersRound, BriefcaseBusiness, MessageCircle, ShieldCheck, FileText, RotateCcw } from 'lucide-react';
 
 export default function AyamilLayout({ children }: { children: React.ReactNode }) {
     const { url } = usePage();
@@ -27,58 +28,80 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
 
     const isHomePage = currentPath === '/';
 
-    // ===== AUTO-HIDE FLOATING CONTROLS WHILE SCROLLING (MOBILE) =====
-    // The WhatsApp FAB, "Legal & Policies" pill, and scroll-to-top button are
-    // fixed-position, so on long pages (Terms, Refund Policy, Disclaimer)
-    // they permanently sit on top of whatever text has scrolled underneath
-    // them. Fix: slide them off-screen while the user is actively scrolling,
-    // and bring them back near the top/bottom of the page or once scrolling
-    // stops.
-    // Mobile pages scroll inside #scr-page (class "asc s-act"), not the
-    // window — this polls that element's scrollTop directly every frame
-    // instead of relying on a 'scroll' event, since custom scroll
-    // containers don't always fire native scroll events reliably in every
-    // in-app browser/WebView.
+    // Clear route-specific overlays and retained mobile scroll positions before
+    // the new page paints. Inertia keeps the public layout mounted between routes.
+    useLayoutEffect(() => {
+        document.getElementById('legal-overlay')?.classList.remove('open');
+        document.getElementById('srch-overlay')?.classList.remove('open');
+        document.body.style.overflow = '';
+        const innerScroll = document.getElementById('scr-page');
+        if (innerScroll) innerScroll.scrollTop = 0;
+        document.getElementById('stt')?.classList.remove('visible');
+    }, [currentPath]);
+
+    // ===== SCROLL CONTROLS: DESKTOP + BOTH MOBILE ROUTING SYSTEMS =====
     useEffect(() => {
         let lastY = 0;
-        let rafId: number;
-        let idleTimer: ReturnType<typeof setTimeout>;
-
-        const getScrollTop = () => {
-            const container = document.getElementById('scr-page');
-            if (container) return container.scrollTop;
-            return window.scrollY;
-        };
-
-        const setHidden = (hidden: boolean) => {
+        let lastSurface: Element | Window | null = null;
+        let hidden = false;
+        let idleTimer: ReturnType<typeof setTimeout> | undefined;
+        const setHidden = (value: boolean) => {
+            if (hidden === value) return;
+            hidden = value;
             document.querySelectorAll<HTMLElement>('.fab, #legal-pill, #stt').forEach(el => {
-                el.classList.toggle('floaty-hide', hidden);
+                el.classList.toggle('floaty-hide', value);
             });
         };
-
-        const tick = () => {
-            const y = getScrollTop();
-            const delta = y - lastY;
-
-            if (y < 32) {
+        const update = (event?: Event) => {
+            const active = document.querySelector<HTMLElement>('.asc.s-act')
+                || (window.innerWidth <= 639 ? document.getElementById('scr-page') : null);
+            if (event && event.target !== document && event.target !== window && active
+                && event.target !== active) return;
+            const surface: Element | Window = active || window;
+            const top = active ? active.scrollTop : window.scrollY;
+            if (surface !== lastSurface) { lastSurface = surface; lastY = top; }
+            const delta = top - lastY;
+            lastY = top;
+            document.getElementById('stt')?.classList.toggle('visible', top > 200);
+            if (top < 32 || delta < -1.5) {
+                clearTimeout(idleTimer);
                 setHidden(false);
             } else if (delta > 1.5) {
                 setHidden(true);
                 clearTimeout(idleTimer);
-                idleTimer = setTimeout(() => setHidden(false), 900);
-            } else if (delta < -1.5) {
-                setHidden(false);
-                clearTimeout(idleTimer);
+                idleTimer = setTimeout(() => setHidden(false), 850);
             }
-
-            lastY = y;
-            rafId = requestAnimationFrame(tick);
         };
-
-        rafId = requestAnimationFrame(tick);
+        // Scroll events on inner elements do not bubble; capture is required.
+        // A document-level listener also survives homepage portal tab changes.
+        document.addEventListener('scroll', update, { passive: true, capture: true });
+        window.addEventListener('scroll', update, { passive: true });
+        update();
         return () => {
-            cancelAnimationFrame(rafId);
+            document.removeEventListener('scroll', update, true);
+            window.removeEventListener('scroll', update);
             clearTimeout(idleTimer);
+            setHidden(false);
+        };
+    }, [url]);
+
+    // MOBILE KEYBOARD UX: prevent the fixed tab bar and floating controls
+    // from covering the active form field while the virtual keyboard is open.
+    useEffect(() => {
+        const editable = (target: EventTarget | null): boolean =>
+            target instanceof Element && Boolean(target.closest('input:not([type="checkbox"]):not([type="radio"]), textarea, select, [contenteditable="true"]'));
+        const sync = () => document.body.classList.toggle('ac-mobile-editing',
+            window.innerWidth <= 639 && editable(document.activeElement));
+        const onFocusIn = () => sync();
+        const onFocusOut = () => window.setTimeout(sync, 0);
+        document.addEventListener('focusin', onFocusIn);
+        document.addEventListener('focusout', onFocusOut);
+        window.addEventListener('resize', sync, { passive: true });
+        return () => {
+            document.removeEventListener('focusin', onFocusIn);
+            document.removeEventListener('focusout', onFocusOut);
+            window.removeEventListener('resize', sync);
+            document.body.classList.remove('ac-mobile-editing');
         };
     }, []);
 
@@ -102,11 +125,6 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     name: 'Ayamil Coders',
                     url: 'https://ayamilcoders.com',
                     publisher: { '@id': 'https://ayamilcoders.com/#organization' },
-                    potentialAction: {
-                        '@type': 'SearchAction',
-                        target: 'https://ayamilcoders.com/search?q={search_term_string}',
-                        'query-input': 'required name=search_term_string',
-                    },
                 },
                 {
                     '@type': 'ProfessionalService',
@@ -183,7 +201,8 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                than patch each usage individually, alias it to --txt2
                (the readable secondary color already used for body copy)
                so every current and future usage of --txt3 passes contrast. */
-            html{--txt3:var(--txt2) !important}
+            html[data-theme="dark"]{--txt3:#91a7c8 !important}
+            html[data-theme="light"]{--txt3:#516580 !important}
 
             /* .nav-lbl (sidebar "Home"/"Services"/"About" labels) is defined
                in shared.css with insufficient contrast for inactive items;
@@ -199,6 +218,14 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             @media(max-width:639px){
                 #sidebar{display:none!important}
                 .mw{display:none}
+                .mw.public-inner-page{display:block!important;margin:0!important;padding:0!important}
+                .mw.public-inner-page>.topbar,.mw.public-inner-page>.twr,.mw.public-inner-page>.footer{display:none!important}
+                .mw.public-inner-page>.public-page-content{
+                    position:fixed;top:calc(50px + var(--safe-t));bottom:calc(64px + var(--safe-b));
+                    left:0;right:0;overflow-y:auto;overflow-x:hidden;
+                    -webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;
+                    background:var(--bg);padding-bottom:80px;scrollbar-width:none
+                }
                 #sb{
                     display:flex;position:fixed;top:0;left:0;right:0;z-index:200;
                     height:calc(50px + var(--safe-t));padding:var(--safe-t) 16px 0;
@@ -414,14 +441,14 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     // ===== EXTRACTED JS FOR LAYOUT (from index.html <script> tag) =====
     useEffect(() => {
         // ---- THEME ----
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
         const updateThemeIcons = (theme: string) => {
             const mBtn = document.getElementById('m-theme-btn');
-            if (mBtn) mBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
+            if (mBtn) mBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
             const dThumb = document.getElementById('d-thumb');
-            if (dThumb) dThumb.textContent = theme === 'dark' ? '☀️' : '🌙';
+            if (dThumb) dThumb.setAttribute('aria-label', theme === 'dark' ? 'Dark theme selected' : 'Light theme selected');
             const dMoon = document.getElementById('d-moon');
             const dSun = document.getElementById('d-sun');
             if (dMoon) dMoon.style.opacity = theme === 'dark' ? '1' : '0.4';
@@ -430,7 +457,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             if (themeSwitch) themeSwitch.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
 
             const meta = document.getElementById('theme-meta');
-            if (meta) meta.content = theme === 'dark' ? '#060d1a' : '#f0f4ff';
+            if (meta) meta.content = theme === 'dark' ? '#060d1a' : '#f8faff';
         };
         updateThemeIcons(savedTheme);
 
@@ -492,6 +519,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         document.querySelectorAll('[data-a]').forEach(el => revealObs.observe(el));
 
         // ---- COUNTERS ----
+        const activeCounterTimers = new Set<ReturnType<typeof setInterval>>();
         const counterObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -505,10 +533,12 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                             if (current >= target) {
                                 el.textContent = target + '+';
                                 clearInterval(timer);
+                                activeCounterTimers.delete(timer);
                             } else {
                                 el.textContent = Math.floor(current).toString();
                             }
                         }, 16);
+                        activeCounterTimers.add(timer);
                     }
                     counterObs.unobserve(el);
                 }
@@ -528,41 +558,86 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         }, { threshold: 0.4 });
         document.querySelectorAll('.bf').forEach(el => barObs.observe(el));
 
-        // ---- 3D TILT ----
-        document.querySelectorAll<HTMLElement>('.svc-c').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                card.style.transform = `perspective(700px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-4px)`;
+        // ---- 3D TILT / SMOOTH SCROLL ----
+        // Frame-throttle decorative card movement, and disable it for reduced
+        // motion or touch-only pointers. Clean up on Inertia navigation.
+        const pageListenerCleanups: Array<() => void> = [];
+        const canAnimatePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+            && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (canAnimatePointer) {
+            document.querySelectorAll<HTMLElement>('.svc-c').forEach(card => {
+                let frame = 0;
+                let clientX = 0;
+                let clientY = 0;
+                const onMove = (event: MouseEvent) => {
+                    clientX = event.clientX;
+                    clientY = event.clientY;
+                    if (frame) return;
+                    frame = requestAnimationFrame(() => {
+                        frame = 0;
+                        const rect = card.getBoundingClientRect();
+                        if (!rect.width || !rect.height) return;
+                        const x = (clientX - rect.left) / rect.width - 0.5;
+                        const y = (clientY - rect.top) / rect.height - 0.5;
+                        card.style.transform = `perspective(700px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-4px)`;
+                    });
+                };
+                const onLeave = () => {
+                    cancelAnimationFrame(frame);
+                    frame = 0;
+                    card.style.transform = '';
+                };
+                card.addEventListener('mousemove', onMove, { passive: true });
+                card.addEventListener('mouseleave', onLeave);
+                pageListenerCleanups.push(() => {
+                    cancelAnimationFrame(frame);
+                    card.removeEventListener('mousemove', onMove);
+                    card.removeEventListener('mouseleave', onLeave);
+                });
             });
-            card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+        }
+        document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(link => {
+            const onAnchorClick = (event: MouseEvent) => {
+                const href = link.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.getElementById(href.substring(1));
+                if (!target) return;
+                event.preventDefault();
+                target.scrollIntoView({
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                    block: 'start',
+                });
+            };
+            link.addEventListener('click', onAnchorClick);
+            pageListenerCleanups.push(() => link.removeEventListener('click', onAnchorClick));
         });
 
-        // ---- SMOOTH SCROLL ----
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(a.getAttribute('href') || '');
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // ---- DECORATIVE CURSOR GLOW ----
+        // Only on devices with a real hover pointer; transform avoids layout
+        // writes and the work is consolidated to at most once per frame.
+        if (canAnimatePointer && window.innerWidth > 639) {
+            const glow = document.createElement('div');
+            glow.setAttribute('aria-hidden', 'true');
+            glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(41,121,242,.06) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-500px,-500px);will-change:transform;';
+            document.body.appendChild(glow);
+            let frame = 0;
+            let x = -500;
+            let y = -500;
+            const onMove = (event: MouseEvent) => {
+                x = event.clientX;
+                y = event.clientY;
+                if (frame) return;
+                frame = requestAnimationFrame(() => {
+                    frame = 0;
+                    glow.style.transform = `translate3d(${x - 150}px,${y - 150}px,0)`;
+                });
+            };
+            document.addEventListener('mousemove', onMove, { passive: true });
+            pageListenerCleanups.push(() => {
+                cancelAnimationFrame(frame);
+                document.removeEventListener('mousemove', onMove);
+                glow.remove();
             });
-        });
-
-        // ---- CURSOR GLOW (desktop) ----
-        if (window.innerWidth > 639) {
-            const cg = document.createElement('div');
-            cg.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(41,121,242,.06) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:left .1s,top .1s;';
-            document.body.appendChild(cg);
-            const moveCursor = (e: MouseEvent) => {
-                cg.style.left = e.clientX + 'px';
-                cg.style.top = e.clientY + 'px';
-            };
-            document.addEventListener('mousemove', moveCursor);
-
-            (window as any).__cursorCleanup = () => {
-                document.removeEventListener('mousemove', moveCursor);
-                cg.remove();
-            };
         }
 
         // ---- NAV SPY ----
@@ -585,8 +660,10 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             document.body.style.overflow = 'hidden';
         };
         const closeLegal = () => {
+            const isOpen = document.getElementById('legal-overlay')?.classList.contains('open');
             document.getElementById('legal-overlay')?.classList.remove('open');
             document.body.style.overflow = '';
+            if (isOpen) document.getElementById('legal-pill')?.focus();
         };
 
         // ---- ESCAPE KEY ----
@@ -594,6 +671,17 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             if (e.key === 'Escape') {
                 closeLegal();
                 document.getElementById('srch-overlay')?.classList.remove('open');
+            }
+            // Keep keyboard navigation inside the open mobile legal dialog.
+            if (e.key === 'Tab' && document.getElementById('legal-overlay')?.classList.contains('open')) {
+                const sheet = document.getElementById('legal-sheet');
+                const tabbable = Array.from(sheet?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])') || []);
+                const first = tabbable[0];
+                const last = tabbable[tabbable.length - 1];
+                if (first && last) {
+                    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+                }
             }
         };
         document.addEventListener('keydown', handleKeydown);
@@ -604,7 +692,12 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             const isDark = html.getAttribute('data-theme') === 'dark';
             const newTheme = isDark ? 'light' : 'dark';
             html.setAttribute('data-theme', newTheme);
+            html.classList.toggle('dark', newTheme === 'dark');
+            html.style.colorScheme = newTheme;
             localStorage.setItem('theme', newTheme);
+            localStorage.setItem('appearance', newTheme);
+            document.cookie = `appearance=${newTheme};path=/;max-age=31536000;SameSite=Lax`;
+            window.dispatchEvent(new CustomEvent('ayamil:theme-changed', { detail: newTheme }));
             updateThemeIcons(newTheme);
         };
         (window as any).openLegal = openLegal;
@@ -618,10 +711,8 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             counterObs.disconnect();
             barObs.disconnect();
             spyObs.disconnect();
-            if ((window as any).__cursorCleanup) {
-                (window as any).__cursorCleanup();
-                delete (window as any).__cursorCleanup;
-            }
+            activeCounterTimers.forEach(timer => clearInterval(timer));
+            pageListenerCleanups.forEach(cleanup => cleanup());
         };
     }, [url]);
 
@@ -668,14 +759,13 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <span className="sb-name">Ayamil Coders</span>
                 </div>
                 <div className="sb-r">
-                    <Link href="/solutions" className="sb-icon-btn" aria-label="What's new">
+                    <Link href="/solutions" className="sb-icon-btn" aria-label="Explore our solutions">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        <span className="sb-dot"></span>
                     </Link>
                     <a href="tel:+923127592672" className="sb-icon-btn" aria-label="Call Ayamil Coders">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </a>
-                    <div className="mobile-theme" id="m-theme-btn" onClick={toggleTheme}>🌙</div>
+                    <button type="button" className="mobile-theme" id="m-theme-btn" onClick={toggleTheme} aria-label="Toggle light or dark appearance"><Moon className="ac-theme-moon" size={19}/><Sun className="ac-theme-sun" size={19}/></button>
                 </div>
             </div>
 
@@ -686,13 +776,13 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             <div id="srch-overlay" onClick={(e) => { if (e.target === e.currentTarget) { e.currentTarget.classList.remove('open'); } }}>
                 <div className="srch-box">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--txt3)" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input className="srch-input" id="srch-inp" placeholder="Search services, info..." autoComplete="off" onKeyDown={(e) => { if (e.key === 'Escape') { document.getElementById('srch-overlay')?.classList.remove('open'); } }} />
-                    <button className="srch-close" onClick={() => document.getElementById('srch-overlay')?.classList.remove('open')}>✕</button>
+                    <input className="srch-input" id="srch-inp" type="search" aria-label="Search website content" placeholder="Explore services, expertise, insights..." autoComplete="off" onKeyDown={(e) => { if (e.key === 'Escape') { document.getElementById('srch-overlay')?.classList.remove('open'); } }} />
+                    <button type="button" className="srch-close" aria-label="Close search" onClick={() => document.getElementById('srch-overlay')?.classList.remove('open')}>✕</button>
                 </div>
             </div>
 
             {/* ════════ DESKTOP SIDEBAR ════════ */}
-            <nav id="sidebar">
+            <nav id="sidebar" aria-label="Desktop primary navigation">
                 <div className="nav-logo">
     <picture>
         <source srcSet="/logo/ac-160.webp" type="image/webp" />
@@ -707,39 +797,39 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     </picture>
 </div>
                 <div className="nav-links">
-                    <Link href="/" className={`nav-a${isActive('/') ? ' act' : ''}`}><span className="nav-lbl">Home</span><span className="nav-dot"></span></Link>
-                    <Link href="/services" className={`nav-a${isActive('/services') ? ' act' : ''}`}><span className="nav-lbl">Services</span><span className="nav-dot"></span></Link>
-                    <Link href="/about" className={`nav-a${isActive('/about') ? ' act' : ''}`}><span className="nav-lbl">About</span><span className="nav-dot"></span></Link>
-                    <Link href="/careers" className={`nav-a${isActive('/careers') ? ' act' : ''}`}><span className="nav-lbl">Careers</span><span className="nav-dot"></span></Link>
-                    <Link href="/contact" className={`nav-a${isActive('/contact') ? ' act' : ''}`}><span className="nav-lbl">Contact</span><span className="nav-dot"></span></Link>
-                    <Link href="/privacy-policy" className={`nav-a${isActive('/privacy-policy') ? ' act' : ''}`}><span className="nav-lbl">Privacy</span><span className="nav-dot"></span></Link>
+                    <Link href="/" aria-label="Home" title="Home" className={`nav-a${isActive('/') ? ' act' : ''}`}><House className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Home</span><span className="nav-dot"></span></Link>
+                    <Link href="/services" prefetch="hover" aria-label="Expertise" title="Expertise" className={`nav-a${isActive('/services') ? ' act' : ''}`}><Code2 className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Expertise</span><span className="nav-dot"></span></Link>
+                    <Link href="/about" prefetch="hover" aria-label="Our Story" title="Our Story" className={`nav-a${isActive('/about') ? ' act' : ''}`}><UsersRound className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Our Story</span><span className="nav-dot"></span></Link>
+                    <Link href="/careers" prefetch="hover" aria-label="Careers" title="Careers" className={`nav-a${isActive('/careers') ? ' act' : ''}`}><BriefcaseBusiness className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Careers</span><span className="nav-dot"></span></Link>
+                    <Link href="/contact" prefetch="hover" aria-label="Connect" title="Connect" className={`nav-a${isActive('/contact') ? ' act' : ''}`}><MessageCircle className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Connect</span><span className="nav-dot"></span></Link>
+                    <Link href="/privacy-policy" prefetch="hover" aria-label="Privacy" title="Privacy" className={`nav-a${isActive('/privacy-policy') ? ' act' : ''}`}><ShieldCheck className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Privacy</span><span className="nav-dot"></span></Link>
                 </div>
                 <div style={{ marginTop: '8px', width: '100%' }}>
                     <div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(41,121,242,.15),transparent)', marginBottom: '8px' }}></div>
                     <div style={{ fontSize: '9px', fontFamily: 'var(--mono)', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '.1em', textAlign: 'right', paddingRight: '2px', marginBottom: '6px' }}>Legal</div>
-                    <Link href="/terms" className="nav-a" style={{ fontSize: '11px', opacity: 0.8 }}><span className="nav-lbl">Terms</span><span className="nav-dot"></span></Link>
-                    <Link href="/refund-policy" className="nav-a" style={{ fontSize: '11px', opacity: 0.8 }}><span className="nav-lbl">Refunds</span><span className="nav-dot"></span></Link>
+                    <Link href="/terms" prefetch="hover" title="Terms" aria-label="Terms" className="nav-a" style={{ fontSize: '11px', opacity: 0.8 }}><FileText className="nav-ico" size={18} aria-hidden="true"/><span className="nav-lbl">Terms</span><span className="nav-dot"></span></Link>
+                    <Link href="/refund-policy" prefetch="hover" title="Refunds" aria-label="Refunds" className="nav-a" style={{ fontSize: '11px', opacity: 0.8 }}><RotateCcw className="nav-ico" size={18} aria-hidden="true"/><span className="nav-lbl">Refunds</span><span className="nav-dot"></span></Link>
                 </div>
                 <div style={{ marginTop: '22px', width: '100%' }}>
                     <div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(41,121,242,.2),transparent)', marginBottom: '12px' }}></div>
-                    <Link href="/contact" className="nav-cta">Let's Talk →</Link>
+                    <Link href="/contact" className="nav-cta">Let's Connect →</Link>
                     <div className="soc-row" style={{ justifyContent: 'flex-end', marginTop: '12px' }}>
                         <a href="https://facebook.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Facebook"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
                         <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
                         <a href="https://www.instagram.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Instagram"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
                     </div>
                     <div className="theme-btn-wrap" style={{ marginTop: '14px', justifyContent: 'flex-end' }}>
-                        <span className="theme-icon" id="d-moon">🌙</span>
+                        <span className="theme-icon" id="d-moon"><Moon size={16}/></span>
                         <button id="theme-switch" className="theme-btn" onClick={toggleTheme} role="switch" aria-checked="true" aria-label="Toggle dark mode">
-                            <div className="theme-thumb" id="d-thumb">☀️</div>
+                            <div className="theme-thumb" id="d-thumb"><Sun className="ac-thumb-dark" size={12}/><Moon className="ac-thumb-light" size={12}/></div>
                         </button>
-                        <span className="theme-icon" id="d-sun" style={{ opacity: 0.4 }}>☀️</span>
+                        <span className="theme-icon" id="d-sun" style={{ opacity: 0.4 }}><Sun size={16}/></span>
                     </div>
                 </div>
             </nav>
 
             {/* ════════ DESKTOP MAIN WRAP ════════ */}
-            <div className="mw">
+            <div className={`mw${!isHomePage ? " public-inner-page" : ""}`}>
                 <div className="topbar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
                         <span style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--txt3)', letterSpacing: '.1em', textTransform: 'uppercase' }}>© 2026 Ayamil Coders</span>
@@ -751,14 +841,14 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                         <a href="mailto:info@ayamilcoders.com" style={{ fontSize: '12px', color: 'var(--txt3)', textDecoration: 'none' }}>info@ayamilcoders.com</a>
                         <a href="tel:+923127592672" style={{ fontSize: '12px', color: 'var(--txt3)', textDecoration: 'none', fontFamily: 'var(--mono)' }}>+92 312 759 2672</a>
-                        <a href="https://ayamilcoders.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', fontWeight: 600, padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(41,121,242,.3)', color: 'var(--blue-lt)', textDecoration: 'none' }}>Website ↗</a>
+                        <a href="https://ayamilcoders.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', fontWeight: 600, padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(41,121,242,.3)', color: 'var(--blue-lt)', textDecoration: 'none' }}>Visit Website ↗</a>
                     </div>
                 </div>
 
                 <div className="twr"><div className="tin" id="tkr"></div></div>
 
                 {/* DESKTOP PAGE CONTENT */}
-                <main>{children}</main>
+                <main id={!isHomePage ? "scr-page" : undefined} className={!isHomePage ? "public-page-content" : undefined}>{children}</main>
 
                 {/* ════════ FOOTER ════════ */}
                 <footer className="footer">
@@ -771,7 +861,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                                     <div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)' }}>Software House</div>
                                 </div>
                             </div>
-                            <p style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.7 }}>Pakistan's premier software house — delivering smart digital solutions worldwide.</p>
+                            <p style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.7 }}>An independent technology partner delivering tailored digital solutions for clients worldwide.</p>
                             <div className="soc-row" style={{ marginTop: '12px' }}>
                                 <a href="https://facebook.com/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on Facebook"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
                                 <a href="https://www.linkedin.com/company/ayamilcoders" target="_blank" rel="noopener noreferrer" className="soc-a" aria-label="Ayamil Coders on LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
@@ -779,7 +869,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                             </div>
                         </div>
                         <div data-a="up" data-d="2">
-                            <div className="fct">Services</div>
+                            <div className="fct">Expertise</div>
                             <ul className="flinks">
                                 <li><Link href="/services#web-development">Web Development</Link></li>
                                 <li><Link href="/services#blockchain-development">Blockchain Development</Link></li>
@@ -790,7 +880,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                         <div data-a="up" data-d="3">
                             <div className="fct">Company</div>
                             <ul className="flinks">
-                                <li><Link href="/about">About Us</Link></li>
+                                <li><Link href="/about">Our Story</Link></li>
                                 <li>
     <Link href="/company-registration">
         Company Registration
@@ -828,51 +918,73 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 </footer>
             </div>
 
-            {/* ════════ MOBILE SCREEN WRAPPER ════════ */}
-            {/*
-                CRITICAL FIX: On mobile, the desktop .mw is hidden.
-                We need to render the page content inside #mscr so mobile users can see it.
-                For home page, welcome.tsx manages its own #mscr with tabs.
-                For all other pages, we render the page content here.
-            */}
-            {!isHomePage && (
-                <div id="mscr">
-                    <div className="asc s-act" id="scr-page">
-                        <div style={{ paddingBottom: '104px' }}>
-                            {children}
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Mobile homepage uses Welcome's dedicated portal; inner pages
+                have a single scrollable main above, shared across all widths.
+                Do not mount children twice: duplicated forms, IDs and effects
+                create race conditions after refresh and Inertia navigation. */}
 
             {/* ════════ MOBILE BOTTOM TAB BAR ════════ */}
-            <div id="tbar">
-                <Link href="/" className={`ti-btn${isActive('/') ? ' act' : ''}`} id="tab-0">
+            <div id="tbar" role="navigation" aria-label="Mobile primary navigation">
+                {isHomePage ? (
+                    <button type="button" className="ti-btn act" id="tab-0" onClick={() => (window as any).switchTab?.(0)} aria-label="Home section">
+                    <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                    <span className="ti-lbl">Home</span><span className="ti-dot"></span>
+                </button>
+                ) : (
+                    <Link href="/" className={`ti-btn${isActive("/") ? ' act' : ''}`} id="tab-0">
                     <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
                     <span className="ti-lbl">Home</span><span className="ti-dot"></span>
                 </Link>
-                <Link href="/services" className={`ti-btn${isActive('/services') ? ' act' : ''}`} id="tab-1">
+                )}
+                {isHomePage ? (
+                    <button type="button" className="ti-btn" id="tab-1" onClick={() => (window as any).switchTab?.(1)} aria-label="Expertise section">
                     <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-                    <span className="ti-lbl">Services</span><span className="ti-dot"></span>
+                    <span className="ti-lbl">Expertise</span><span className="ti-dot"></span>
+                </button>
+                ) : (
+                    <Link href="/services" prefetch="click" className={`ti-btn${isActive("/services") ? ' act' : ''}`} id="tab-1">
+                    <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                    <span className="ti-lbl">Expertise</span><span className="ti-dot"></span>
                 </Link>
-                <Link href="/about" className={`ti-btn${isActive('/about') ? ' act' : ''}`} id="tab-2">
+                )}
+                {isHomePage ? (
+                    <button type="button" className="ti-btn" id="tab-2" onClick={() => (window as any).switchTab?.(2)} aria-label="Our Story section">
                     <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></div>
-                    <span className="ti-lbl">About</span><span className="ti-dot"></span>
+                    <span className="ti-lbl">Our Story</span><span className="ti-dot"></span>
+                </button>
+                ) : (
+                    <Link href="/about" prefetch="click" className={`ti-btn${isActive("/about") ? ' act' : ''}`} id="tab-2">
+                    <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></div>
+                    <span className="ti-lbl">Our Story</span><span className="ti-dot"></span>
                 </Link>
-                <Link href="/contact" className={`ti-btn${isActive('/contact') ? ' act' : ''}`} id="tab-3">
+                )}
+                {isHomePage ? (
+                    <button type="button" className="ti-btn" id="tab-3" onClick={() => (window as any).switchTab?.(3)} aria-label="Connect section">
                     <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                    <span className="ti-lbl">Contact</span><span className="ti-dot"></span>
+                    <span className="ti-lbl">Connect</span><span className="ti-dot"></span>
+                </button>
+                ) : (
+                    <Link href="/contact" prefetch="click" className={`ti-btn${isActive("/contact") ? ' act' : ''}`} id="tab-3">
+                    <div className="ti-icon"><svg className="ti-ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <span className="ti-lbl">Connect</span><span className="ti-dot"></span>
                 </Link>
+                )}
             </div>
 
-            {/* ════════ FAB (WhatsApp) ════════ */}
-            <button className="fab" onClick={() => window.open('https://wa.me/923127592672', '_blank')}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.113.554 4.094 1.523 5.817L.036 23.145a.5.5 0 0 0 .613.613l5.391-1.472A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" opacity=".9"/>
+            {/* ════════ MOBILE WHATSAPP — BRAND-CONSISTENT SEMI-3D SVG ════════ */}
+            <a
+                className="fab fab-whatsapp"
+                href="https://wa.me/923127592672"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with Ayamil Coders on WhatsApp (opens in a new tab)"
+                title="Chat on WhatsApp"
+            >
+                <svg className="fab-whatsapp-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M16 3.6A12.3 12.3 0 0 0 5.5 22.3L3.8 28.2l6.1-1.6A12.3 12.3 0 1 0 16 3.6Z" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round"/>
+                    <path d="M11.4 10.4c-.4-.9-.9-1-1.4-1-.5 0-1 .1-1.4.6-.6.7-1.1 1.7-1 2.9.2 1.6 1.4 3.8 3.6 5.8 2.2 2 4.2 2.8 5.5 3 1.3.2 2.5 0 3.5-.6.8-.5 1.5-1.4 1.6-2.2 0-.4-.3-.6-.7-.8l-2.4-1.1c-.4-.2-.7-.1-1 .2l-1 1.2c-.2.2-.4.3-.8.1-1-.4-2.1-1-3.1-2-1-1-1.6-2-2-2.8-.2-.3 0-.6.2-.8l.8-1c.3-.3.3-.6.1-1Z" fill="currentColor" transform="translate(3.25 1.85) scale(.83)"/>
                 </svg>
-                <div className="fab-badge">WA</div>
-            </button>
+            </a>
 
             {/* ════════ SCROLL TO TOP ════════ */}
             <button id="stt" aria-label="Scroll to top" onClick={() => {
@@ -887,21 +999,21 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             </button>
 
             {/* ════════ LEGAL PILL (Mobile) ════════ */}
-            <button id="legal-pill" onClick={() => { document.getElementById('legal-overlay')?.classList.add('open'); document.body.style.overflow = 'hidden'; }} aria-label="Legal pages">
+            <button id="legal-pill" onClick={() => { document.getElementById('legal-overlay')?.classList.add('open'); document.body.style.overflow = 'hidden'; document.getElementById('legal-sheet-close')?.focus(); }} aria-label="Legal pages" aria-haspopup="dialog">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 Legal &amp; Policies
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
             </button>
 
             {/* ════════ LEGAL BOTTOM SHEET (Mobile) ════════ */}
-            <div id="legal-overlay" onClick={(e) => { if (e.target === e.currentTarget) { e.currentTarget.classList.remove('open'); document.body.style.overflow = ''; } }}>
-                <div id="legal-sheet">
+            <div id="legal-overlay" onClick={(e) => { if (e.target === e.currentTarget) { e.currentTarget.classList.remove('open'); document.body.style.overflow = ''; document.getElementById('legal-pill')?.focus(); } }}>
+                <div id="legal-sheet" role="dialog" aria-modal="true" aria-labelledby="legal-sheet-heading">
                     <div className="lsheet-handle"></div>
                     <div className="lsheet-head">
-                        <span className="lsheet-title">Legal &amp; Policies</span>
-                        <div className="lsheet-close" onClick={() => { document.getElementById('legal-overlay')?.classList.remove('open'); document.body.style.overflow = ''; }}>✕</div>
+                        <span className="lsheet-title" id="legal-sheet-heading">Legal &amp; Policies</span>
+                        <button type="button" id="legal-sheet-close" className="lsheet-close" aria-label="Close legal menu" onClick={() => { document.getElementById('legal-overlay')?.classList.remove('open'); document.body.style.overflow = ''; document.getElementById('legal-pill')?.focus(); }}>✕</button>
                     </div>
-                    <p className="lsheet-sub">Ayamil Coders — Transparent policies for our global clients.</p>
+                    <p className="lsheet-sub">Ayamil Coders — Clear policies for clients worldwide.</p>
                     <Link href="/privacy-policy" className="lsheet-row"><div className="lsheet-ico i3 ib"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div className="lsheet-lbl"><div className="lsheet-lbl-t">Privacy Policy</div><div className="lsheet-lbl-d">How we collect, use &amp; protect your data</div></div><svg className="lsheet-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg></Link>
                     <Link href="/terms" className="lsheet-row"><div className="lsheet-ico i3 ip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div className="lsheet-lbl"><div className="lsheet-lbl-t">Terms &amp; Conditions</div><div className="lsheet-lbl-d">Rules governing use of our services</div></div><svg className="lsheet-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg></Link>
                     <Link href="/refund-policy" className="lsheet-row"><div className="lsheet-ico i3 ig"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg></div><div className="lsheet-lbl"><div className="lsheet-lbl-t">Refund Policy</div><div className="lsheet-lbl-d">Our cancellation &amp; refund terms</div></div><svg className="lsheet-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg></Link>

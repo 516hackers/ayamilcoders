@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { Link } from '@inertiajs/react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
 
 export default function RefundPolicy() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('refund-policy-css');
         if (existingStyle) existingStyle.remove();
 
@@ -800,14 +801,14 @@ export default function RefundPolicy() {
                         We want every client to be satisfied with the work we deliver. This policy explains exactly when refunds are available, when they are not, and how to request one — written clearly so there are no surprises.
                     </p>
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '20px' }}>
-                        <a href="/terms" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        <Link href="/terms" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                             Terms &amp; Conditions
-                        </a>
-                        <a href="/contact" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        </Link>
+                        <Link href="/contact" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             Talk to Us
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -866,9 +867,9 @@ export default function RefundPolicy() {
                                 <p>At <strong>Ayamil Coders</strong>, we take quality seriously and stand behind the work we deliver. This Refund Policy applies to all services offered by Ayamil Coders — including Web Development, Blockchain Development, AI Development, and Bug Fixing — whether engaged directly or through Fiverr.</p>
                                 <p>Because our work is custom-built and labour-intensive, refunds are handled on a case-by-case basis and are governed by the stage of work completed at the time of a refund request. We aim to be fair and transparent at every step.</p>
                                 <div className="info-box info-box-green">
-                                    <p>✅ <strong>Our commitment:</strong> If a problem is caused by our work, we will fix it, redo it, or refund it — whichever is most appropriate. We will never dismiss a legitimate concern. If something isn't right, please contact us first and we will do everything reasonable to make it right.</p>
+                                    <p><strong>Our commitment:</strong> If a problem is caused by our work, we will fix it, redo it, or refund it — whichever is most appropriate. We will never dismiss a legitimate concern. If something isn't right, please contact us first and we will do everything reasonable to make it right.</p>
                                 </div>
-                                <p>This policy is to be read alongside our <a href="/terms">Terms &amp; Conditions</a>. In the event of any conflict, the Terms &amp; Conditions take precedence. Where a separate written project agreement exists, that agreement governs refund eligibility for that specific engagement.</p>
+                                <p>This policy is to be read alongside our <Link href="/terms">Terms &amp; Conditions</Link>. In the event of any conflict, the Terms &amp; Conditions take precedence. Where a separate written project agreement exists, that agreement governs refund eligibility for that specific engagement.</p>
                             </div>
                         </div>
 
@@ -889,7 +890,7 @@ export default function RefundPolicy() {
                                     <li>Opportunity cost — your reserved slot prevents us from taking other client work during that time</li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>48-hour grace period:</strong> If you cancel your project within <strong>48 hours</strong> of paying the deposit, and no substantial work has yet begun (i.e. no design mockups, no code, no purchased assets), we may — at our sole discretion — offer a partial refund of up to 50% of the deposit amount. This is a goodwill gesture and not a guaranteed right.</p>
+                                    <p><strong>48-hour grace period:</strong> If you cancel your project within <strong>48 hours</strong> of paying the deposit, and no substantial work has yet begun (i.e. no design mockups, no code, no purchased assets), we may — at our sole discretion — offer a partial refund of up to 50% of the deposit amount. This is a goodwill gesture and not a guaranteed right.</p>
                                 </div>
                             </div>
                         </div>
@@ -910,7 +911,7 @@ export default function RefundPolicy() {
                                     <li><strong>Fundamental misrepresentation</strong> — We materially misrepresented what would be delivered in the agreed scope, and the actual deliverable bears no reasonable resemblance to what was promised.</li>
                                 </ul>
                                 <div className="info-box info-box-green">
-                                    <p>✅ Full refunds are processed back to the original payment method within <strong>5–10 business days</strong> of approval. Bank transfer refunds may take additional time depending on your financial institution.</p>
+                                    <p>Full refunds are processed back to the original payment method within <strong>5–10 business days</strong> of approval. Bank transfer refunds may take additional time depending on your financial institution.</p>
                                 </div>
                             </div>
                         </div>
@@ -930,7 +931,7 @@ export default function RefundPolicy() {
                                     <li><strong>Force majeure</strong> — In the event of a genuine force majeure event (natural disaster, prolonged internet outage, health emergency) that prevents completion, both parties will negotiate a fair partial settlement.</li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ Partial refund amounts are calculated by Ayamil Coders based on hours worked, resources consumed, and deliverables handed over. We will provide a transparent breakdown upon request. Disagreements on the amount are handled through our dispute process (Section 11).</p>
+                                    <p>Partial refund amounts are calculated by Ayamil Coders based on hours worked, resources consumed, and deliverables handed over. We will provide a transparent breakdown upon request. Disagreements on the amount are handled through our dispute process (Section 11).</p>
                                 </div>
                             </div>
                         </div>
@@ -956,7 +957,7 @@ export default function RefundPolicy() {
                                 </div>
 
                                 <div className="info-box">
-                                    <p>📌 If you are unsure whether your situation qualifies, please email us at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a> before submitting a formal request. We are always willing to have an honest conversation.</p>
+                                    <p>If you are unsure whether your situation qualifies, please email us at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a> before submitting a formal request. We are always willing to have an honest conversation.</p>
                                 </div>
                             </div>
                         </div>
@@ -1009,7 +1010,7 @@ export default function RefundPolicy() {
                                     <li><strong>Source code ownership</strong> — If development work is complete but you choose not to deploy, you retain all rights to the developed code upon full payment. Refunds in this scenario apply only to unstarted portions of work.</li>
                                 </ul>
                                 <div className="info-box info-box-red">
-                                    <p>🔴 <strong>Important:</strong> Smart contract bugs discovered after mainnet deployment may be exploitable and can result in permanent loss of funds. We are not liable for financial losses arising from contract vulnerabilities discovered post-deployment. Always test thoroughly on testnet and seek a professional audit before going live with any contract that handles real value.</p>
+                                    <p><strong>Important:</strong> Smart contract bugs discovered after mainnet deployment may be exploitable and can result in permanent loss of funds. We are not liable for financial losses arising from contract vulnerabilities discovered post-deployment. Always test thoroughly on testnet and seek a professional audit before going live with any contract that handles real value.</p>
                                 </div>
                             </div>
                         </div>
@@ -1029,7 +1030,7 @@ export default function RefundPolicy() {
                                     <li><strong>Direct refund requests for Fiverr orders</strong> — We are unable to issue direct PayPal or bank refunds for orders placed via Fiverr. All financial resolution for Fiverr orders must go through the Fiverr platform.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>💬 Before opening a Fiverr dispute, please message us directly through Fiverr chat first. Most issues are resolved quickly and amicably without needing to escalate to Fiverr support.</p>
+                                    <p>Before opening a Fiverr dispute, please message us directly through Fiverr chat first. Most issues are resolved quickly and amicably without needing to escalate to Fiverr support.</p>
                                 </div>
                             </div>
                         </div>
@@ -1056,7 +1057,7 @@ export default function RefundPolicy() {
                                 </div>
 
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ Refund requests submitted more than <strong>30 days after project handover</strong> will not be considered unless the issue relates to a concealed defect that was not discoverable upon reasonable inspection at delivery time.</p>
+                                    <p>Refund requests submitted more than <strong>30 days after project handover</strong> will not be considered unless the issue relates to a concealed defect that was not discoverable upon reasonable inspection at delivery time. This refund-request window is separate from the <strong>three months of complimentary post-launch support</strong> included with projects; expiry of the refund window does not itself end the support period.</p>
                                 </div>
                             </div>
                         </div>
@@ -1078,7 +1079,7 @@ export default function RefundPolicy() {
                                     <li><strong>Fiverr</strong> — Fiverr-mediated refunds follow Fiverr's own processing schedule, typically 3–7 business days back to your Fiverr balance or original payment method.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>📌 We do not absorb payment processor fees on refunds where they are charged by the platform (e.g. PayPal's non-return of transaction fees on amounts over certain thresholds). The net refundable amount will be communicated to you at the time of approval.</p>
+                                    <p>We do not absorb payment processor fees on refunds where they are charged by the platform (e.g. PayPal's non-return of transaction fees on amounts over certain thresholds). The net refundable amount will be communicated to you at the time of approval.</p>
                                 </div>
                             </div>
                         </div>
@@ -1094,11 +1095,11 @@ export default function RefundPolicy() {
                                 <ul>
                                     <li><strong>Internal review</strong> — You may request that your case be reviewed by a senior member of the Ayamil Coders team. Submit your request to <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a> with the subject line <strong>"Refund Escalation — [Project Name]"</strong>. We will provide a final internal decision within 7 business days.</li>
                                     <li><strong>Mediation</strong> — If internal review does not resolve the matter, both parties may agree to appoint a neutral third-party mediator. Costs are shared equally.</li>
-                                    <li><strong>Arbitration</strong> — Unresolved disputes proceed to binding arbitration as described in our <a href="/terms">Terms &amp; Conditions, Section 11</a>.</li>
+                                    <li><strong>Arbitration</strong> — Unresolved disputes proceed to binding arbitration as described in our <Link href="/terms">Terms &amp; Conditions, Section 11</Link>.</li>
                                     <li><strong>Payment platform chargeback</strong> — You retain the right to file a chargeback through your bank or PayPal if you believe a charge was unauthorised. Please note that initiating a chargeback without first following this refund process may result in the suspension of any ongoing work and access to project deliverables pending resolution.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>💬 <strong>A note from us:</strong> We genuinely prefer to resolve disagreements through conversation. A quick call or message often surfaces a solution that a formal process cannot. Please reach out before escalating — we are listening.</p>
+                                    <p><strong>A note from us:</strong> We genuinely prefer to resolve disagreements through conversation. A quick call or message often surfaces a solution that a formal process cannot. Please reach out before escalating — we are listening.</p>
                                 </div>
                             </div>
                         </div>
@@ -1116,19 +1117,19 @@ export default function RefundPolicy() {
                                         <strong>Ayamil Coders</strong><br/>
                                         Founded by Muhammad Muzamil<br/>
                                         Sadiqabad &amp; Rahimyar Khan, Punjab, Pakistan<br/><br/>
-                                        📧 <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
-                                        💬 <a href="https://wa.me/923127592672" target="_blank" rel="noopener">WhatsApp: +92 312 759 2672</a><br/>
-                                        🛍️ <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener">Fiverr: fiverr.com/muzamil516</a><br/>
-                                        🌐 <a href="https://ayamilcoders.com">ayamilcoders.com</a>
+                                        <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
+                                        <a href="https://wa.me/923127592672" target="_blank" rel="noopener">WhatsApp: +92 312 759 2672</a><br/>
+                                        <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener">Fiverr: fiverr.com/muzamil516</a><br/>
+                                        <a href="https://ayamilcoders.com">ayamilcoders.com</a>
                                     </p>
                                 </div>
                                 <p style={{ fontSize: '13px', color: 'var(--txt3)' }}>For urgent matters, <strong style={{ color: 'var(--txt2)' }}>WhatsApp</strong> is the fastest way to reach us. For formal refund requests, please use email so we have a written record.</p>
 
                                 {/* Related legal links */}
                                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '22px' }}>
-                                    <a href="/privacy-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Privacy Policy</a>
-                                    <a href="/terms" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Terms &amp; Conditions</a>
-                                    <a href="/contact" className="btn-p" style={{ padding: '9px 18px', fontSize: '13px' }}>Contact Us</a>
+                                    <Link href="/privacy-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Privacy Policy</Link>
+                                    <Link href="/terms" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Terms &amp; Conditions</Link>
+                                    <Link href="/contact" className="btn-p" style={{ padding: '9px 18px', fontSize: '13px' }}>Contact Us</Link>
                                 </div>
                             </div>
                         </div>

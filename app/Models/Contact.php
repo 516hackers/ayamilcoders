@@ -21,6 +21,7 @@ class Contact extends Model
      *
      * @var array<int, string>
      */
+    // Exact column whitelist from the deployed contacts schema.
     protected $fillable = [
         'name',
         'email',
@@ -29,11 +30,7 @@ class Contact extends Model
         'budget',
         'message',
         'whatsapp',
-        'timeline',
-        'source',
         'is_read',
-        'ip_address',
-        'user_agent',
     ];
 
     /**

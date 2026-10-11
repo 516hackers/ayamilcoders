@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { Link } from '@inertiajs/react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 // ════════════════════════════════════════════════════════════════
 // FOUNDER PAGE — intentionally NOT linked from the navbar, footer,
@@ -10,7 +12,7 @@ import SEO from '@/components/SEO';
 
 export default function Founder() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('founder-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -150,8 +152,8 @@ export default function Founder() {
     }, []);
 
     const timeline = [
-        { year: '2016', title: 'Started teaching himself to code, age 11', desc: 'No coding bootcamp, no institute, no mentor nearby in Sadiqabad — just an internet connection and HTML/CSS documentation worked through line by line.' },
-        { year: 'Matric Years', title: 'First real clients, while still in school', desc: 'Took on paid international client work through direct professional contacts — years before most developers finish their education.' },
+        { year: '2016', title: 'Began Independent Programming Studies', desc: 'No coding bootcamp, no institute, no mentor nearby in Sadiqabad — just an internet connection and HTML/CSS documentation worked through line by line.' },
+        { year: 'Matric Years', title: 'First International Client Engagements', desc: 'Took on paid international client work through direct professional contacts — years before most developers finish their education.' },
         { year: 'Jul 21, 2023', title: 'Founded Ayamil Coders', desc: 'Officially launched Ayamil Coders in Sadiqabad, Punjab, Pakistan — a date chosen as a birthday tribute to the company\'s Hidden Partner.' },
         { year: '2025 — Today', title: '600+ projects, 50+ international clients', desc: 'A 72% repeat-client rate across web development, cybersecurity, and blockchain work delivered from Sadiqabad to clients worldwide.' },
         { year: 'What\'s Next', title: 'Pakistan\'s first blockchain platform, from Sadiqabad', desc: 'Growing into a full agency team and building toward international recognition — without moving out of the city where it all started.' },
@@ -222,9 +224,9 @@ export default function Founder() {
             {/* ===== BIO ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-f>
-                    <span className="section-lbl">The Story</span>
+                    <span className="section-lbl">The Founder's Journey</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
-                        From Freelancer <br />to Founder
+                        From Independent Developer <br />to Founder
                     </h2>
                 </div>
                 <div className="fnd-bio" data-f data-fd="1">
@@ -280,7 +282,7 @@ export default function Founder() {
             {/* ===== TIMELINE ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '48px' }} data-f>
-                    <span className="section-lbl">The Journey</span>
+                    <span className="section-lbl">The Professional Journey</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
                         From Sadiqabad, <br />Not Silicon Valley
                     </h2>
@@ -302,15 +304,15 @@ export default function Founder() {
             {/* ===== SKILLS ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-f>
-                    <span className="section-lbl">What He Personally Handles</span>
+                    <span className="section-lbl">Hands-On Responsibilities</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
-                        Technical Backbone, <br />Not a Figurehead
+                        Hands-On Engineering, <br />Not Just Leadership
                     </h2>
                 </div>
                 <div className="fnd-skill-grid">
                     {skills.map((skill, i) => (
                         <div key={skill.title} className="fnd-skill-card" data-f data-fd={i + 1}>
-                            <div className="fnd-skill-ico" style={{ background: skill.bg, '--sk-shadow': skill.shadow } as React.CSSProperties}>{skill.icon}</div>
+                            <div className="fnd-skill-ico" style={{ background: skill.bg, '--sk-shadow': skill.shadow } as React.CSSProperties}><PremiumIcon glyph={skill.icon} bare size={27}/></div>
                             <div className="fnd-skill-title">{skill.title}</div>
                             <div className="fnd-skill-desc">{skill.desc}</div>
                         </div>
@@ -344,7 +346,7 @@ export default function Founder() {
                 <div className="fnd-val-grid">
                     {values.map((val, i) => (
                         <div key={val.title} className="fnd-val-card" data-f data-fd={i + 1}>
-                            <div style={{ fontSize: '26px', marginBottom: '12px' }}>{val.icon}</div>
+                            <div style={{ marginBottom: '12px' }}><PremiumIcon glyph={val.icon} size={24}/></div>
                             <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>{val.title}</h3>
                             <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>{val.desc}</p>
                         </div>
@@ -357,7 +359,7 @@ export default function Founder() {
             {/* ===== MESSAGE ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '28px' }} data-f>
-                    <span className="section-lbl">The Message</span>
+                    <span className="section-lbl">The Founder's Perspective</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px', color: 'var(--txt)' }}>
                         Proof, Not Permission
                     </h2>
@@ -374,16 +376,16 @@ export default function Founder() {
             {/* ===== CTA ===== */}
             <section className="sp" style={{ textAlign: 'center' }}>
                 <div data-f>
-                    <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '18px' }}>Get in Touch</span>
+                    <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '18px' }}>Start a Conversation</span>
                     <h2 style={{ fontSize: 'clamp(28px,5vw,50px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.03em', marginBottom: '16px', color: 'var(--txt)' }}>
-                        Want to Talk <br />Directly?
+                        Connect With the <br />Founder
                     </h2>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', maxWidth: '480px', margin: '0 auto 28px', lineHeight: 1.7 }}>
-                        Reach out on WhatsApp or email — most first replies still come from Muhammad himself.
+                        Connect directly via WhatsApp or email to begin a professional conversation about your project.
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <a href="https://wa.me/923127592672" target="_blank" rel="noopener noreferrer" className="btn-p fnd-cta-btn" style={{ padding: '14px 32px', fontSize: '15px' }}>Message on WhatsApp →</a>
-                        <a href="/about" className="btn-g fnd-cta-btn" style={{ padding: '14px 32px', fontSize: '15px' }}>Back to About</a>
+                        <Link href="/about" className="btn-g fnd-cta-btn" style={{ padding: '14px 32px', fontSize: '15px' }}>Explore Our Story</Link>
                     </div>
                 </div>
             </section>

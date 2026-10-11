@@ -20,13 +20,18 @@ Route::middleware(['auth'])->group(function () {
 require __DIR__.'/settings.php';
 
 // ===== PUBLIC PAGES =====
+// All public pages use the same Inertia root view (app.blade.php).
+// Mixing public.blade.php with app.blade.php caused first-visit/head asset
+// inconsistency across Inertia visits, particularly on mobile. Auth pages
+// already use app.blade.php; keep the shared shell stable.
+
 
 // Sitemap
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
 // Home page
 Route::get('/', function () {
-    return Inertia::render('Welcome', [], 'public');
+    return Inertia::render('Welcome');
 })->name('home');
 
 // About page
@@ -41,12 +46,12 @@ Route::get('/services', function () {
 
 // Contact page
 Route::get('/contact', function () {
-    return Inertia::render('Contact', [], 'public');
+    return Inertia::render('Contact');
 })->name('contact');
 
 // Careers page
 Route::get('/careers', function () {
-    return Inertia::render('Careers', [], 'public');
+    return Inertia::render('Careers');
 })->name('careers');
 
 // ===== LEGAL PAGES =====

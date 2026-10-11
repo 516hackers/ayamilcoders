@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 // ════════════════════════════════════════════════════════════════
 // LOCAL SEO LANDING PAGE — targets "IT company / web developers /
@@ -20,7 +21,7 @@ import SEO from '@/components/SEO';
 // ════════════════════════════════════════════════════════════════
 
 export default function TopItCompanySadiqabad() {
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('sadiqabad-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -207,8 +208,8 @@ export default function TopItCompanySadiqabad() {
                 </div>
                 <div data-f data-fd="1">
                     <div className="sad-stats">
-                        <div className="sad-stat"><div className="sad-stat-num">600+</div><div className="sad-stat-lbl">Projects Delivered</div></div>
-                        <div className="sad-stat"><div className="sad-stat-num">87%</div><div className="sad-stat-lbl">Client Satisfaction</div></div>
+                        <div className="sad-stat"><div className="sad-stat-num">600+</div><div className="sad-stat-lbl">Completed Projects</div></div>
+                        <div className="sad-stat"><div className="sad-stat-num">87%</div><div className="sad-stat-lbl">Client Satisfaction Rate</div></div>
                         <div className="sad-stat"><div className="sad-stat-num">2023</div><div className="sad-stat-lbl">Founded in Sadiqabad</div></div>
                         <div className="sad-stat"><div className="sad-stat-num">4</div><div className="sad-stat-lbl">Core Services</div></div>
                     </div>
@@ -220,20 +221,20 @@ export default function TopItCompanySadiqabad() {
             <section className="sp">
                 <div className="sad-grid-2">
                     <div data-f>
-                        <span className="section-lbl">Why Ayamil Coders</span>
+                        <span className="section-lbl">The Ayamil Advantage</span>
                         <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(24px,3.4vw,34px)', letterSpacing: '-.02em', margin: '10px 0 20px', color: 'var(--txt)' }}>
-                            A Software House Built in Sadiqabad, Trusted Beyond It
+                            Rooted in Sadiqabad. Delivering Beyond Borders.
                         </h2>
                         <div className="sad-why">
-                            <div className="sad-why-title">🏢 Locally Based, Globally Delivering</div>
+                            <div className="sad-why-title"><PremiumIcon glyph="🏢" flat size={18} /> Locally Based, Globally Delivering</div>
                             <div className="sad-why-desc">Founded July 21, 2023, in Sadiqabad, Punjab. The team works remote-first, which means clients get direct access to developers rather than layers of account management.</div>
                         </div>
                         <div className="sad-why">
-                            <div className="sad-why-title">📈 Track Record, Not Just Promises</div>
+                            <div className="sad-why-title"><PremiumIcon glyph="📈" flat size={18} /> Track Record, Not Just Promises</div>
                             <div className="sad-why-desc">600+ projects delivered with an 87% client satisfaction rate — figures published consistently across our About, Founder, and CEO pages.</div>
                         </div>
                         <div className="sad-why">
-                            <div className="sad-why-title">🧩 Four Services, One Team</div>
+                            <div className="sad-why-title"><PremiumIcon glyph="🧩" flat size={18} /> Four Services, One Team</div>
                             <div className="sad-why-desc">Web development, blockchain/smart contracts, AI development, and bug fixing — most agencies specialize in one; Ayamil Coders covers all four under a single point of contact.</div>
                         </div>
                     </div>
@@ -242,7 +243,7 @@ export default function TopItCompanySadiqabad() {
                         <div className="sad-svc-grid">
                             {services.map(s => (
                                 <div key={s.title} className="sad-svc-card">
-                                    <div className="sad-svc-ico" style={{ background: s.bg, '--sk-shadow': s.shadow } as React.CSSProperties}>{s.icon}</div>
+                                    <div className="sad-svc-ico" style={{ background: s.bg, '--sk-shadow': s.shadow } as React.CSSProperties}><PremiumIcon glyph={s.icon} bare size={25}/></div>
                                     <div className="sad-svc-title">{s.title}</div>
                                     <div className="sad-svc-desc">{s.desc}</div>
                                 </div>
@@ -257,9 +258,9 @@ export default function TopItCompanySadiqabad() {
             <section className="sp">
                 <div className="sad-grid-2">
                     <div data-f>
-                        <span className="section-lbl">Verified Business Details</span>
+                        <span className="section-lbl">Corporate & Contact Information</span>
                         <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(22px,3vw,30px)', letterSpacing: '-.02em', margin: '10px 0 16px', color: 'var(--txt)' }}>
-                            Real Address. Real Contact. No Guesswork.
+                            Verifiable Details. Direct Communication.
                         </h2>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.75 }}>
                             Transparency is part of how Ayamil Coders operates — the same contact details and founding information appear consistently across every page of this site.
@@ -267,19 +268,19 @@ export default function TopItCompanySadiqabad() {
                     </div>
                     <div data-f data-fd="1" className="sad-addr-card">
                         <div className="sad-addr-row">
-                            <div className="sad-addr-ico">📍</div>
+                            <div className="sad-addr-ico"><PremiumIcon glyph="📍" flat size={20}/></div>
                             <div><div className="sad-addr-label">Location</div><div className="sad-addr-val">Sadiqabad, Punjab, Pakistan</div></div>
                         </div>
                         <div className="sad-addr-row">
-                            <div className="sad-addr-ico">✉️</div>
+                            <div className="sad-addr-ico"><PremiumIcon glyph="✉️" flat size={20}/></div>
                             <div><div className="sad-addr-label">Email</div><div className="sad-addr-val">info@ayamilcoders.com</div></div>
                         </div>
                         <div className="sad-addr-row">
-                            <div className="sad-addr-ico">📞</div>
+                            <div className="sad-addr-ico"><PremiumIcon glyph="📞" flat size={20}/></div>
                             <div><div className="sad-addr-label">Phone / WhatsApp</div><div className="sad-addr-val">+92 312 759 2672</div></div>
                         </div>
                         <div className="sad-addr-row">
-                            <div className="sad-addr-ico">🗓️</div>
+                            <div className="sad-addr-ico"><PremiumIcon glyph="🗓️" flat size={20}/></div>
                             <div><div className="sad-addr-label">Founded</div><div className="sad-addr-val">July 21, 2023</div></div>
                         </div>
                     </div>
@@ -290,7 +291,7 @@ export default function TopItCompanySadiqabad() {
 
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '32px' }} data-f>
-                    <span className="section-lbl">Frequently Asked</span>
+                    <span className="section-lbl">Client Information</span>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(24px,3.4vw,34px)', letterSpacing: '-.02em', marginTop: '10px', color: 'var(--txt)' }}>
                         Common Questions
                     </h2>
@@ -310,14 +311,14 @@ export default function TopItCompanySadiqabad() {
             <section className="sp" style={{ textAlign: 'center' }}>
                 <div data-f>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(26px,4.5vw,44px)', letterSpacing: '-.03em', marginBottom: '14px', color: 'var(--txt)' }}>
-                        Work With a Sadiqabad Team That Ships
+                        Partner With Sadiqabad-Based Technology Specialists
                     </h2>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', maxWidth: '480px', margin: '0 auto 26px', lineHeight: 1.7 }}>
-                        Whether you're in Sadiqabad or anywhere else, tell us what you're building.
+                        Wherever your business operates, our team is ready to discuss your objectives and technical requirements.
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Link href="/contact" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Start a Project →</Link>
-                        <Link href="/services" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>See All Services</Link>
+                        <Link href="/contact" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Discuss Your Project →</Link>
+                        <Link href="/services" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>Explore Our Expertise</Link>
                     </div>
                 </div>
             </section>

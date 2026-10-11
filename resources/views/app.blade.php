@@ -3,8 +3,32 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <!-- AYAMIL THEME V4: match public CSS and React appearance before first paint. -->
+        <script>
+        (function () {
+            var html = document.documentElement;
+            var mode = 'dark';
+            try {
+                var appearance = localStorage.getItem('appearance');
+                var theme = localStorage.getItem('theme');
+                if (appearance === 'dark' || appearance === 'light') mode = appearance;
+                else if (appearance === 'system') mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                else if (theme === 'dark' || theme === 'light') mode = theme;
+            } catch (_err) { /* Storage can be unavailable in privacy-restricted browsers. */ }
+            html.setAttribute('data-theme', mode);
+            html.classList.toggle('dark', mode === 'dark');
+            html.style.colorScheme = mode;
+        })();
+        </script>
     <meta name="theme-color" content="#060d1a" id="theme-meta">
-    <meta name="color-scheme" content="dark">
+    <meta name="color-scheme" content="light dark">
+        <script>
+        /* Keep browser toolbar color in sync with the first-paint theme. */
+        (function () {
+            var meta = document.getElementById('theme-meta');
+            if (meta) meta.setAttribute('content', document.documentElement.getAttribute('data-theme') === 'light' ? '#f8faff' : '#060d1a');
+        })();
+        </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- ══════════════════════════════════════════════════════════
@@ -61,7 +85,7 @@
          the real font stack — a second, uncontrolled font-swap on top of
          the @font-face rule's own (already CLS-safe) display:optional
          handling above. That's what caused the 0.222 CLS regression. -->
-    <link rel="stylesheet" href="/css/shared.css">
+    <link rel="stylesheet" href="/css/shared.css?v=20261012-mobile-v10">
 
     <!-- JSON-LD -->
     @verbatim
@@ -186,6 +210,9 @@
     @if(request()->is('/'))
     <style>
         #wskel{position:fixed;inset:0;background:#060d1a;z-index:1;display:flex;flex-direction:column;overflow:hidden}
+        /* Unlike V5, the pre-React skeleton honors the saved light mode. */
+        html[data-theme="light"] #wskel{background:#f8faff}
+        html[data-theme="light"] .wskel-b{background:linear-gradient(90deg,#e9f0fb,#d9e5f5,#e9f0fb)}
         #wskel *{box-sizing:border-box}
         @keyframes wskel-pulse{0%,100%{opacity:.55}50%{opacity:1}}
         .wskel-b{background:linear-gradient(90deg,rgba(148,163,184,.09),rgba(148,163,184,.16),rgba(148,163,184,.09));background-size:200% 100%;border-radius:8px;animation:wskel-pulse 1.6s ease-in-out infinite}
@@ -246,6 +273,6 @@
     </script>
     @endif
 
-    <script src="/js/shared.js" defer></script>
+    {{-- Legacy shared.js DOM effects are handled by AyamilLayout.tsx; avoid duplicate ticker, glow and scroll listeners. --}}
 </body>
 </html>

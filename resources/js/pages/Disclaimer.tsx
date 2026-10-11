@@ -1,11 +1,13 @@
+import { Link } from '@inertiajs/react';
 // resources/js/pages/Disclaimer.tsx
 
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 export default function Disclaimer() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('disclaimer-css');
         if (existingStyle) existingStyle.remove();
 
@@ -591,25 +593,25 @@ export default function Disclaimer() {
                         Important notices about the information published on this website, the nature of our services, and the limits of our liability. Please read this carefully before relying on any content found here.
                     </p>
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '20px' }}>
-                        <a href="/terms" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        <Link href="/terms" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                 <polyline points="14 2 14 8 20 8"/>
                             </svg>
                             Terms &amp; Conditions
-                        </a>
-                        <a href="/privacy-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        </Link>
+                        <Link href="/privacy-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
                             Privacy Policy
-                        </a>
-                        <a href="/contact" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        </Link>
+                        <Link href="/contact" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                             </svg>
                             Talk to Us
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -670,7 +672,7 @@ export default function Disclaimer() {
                                 <p>The information contained on this website — <strong>ayamilcoders.com</strong> — and within any content, blog post, portfolio item, case study, or communication published by <strong>Ayamil Coders</strong> (founded by Muhammad Muzamil, Sadiqabad, Punjab, Pakistan) is provided for <strong>general informational purposes only</strong>.</p>
                                 <p>While we make every reasonable effort to keep the information accurate, current, and complete, we make <strong>no representations or warranties of any kind</strong>, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics on this website for any purpose.</p>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>Important:</strong> Any reliance you place on the information found on this website is strictly at your own risk. Ayamil Coders shall not be liable for any loss or damage arising from the use of, or inability to use, this website or its content.</p>
+                                    <p><strong>Important:</strong> Any reliance you place on the information found on this website is strictly at your own risk. Ayamil Coders shall not be liable for any loss or damage arising from the use of, or inability to use, this website or its content.</p>
                                 </div>
                                 <p>This disclaimer applies to all visitors, users, and anyone else who accesses or uses our website, regardless of their country of origin or purpose of access.</p>
 
@@ -678,7 +680,7 @@ export default function Disclaimer() {
                                 <div className="scope-grid">
                                     {scopeItems.map((item, index) => (
                                         <div key={index} className="scope-card" data-a="scale" data-d={index + 1}>
-                                            <div className="scope-icon">{item.icon}</div>
+                                            <div className="scope-icon"><PremiumIcon glyph={item.icon} size={21}/></div>
                                             <div className="scope-title">{item.title}</div>
                                             <div className="scope-desc">{item.desc}</div>
                                         </div>
@@ -703,7 +705,7 @@ export default function Disclaimer() {
                                     <li><strong>Technical recommendations:</strong> Technology stack recommendations, architecture suggestions, or performance estimates shared on this site are general observations and may not apply to your specific situation without professional assessment.</li>
                                 </ul>
                                 <div className="info-box info-box-green">
-                                    <p>✅ <strong>What we do offer:</strong> We provide expert software development services. Once you engage us on a project, our team works with you directly to provide tailored technical recommendations — but these are part of a professional service engagement, not general website content.</p>
+                                    <p><strong>What we do offer:</strong> We provide expert software development services. Once you engage us on a project, our team works with you directly to provide tailored technical recommendations — but these are part of a professional service engagement, not general website content.</p>
                                 </div>
                             </div>
                         </div>
@@ -724,7 +726,7 @@ export default function Disclaimer() {
                                     <li>Third-party information (industry data, framework documentation, protocol specifications) sourced and referenced on our site may have changed since publication.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>📌 If you notice any factual error or outdated information on our website, please let us know at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a>. We appreciate your help in keeping our content accurate.</p>
+                                    <p>If you notice any factual error or outdated information on our website, please let us know at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a>. We appreciate your help in keeping our content accurate.</p>
                                 </div>
                             </div>
                         </div>
@@ -765,7 +767,7 @@ export default function Disclaimer() {
                                     <li>Losses arising from decisions made based on information found on this website without obtaining independent professional advice.</li>
                                 </ul>
                                 <div className="info-box info-box-red">
-                                    <p>🔴 <strong>Maximum liability:</strong> Where liability cannot be fully excluded by law, our total liability to you in connection with any claim arising from this website shall not exceed <strong>PKR 10,000</strong> (or the equivalent in your local currency). This cap does not apply to liability for personal injury caused by our negligence.</p>
+                                    <p><strong>Maximum liability:</strong> Where liability cannot be fully excluded by law, our total liability to you in connection with any claim arising from this website shall not exceed <strong>PKR 10,000</strong> (or the equivalent in your local currency). This cap does not apply to liability for personal injury caused by our negligence.</p>
                                 </div>
                                 <p>Some jurisdictions do not allow the exclusion of certain warranties or limitation of liability for consequential or incidental damages. In such jurisdictions, our liability is limited to the fullest extent permitted by applicable law.</p>
                             </div>
@@ -786,7 +788,7 @@ export default function Disclaimer() {
                                     <li><strong>Brand assets:</strong> The Ayamil Coders name, logo, and "AC" monogram may not be used without written permission.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>📩 For licensing requests, press inquiries, or permission to use our content, please contact us at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a>.</p>
+                                    <p>For licensing requests, press inquiries, or permission to use our content, please contact us at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a>.</p>
                                 </div>
                             </div>
                         </div>
@@ -806,7 +808,7 @@ export default function Disclaimer() {
                                     <li>Revenue or traffic improvements mentioned in client testimonials are not guaranteed outcomes of our services.</li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>Realistic expectations:</strong> We are committed to delivering high-quality work on every project, but software development is complex. No ethical developer can guarantee specific business outcomes. We guarantee our work quality — not your business results.</p>
+                                    <p><strong>Realistic expectations:</strong> We are committed to delivering high-quality work on every project, but software development is complex. No ethical developer can guarantee specific business outcomes. We guarantee our work quality — not your business results.</p>
                                 </div>
                             </div>
                         </div>
@@ -826,7 +828,7 @@ export default function Disclaimer() {
                                     <li><strong>Security:</strong> While we follow industry-standard security practices, no software system can be guaranteed 100% secure. We are not liable for security breaches caused by vulnerabilities in third-party dependencies, hosting infrastructure, or unforeseen zero-day exploits.</li>
                                 </ul>
                                 <div className="info-box info-box-green">
-                                    <p>✅ <strong>Our commitment:</strong> We stay current with evolving best practices in AI safety, smart contract auditing, and web security. We will always advise clients honestly about risks before beginning any high-stakes technical work.</p>
+                                    <p><strong>Our commitment:</strong> We stay current with evolving best practices in AI safety, smart contract auditing, and web security. We will always advise clients honestly about risks before beginning any high-stakes technical work.</p>
                                 </div>
                             </div>
                         </div>
@@ -860,7 +862,7 @@ export default function Disclaimer() {
                                 <p>This disclaimer, and any dispute or claim arising out of or in connection with it, shall be governed by and construed in accordance with the laws of <strong>Pakistan</strong>, specifically the applicable laws of the <strong>Province of Punjab</strong>.</p>
                                 <p>Any legal proceedings relating to this website or its content shall be subject to the exclusive jurisdiction of the courts located in <strong>Rahimyar Khan, Punjab, Pakistan</strong>, except where mandatory local law in your jurisdiction requires otherwise.</p>
                                 <div className="info-box">
-                                    <p>💬 <strong>International users:</strong> If you are accessing this website from outside Pakistan, you are responsible for compliance with your local laws. The content on this site is not directed at any person in any jurisdiction where its use would be contrary to applicable law or regulation.</p>
+                                    <p><strong>International users:</strong> If you are accessing this website from outside Pakistan, you are responsible for compliance with your local laws. The content on this site is not directed at any person in any jurisdiction where its use would be contrary to applicable law or regulation.</p>
                                 </div>
                             </div>
                         </div>
@@ -891,20 +893,20 @@ export default function Disclaimer() {
                                         <strong>Ayamil Coders</strong><br/>
                                         Founded by Muhammad Muzamil<br/>
                                         Sadiqabad &amp; Rahimyar Khan, Punjab, Pakistan<br/><br/>
-                                        📧 <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
-                                        💬 <a href="https://wa.me/923127592672" target="_blank" rel="noopener">WhatsApp: +92 312 759 2672</a><br/>
-                                        🛍️ <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener">Fiverr: fiverr.com/muzamil516</a><br/>
-                                        🌐 <a href="https://ayamilcoders.com">ayamilcoders.com</a>
+                                        <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
+                                        <a href="https://wa.me/923127592672" target="_blank" rel="noopener">WhatsApp: +92 312 759 2672</a><br/>
+                                        <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener">Fiverr: fiverr.com/muzamil516</a><br/>
+                                        <a href="https://ayamilcoders.com">ayamilcoders.com</a>
                                     </p>
                                 </div>
                                 <p style={{ fontSize: '13px', color: 'var(--txt3)' }}>For urgent matters, <strong style={{ color: 'var(--txt2)' }}>WhatsApp</strong> is the fastest way to reach us. For formal legal notices, please use email so we have a written record.</p>
 
                                 {/* Related legal links */}
                                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '22px' }}>
-                                    <a href="/privacy-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Privacy Policy</a>
-                                    <a href="/terms" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Terms &amp; Conditions</a>
-                                    <a href="/refund-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Refund Policy</a>
-                                    <a href="/contact" className="btn-p" style={{ padding: '9px 18px', fontSize: '13px' }}>Contact Us</a>
+                                    <Link href="/privacy-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Privacy Policy</Link>
+                                    <Link href="/terms" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Terms &amp; Conditions</Link>
+                                    <Link href="/refund-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Refund Policy</Link>
+                                    <Link href="/contact" className="btn-p" style={{ padding: '9px 18px', fontSize: '13px' }}>Contact Us</Link>
                                 </div>
                             </div>
                         </div>

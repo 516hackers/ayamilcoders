@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { Link } from '@inertiajs/react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
 
 export default function Terms() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('terms-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -661,14 +662,14 @@ export default function Terms() {
                         Please read these terms carefully before engaging our services. They outline your rights, our responsibilities, payment expectations, and how we work together. We've kept the language clear and direct — no legal jargon designed to confuse.
                     </p>
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '20px' }}>
-                        <a href="/privacy-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        <Link href="/privacy-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             Privacy Policy
-                        </a>
-                        <a href="/refund-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        </Link>
+                        <Link href="/refund-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
                             Refund Policy
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -723,7 +724,7 @@ export default function Terms() {
                                 <p>These Terms &amp; Conditions ("Terms", "Agreement") constitute a legally binding agreement between <strong>Ayamil Coders</strong> ("Company", "we", "us", "our") — a software development company founded by <strong>Muhammad Muzamil</strong> and operating from Sadiqabad &amp; Rahimyar Khan, Punjab, Pakistan — and you ("Client", "User", "you") as a visitor to our website or a recipient of our services.</p>
                                 <p>Our services are offered through our website at <strong>ayamilcoders.com</strong>, through our Fiverr profile (<strong>muzamil516</strong>), and via direct client engagements over email, WhatsApp, or other agreed communication channels.</p>
                                 <div className="info-box">
-                                    <p>📋 <strong>By engaging our services, placing an order, or using our website, you confirm that you have read, understood, and agree to be bound by these Terms.</strong> If you do not agree, please do not proceed with an engagement or continue using our website.</p>
+                                    <p><strong>By engaging our services, placing an order, or using our website, you confirm that you have read, understood, and agree to be bound by these Terms.</strong> If you do not agree, please do not proceed with an engagement or continue using our website.</p>
                                 </div>
                                 <p>These Terms apply to all service categories we offer, including Web Development, Blockchain Development, AI Development, and Bug Fixing, and any related work. Where a separate written project agreement or Statement of Work (SOW) exists, that document takes precedence over these Terms in the event of a conflict.</p>
                             </div>
@@ -762,11 +763,11 @@ export default function Terms() {
                                     <li><strong>Respond promptly</strong> — Provide feedback and approvals within <strong>5 business days</strong> of each milestone delivery. Delays in response that push a project past the agreed timeline are the client's responsibility.</li>
                                     <li><strong>Designate a point of contact</strong> — For larger projects, nominate a single person authorised to provide feedback and approve deliverables to avoid conflicting instructions.</li>
                                     <li><strong>Maintain legal compliance</strong> — Ensure that all content, trademarks, images, and other materials provided to us are legally owned or licensed by you. We are not liable for copyright infringement arising from materials you supply.</li>
-                                    <li><strong>Test deliverables</strong> — Review and test all delivered work promptly. Defects reported more than 30 days after delivery may be treated as new support requests.</li>
+                                    <li><strong>Test deliverables</strong> — Review and test all delivered work promptly. Development-related defects should be reported during the three-month complimentary post-launch support period so they can be reviewed and addressed under the agreed scope.</li>
                                     <li><strong>Make payments on time</strong> — Adhere to the payment schedule agreed upon at project initiation. Late payments may result in paused work or project cancellation (see Payment Terms below).</li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ Projects that remain idle for more than <strong>45 days</strong> due to client non-response or non-provision of required materials may be archived or closed. Resuming work may incur a re-activation fee.</p>
+                                    <p>Projects that remain idle for more than <strong>45 days</strong> due to client non-response or non-provision of required materials may be archived or closed. Resuming work may incur a re-activation fee.</p>
                                 </div>
                             </div>
                         </div>
@@ -789,10 +790,10 @@ export default function Terms() {
                                 </ul>
                                 <p><strong>Accepted payment methods:</strong> PayPal, bank transfer (Pakistan &amp; international), Payoneer, cryptocurrency (USDT/BTC upon agreement), and Fiverr platform payments.</p>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>Late payment policy:</strong> Invoices unpaid after 10 days will incur a late fee of <strong>1.5% per month</strong> on the outstanding balance. Work will be paused after 15 days of non-payment. We reserve the right to withhold deliverables until all outstanding balances are settled.</p>
+                                    <p><strong>Late payment policy:</strong> Invoices unpaid after 10 days will incur a late fee of <strong>1.5% per month</strong> on the outstanding balance. Work will be paused after 15 days of non-payment. We reserve the right to withhold deliverables until all outstanding balances are settled.</p>
                                 </div>
                                 <div className="info-box info-box-green">
-                                    <p>✅ <strong>Note on taxes:</strong> All prices quoted are exclusive of any applicable taxes. International clients are responsible for any import duties, withholding taxes, or VAT/GST obligations in their own jurisdiction. Pakistani clients may be subject to applicable FBR withholding tax requirements.</p>
+                                    <p><strong>Note on taxes:</strong> All prices quoted are exclusive of any applicable taxes. International clients are responsible for any import duties, withholding taxes, or VAT/GST obligations in their own jurisdiction. Pakistani clients may be subject to applicable FBR withholding tax requirements.</p>
                                 </div>
                             </div>
                         </div>
@@ -821,7 +822,7 @@ export default function Terms() {
                                     <li>We will disclose major third-party dependencies used in your project upon request.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>🎨 <strong>Portfolio rights:</strong> We retain the right to display completed work in our portfolio, on our website, and across social media platforms as examples of our work — unless you request otherwise in writing before project commencement. Confidential client projects are excluded unless you give explicit written permission.</p>
+                                    <p><strong>Portfolio rights:</strong> We retain the right to display completed work in our portfolio, on our website, and across social media platforms as examples of our work — unless you request otherwise in writing before project commencement. Confidential client projects are excluded unless you give explicit written permission.</p>
                                 </div>
                             </div>
                         </div>
@@ -842,7 +843,7 @@ export default function Terms() {
                                 </ul>
                                 <p><strong>Formal NDA:</strong> If your project requires a formal Non-Disclosure Agreement with legal signatures, we are happy to sign one before work begins. Contact us at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a> to arrange this.</p>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ Confidentiality does not apply to information that is already in the public domain, information we already possessed before the engagement, or information we are required to disclose by law or court order.</p>
+                                    <p>Confidentiality does not apply to information that is already in the public domain, information we already possessed before the engagement, or information we are required to disclose by law or court order.</p>
                                 </div>
                             </div>
                         </div>
@@ -857,18 +858,18 @@ export default function Terms() {
                                 <p><strong>What we warrant:</strong></p>
                                 <ul>
                                     <li>We warrant that all deliverables will be created with professional skill and reasonable care, and will substantially conform to the agreed specification at the time of delivery.</li>
-                                    <li>We provide a <strong>30-day bug-fix warranty</strong> on all delivered work. During this period, we will fix at no charge any bugs or defects attributable to our development work and reported in writing.</li>
+                                    <li>Each project includes <strong>three months of complimentary post-launch support</strong>. During this period, we will investigate and correct defects attributable to our development work, when reported in writing and within the agreed project scope, at no additional charge.</li>
                                     <li>We warrant that we have the right to enter into this agreement and that the deliverables will not knowingly infringe the intellectual property rights of any third party.</li>
                                 </ul>
                                 <p><strong>What we do not warrant:</strong></p>
                                 <ul>
-                                    <li>We do not warrant that software will be entirely free of bugs, vulnerabilities, or errors beyond the 30-day warranty period.</li>
+                                    <li>We cannot guarantee that any software will be entirely free of bugs, vulnerabilities, or errors. Support beyond the three-month complimentary period is subject to a separate arrangement.</li>
                                     <li>We make no guarantee regarding specific business outcomes, revenue generation, search engine rankings, app store approvals, or user adoption resulting from our work.</li>
                                     <li>We do not warrant the accuracy, completeness, or legality of content, data, or information provided by the client and incorporated into the deliverable.</li>
                                     <li>Third-party services, APIs, and hosting platforms integrated at the client's request are not covered by our warranty — their continued availability and functionality are beyond our control.</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>🔧 Post-warranty support and maintenance is available as a separate ongoing retainer service. Ask us about our monthly maintenance packages.</p>
+                                    <p>After the included three months of post-launch support, continued support and maintenance are available through a separate ongoing service arrangement. Ask us about our maintenance packages.</p>
                                 </div>
                             </div>
                         </div>
@@ -888,7 +889,7 @@ export default function Terms() {
                                     <li>We are not responsible for damages arising from the client's misuse of delivered software, failure to maintain backups, or modifications made to the deliverable by the client or third parties after handover.</li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>Critical systems:</strong> Our services are not intended for deployment in safety-critical systems where software failure could result in physical injury, loss of life, or significant harm. Do not use our deliverables in medical, aviation, nuclear, or emergency-response systems without independent professional validation.</p>
+                                    <p><strong>Critical systems:</strong> Our services are not intended for deployment in safety-critical systems where software failure could result in physical injury, loss of life, or significant harm. Do not use our deliverables in medical, aviation, nuclear, or emergency-response systems without independent professional validation.</p>
                                 </div>
                             </div>
                         </div>
@@ -910,7 +911,7 @@ export default function Terms() {
                                     <li><strong>Network forks &amp; protocol changes</strong> — We are not responsible for issues arising from changes to the underlying blockchain protocol, hard forks, network upgrades, or deprecation of standards by blockchain foundations.</li>
                                 </ul>
                                 <div className="info-box info-box-red">
-                                    <p>🔴 <strong>Scam &amp; fraud warning:</strong> Ayamil Coders will never ask you to send cryptocurrency directly to a wallet address for payment without a prior written agreement specifying that wallet address. We will never solicit "test transactions" or ask for private keys, seed phrases, or wallet passwords. If you receive such a request claiming to be from us, do not comply — contact us immediately at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a>.</p>
+                                    <p><strong>Scam &amp; fraud warning:</strong> Ayamil Coders will never ask you to send cryptocurrency directly to a wallet address for payment without a prior written agreement specifying that wallet address. We will never solicit "test transactions" or ask for private keys, seed phrases, or wallet passwords. If you receive such a request claiming to be from us, do not comply — contact us immediately at <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a>.</p>
                                 </div>
                             </div>
                         </div>
@@ -955,7 +956,7 @@ export default function Terms() {
                                     <li><strong>Fiverr disputes</strong> — For projects placed through Fiverr, Fiverr's Resolution Centre and dispute process will apply first. Fiverr's decision is binding on platform-mediated disputes.</li>
                                 </ol>
                                 <div className="info-box">
-                                    <p>💬 <strong>Our commitment:</strong> We take every client concern seriously. The vast majority of issues are resolved quickly through direct communication. Please reach out to <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a> or WhatsApp before escalating — we genuinely want to find a fair solution.</p>
+                                    <p><strong>Our commitment:</strong> We take every client concern seriously. The vast majority of issues are resolved quickly through direct communication. Please reach out to <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a> or WhatsApp before escalating — we genuinely want to find a fair solution.</p>
                                 </div>
                             </div>
                         </div>
@@ -1004,10 +1005,10 @@ export default function Terms() {
                                         <strong>Ayamil Coders</strong><br/>
                                         Founded by Muhammad Muzamil<br/>
                                         Sadiqabad &amp; Rahimyar Khan, Punjab, Pakistan<br/><br/>
-                                        📧 <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
-                                        💬 <a href="https://wa.me/923127592672" target="_blank" rel="noopener">WhatsApp: +92 312 759 2672</a><br/>
-                                        🛍️ <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener">Fiverr: fiverr.com/muzamil516</a><br/>
-                                        🌐 <a href="https://ayamilcoders.com">ayamilcoders.com</a>
+                                        <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
+                                        <a href="https://wa.me/923127592672" target="_blank" rel="noopener">WhatsApp: +92 312 759 2672</a><br/>
+                                        <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener">Fiverr: fiverr.com/muzamil516</a><br/>
+                                        <a href="https://ayamilcoders.com">ayamilcoders.com</a>
                                     </p>
                                 </div>
                                 <p style={{ fontSize: '13px', color: 'var(--txt3)' }}>We typically respond to all enquiries within <strong style={{ color: 'var(--txt2)' }}>1–2 business days</strong>. For urgent matters, WhatsApp is the fastest channel.</p>

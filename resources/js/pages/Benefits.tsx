@@ -14,7 +14,7 @@
  * WhatsApp CTA reused across the page.
  */
 
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
 
 const WHATSAPP = 'https://wa.me/923127592672?text=Hi%2C%20I%20checked%20out%20the%20Benefits%20page%20and%20I%27d%20like%20to%20talk%20about%20my%20project.';
@@ -29,70 +29,70 @@ const WA_ICON = (
 const benefits = [
     {
         icon: 'ib',
-        title: 'Proven Track Record',
-        desc: '600+ projects delivered and 2,000+ issues fixed — a real, ongoing history of work across web, blockchain, and AI, not a portfolio of one-offs.',
+        title: 'Established Delivery Record',
+        desc: 'A published delivery record spanning 600+ projects and 2,000+ resolved issues across web, blockchain, and AI engagements.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z" /><path d="M7 6H4a2 2 0 0 0 2 4M17 6h3a2 2 0 0 1-2 4" /></svg>,
     },
     {
         icon: 'ig',
-        title: '5+ Years in the Field',
-        desc: 'Founded in 2023 and operating consistently since — established enough to trust with a real project, not a brand-new freelancer setup.',
+        title: 'Established in 2023',
+        desc: 'Established in 2023, Ayamil Coders has evolved into a structured, remote-first technology team with a growing portfolio of delivered client work.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>,
     },
     {
         icon: 'ip',
-        title: 'Full-Stack Range',
-        desc: 'Web Development, Blockchain Development, AI Development, and Bug Fixing under one roof — no juggling multiple vendors for one project.',
+        title: 'Multidisciplinary Expertise',
+        desc: 'Integrated Web Development, Blockchain Development, AI Development, and Bug Fixing capabilities through a single technology partner.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>,
     },
     {
         icon: 'ib',
-        title: 'Global Reach, Direct Access',
-        desc: 'Clients worldwide, but you talk directly to the people actually building your project — no account-manager layer in between.',
+        title: 'Global Delivery, Direct Collaboration',
+        desc: 'International client delivery combined with direct communication with the specialists working on your project.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>,
     },
     {
         icon: 'ig',
-        title: 'Fast, Direct Communication',
-        desc: 'WhatsApp-first workflow — quick answers to real questions, instead of getting stuck in a slow support-ticket queue.',
+        title: 'Responsive, Direct Communication',
+        desc: 'Direct, responsive communication through WhatsApp, with timely guidance and transparent project updates.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>,
     },
     {
         icon: 'ip',
-        title: 'Transparent, Upfront Pricing',
-        desc: 'Fixed quotes agreed before any work starts — the price you agree on is the price you pay, with no hidden costs added later.',
+        title: 'Transparent Project Investment',
+        desc: 'A clearly documented quotation is agreed before development begins, with transparent scope and no undisclosed charges.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M20.59 13.41L11 3.83V3H3v8l.83.83L13.41 21.4a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83z" /><circle cx="6.5" cy="6.5" r="1.5" /></svg>,
     },
     {
         icon: 'ib',
-        title: '3 Months Free Post-Launch Support',
-        desc: 'Every project includes three months of free maintenance and support after launch — bug fixes and follow-up help, at no extra charge.',
+        title: '3 Months Complimentary Post-Launch Support',
+        desc: 'Every engagement includes the stated three-month complimentary post-launch maintenance and support period, covering applicable follow-up assistance.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>,
     },
     {
         icon: 'ig',
-        title: 'Consistent Client Satisfaction',
-        desc: 'A track record built on repeat work and referrals — clients who come back, and clients who send other clients our way.',
+        title: 'Client Relationships That Last',
+        desc: 'Long-term relationships, repeat engagements, and introductions from existing clients inform our approach to dependable service.',
         svg: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
     },
 ];
 
 const processSteps = [
     {
-        title: 'Discovery Call & Fixed Quote',
-        desc: 'A real conversation on WhatsApp about what you need. You get a fixed price quote before anything starts — no obligation, no pressure.',
+        title: 'Discovery Consultation & Fixed Proposal',
+        desc: 'Begin with a no-obligation discovery consultation and receive a clearly defined quotation before committing to development.',
     },
     {
-        title: 'Short Contract & Advance',
-        desc: 'Clear terms in a short contract, plus an advance payment to begin — simple, transparent, and agreed before work starts.',
+        title: 'Clear Agreement & Advance',
+        desc: 'Engagement terms, scope, and advance payment requirements are documented in a clear written agreement before work begins.',
     },
     {
-        title: 'Build & Direct Check-Ins',
-        desc: 'Development happens with direct WhatsApp updates along the way — no black box, no waiting weeks to hear anything.',
+        title: 'Development & Dedicated Updates',
+        desc: 'Development progresses against agreed milestones, supported by direct communication and regular delivery updates.',
     },
     {
-        title: 'Launch & 3 Months Free Support',
-        desc: 'Your project goes live, then three months of free maintenance and support are included at no extra charge.',
+        title: 'Launch & 3 Months Complimentary Support',
+        desc: 'Following deployment, the stated three-month complimentary maintenance and support period begins.',
     },
 ];
 
@@ -102,7 +102,7 @@ const faqs = [
         a: 'No. Projects start with a short contract and an agreed advance payment, with the remaining terms laid out clearly upfront — no surprise costs added later.',
     },
     {
-        q: 'What happens after the 3 months of free support ends?',
+        q: 'What happens after the 3 months of complimentary support ends?',
         a: 'You can discuss an ongoing maintenance arrangement with us if you want continued support beyond the free period — there\'s no obligation to do so, and the initial 3 months are included with every project regardless.',
     },
     {
@@ -121,7 +121,7 @@ const faqs = [
 
 export default function Benefits() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('benefits-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -192,7 +192,7 @@ export default function Benefits() {
         <>
             <SEO
                 title="Client Benefits - Why Choose Ayamil Coders"
-                description="600+ projects delivered, fixed upfront pricing, 3 months free post-launch support, and direct WhatsApp communication — see why clients choose Ayamil Coders."
+                description="600+ projects delivered, fixed upfront pricing, 3 months complimentary post-launch support, and direct WhatsApp communication — see why clients choose Ayamil Coders."
                 keywords="why choose Ayamil Coders, software house benefits, Ayamil Coders advantages, fixed price web development Pakistan, post launch support software house"
                 url="https://ayamilcoders.com/benefits"
                 schema={pageSchema}
@@ -204,10 +204,10 @@ export default function Benefits() {
                 <div className="ben-hero-inner">
                     <span className="section-lbl">Ayamil Coders</span>
                     <h1 className="ben-h1">
-                        Why Clients <span className="shimmer-txt">Choose Us</span> — And Stick With Us
+                        The <span className="shimmer-txt">Ayamil Advantage</span> — Built Around Your Goals
                     </h1>
                     <p className="ben-body">
-                        Eight concrete reasons clients pick Ayamil Coders for their web, blockchain, and AI projects — built on real numbers, not marketing claims.
+                        Eight distinct advantages of partnering with Ayamil Coders, grounded in our delivery approach, capabilities, and published track record.
                     </p>
                     <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn-p">
                         {WA_ICON}
@@ -215,7 +215,7 @@ export default function Benefits() {
                     </a>
                     <div className="ben-trust">
                         <span className="dot"></span>
-                        600+ projects delivered &middot; 2,000+ issues fixed &middot; 5+ years in the field
+                        600+ projects delivered &middot; 2,000+ issues fixed &middot; established in 2023
                     </div>
                 </div>
             </div>
@@ -223,9 +223,9 @@ export default function Benefits() {
             {/* ===== HOW WE WORK ===== */}
             <section className="ben-process">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-a="blur">
-                    <span className="section-lbl">How We Work</span>
+                    <span className="section-lbl">Our Approach</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                        From First Message to <span className="shimmer-txt">Launch</span>
+                        From Discovery to <span className="shimmer-txt">Deployment</span>
                     </h2>
                     <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px', maxWidth: '520px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7 }}>
                         A simple, transparent process — the same one described on our Solutions page, no different terms depending on who's asking.
@@ -247,7 +247,7 @@ export default function Benefits() {
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-a="blur">
                     <span className="section-lbl">The Case For Ayamil Coders</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                        What You Actually <span className="shimmer-txt">Get</span>
+                        What Your Partnership <span className="shimmer-txt">Includes</span>
                     </h2>
                 </div>
                 <div className="ben-grid">
@@ -268,7 +268,7 @@ export default function Benefits() {
             {/* ===== FAQ ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '32px' }} data-a="blur">
-                    <span className="section-lbl">Common Questions</span>
+                    <span className="section-lbl">Frequently Asked Questions</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
                         Before You <span className="shimmer-txt">Reach Out</span>
                     </h2>
@@ -285,8 +285,8 @@ export default function Benefits() {
 
             {/* ===== FINAL CTA ===== */}
             <section className="ben-cta-final" data-a="up">
-                <h2>Ready to Start Your Project?</h2>
-                <p>No pressure, no obligation — just a real conversation on WhatsApp about what you need and a fixed quote before anything begins.</p>
+                <h2>Ready to Discuss Your Project?</h2>
+                <p>Explore your requirements in a no-obligation consultation and receive a clear, tailored quotation before development begins.</p>
                 <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn-p">
                     {WA_ICON}
                     Message Us on WhatsApp

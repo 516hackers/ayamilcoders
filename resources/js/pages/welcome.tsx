@@ -9,10 +9,11 @@
  * Desktop: .welcome-desktop wrapper (hidden on ≤639 px via CSS)
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
 import WelcomeNotification from '@/components/WelcomeNotification';
+import AvatarCheck from '@/components/AvatarCheck';
 
 /* ─────────────────────────────────────────────
    SEO HEAD HELPER
@@ -128,7 +129,7 @@ function SeoHead() {
             serviceArea: { '@type': 'Place', name: 'Worldwide' },
             areaServed: { '@type': 'Place', name: 'Worldwide' },
             knowsAbout: [
-                'Web Development', 'React', 'Laravel', 'Node.js', 'WordPress',
+                'Web Development', 'React', 'Laravel', 'Node.js',
                 'Blockchain Development', 'Solidity', 'Smart Contracts', 'DeFi', 'NFT', 'Web3.js',
                 'AI Development', 'Machine Learning', 'Python', 'TensorFlow', 'OpenAI API Integration',
                 'Bug Fixing', 'Debugging', 'Code Review', 'Website Maintenance', 'Software QA',
@@ -200,7 +201,7 @@ function SeoHead() {
                     name: 'Where is Ayamil Coders located?',
                     acceptedAnswer: {
                         '@type': 'Answer',
-                        text: 'Ayamil Coders is headquartered in Sadiqabad, Punjab, Pakistan, and works fully remote with clients in 20+ countries worldwide.',
+                        text: 'Ayamil Coders is headquartered in Sadiqabad, Punjab, Pakistan, and collaborates remotely with clients worldwide.',
                     },
                 },
                 {
@@ -241,8 +242,8 @@ const SERVICES = [
     {
         id: 'web', cls: 'ib', labelColor: 'var(--blue-lt)', label: 'Web',
         title: 'Web Development',
-        desc: 'Custom, scalable web applications built with React, Laravel & Node.js — fast, secure, and production-ready.',
-        tags: [['tb', 'React'], ['tb', 'Laravel'], ['tb', 'Node.js'], ['tb', 'WordPress']],
+        desc: 'Tailored, scalable web applications engineered with React, Laravel and Node.js for security, performance, and dependable delivery.',
+        tags: [['tb', 'React'], ['tb', 'Laravel'], ['tb', 'Node.js'], ['tb', 'Tailwind']],
         icon: (
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7">
                 <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
@@ -253,7 +254,7 @@ const SERVICES = [
     {
         id: 'bc', cls: 'ip', labelColor: '#a78bfa', label: 'Web3',
         title: 'Blockchain Development',
-        desc: 'End-to-end DeFi platforms, NFT marketplaces, and audited Solidity smart contracts on EVM-compatible chains.',
+        desc: 'Custom DeFi ecosystems, NFT marketplaces, and Solidity smart contracts developed for EVM-compatible networks.',
         tags: [['tp', 'Solidity'], ['tp', 'DeFi'], ['tp', 'NFT'], ['tp', 'Web3.js']],
         icon: (
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7">
@@ -265,7 +266,7 @@ const SERVICES = [
     {
         id: 'ai', cls: 'ig', labelColor: '#34d399', label: 'AI/ML',
         title: 'AI Development',
-        desc: 'Intelligent automation pipelines, ML models, OpenAI integrations, and custom SaaS tools that scale with your business.',
+        desc: 'Tailored AI automation, machine learning solutions, and intelligent integrations designed around real operational needs.',
         tags: [['tg', 'Python'], ['tg', 'TensorFlow'], ['tg', 'OpenAI'], ['tg', 'Automation']],
         icon: (
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7">
@@ -278,7 +279,7 @@ const SERVICES = [
     {
         id: 'bug', cls: 'ia', labelColor: '#fbbf24', label: 'Bug Fixing',
         title: 'Bug Fixing',
-        desc: 'Fast, reliable debugging for any web, mobile, blockchain, or AI codebase — root-cause fixes, not band-aids.',
+        desc: 'Precise, root-cause diagnostics and dependable resolution across web, mobile, blockchain, and AI codebases.',
         tags: [['ta', 'Debugging'], ['ta', 'Code Review'], ['ta', 'Performance'], ['ta', 'Maintenance']],
         icon: (
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7">
@@ -289,8 +290,8 @@ const SERVICES = [
 ];
 
 const PROCESS_STEPS = [
-    { num: 1, title: 'Consult', desc: 'Free discovery call to understand your goals, budget, and requirements.', cls: 'ib' },
-    { num: 2, title: 'Plan',    desc: 'Detailed project roadmap, tech stack selection, and milestone schedule.', cls: 'ip' },
+    { num: 1, title: 'Consult', desc: 'Complimentary discovery consultation to understand your goals, budget, and requirements.', cls: 'ib' },
+    { num: 2, title: 'Plan',    desc: 'A tailored delivery roadmap, technology recommendations, and clearly defined milestones.', cls: 'ip' },
     { num: 3, title: 'Design',  desc: 'Technical architecture and solution design reviewed and approved by you before coding.', cls: 'ig' },
     { num: 4, title: 'Develop', desc: 'Agile sprints with weekly demos — clean, documented, secure code throughout.', cls: 'ia' },
     { num: 5, title: 'Test',    desc: 'End-to-end QA, security audits, performance benchmarking, and bug fixes.', cls: 'ib' },
@@ -304,7 +305,7 @@ const TEAM = [
         bg: 'linear-gradient(135deg,#0b2d6e,#1248a8,#2979f2)',
         avatarBg: 'linear-gradient(135deg,#0d2f8c,#2979f2,#5a9af5)',
         badgeCls: 'ib',
-        desc: 'Visionary founder who built Ayamil Coders to deliver world-class digital solutions to clients across 50+ countries.',
+        desc: 'Founder and lead developer guiding Ayamil Coders in delivering tailored digital solutions to international clients.',
     },
     {
         initials: '?', name: 'Hidden Partner', role: 'Chief Executive Officer',
@@ -312,7 +313,7 @@ const TEAM = [
         bg: 'linear-gradient(135deg,#2d1b69,#5b21b6,#7c3aed)',
         avatarBg: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)',
         badgeCls: 'ip',
-        desc: 'Driving operations, client strategy, and team growth — ensuring every project exceeds expectations on time and budget.',
+        desc: 'Overseeing operations, client relationships, and delivery coordination with an emphasis on dependable project execution.',
     },
     {
         initials: 'ZA', name: 'Zunaira Asif', role: 'Chief Technology Officer',
@@ -320,7 +321,7 @@ const TEAM = [
         bg: 'linear-gradient(135deg,#064e3b,#065f46,#059669)',
         avatarBg: 'linear-gradient(135deg,#04432c,#059669,#34d399)',
         badgeCls: 'ig',
-        desc: 'Architecting robust, scalable systems across web, blockchain, and AI — the technical backbone of every Ayamil project.',
+        desc: 'Leading scalable solution architecture and engineering standards across web, blockchain, and AI engagements.',
     },
     {
         initials: 'ZA', name: 'Zayan Ali', role: 'Chief Operating Officer',
@@ -328,7 +329,7 @@ const TEAM = [
         bg: 'linear-gradient(135deg,#78350f,#92400e,#d97706)',
         avatarBg: 'linear-gradient(135deg,#78350f,#d97706,#fbbf24)',
         badgeCls: 'ia',
-        desc: 'Streamlining workflows, client communication, and delivery pipelines to keep every engagement smooth and on schedule.',
+        desc: 'Coordinating workflows, communication, and delivery milestones to create a considered client experience.',
     },
 ];
 
@@ -336,7 +337,7 @@ const STATS_DESKTOP = [
     { n: 600,  suffix: '+', label: 'Projects',            sub: 'Delivered Globally',      counter: true },
     { n: 2000, suffix: '+', label: 'Issues Solved',       sub: 'Bugs Fixed',              counter: true },
     { n: 10,   suffix: '+', label: 'Years Experience',    sub: 'Combined Expertise',      counter: true },
-    { n: 50,   suffix: '+', label: 'International Clients', sub: '20+ Countries Served',  counter: true },
+    { n: 50,   suffix: '+', label: 'International Clients', sub: 'International Reach',  counter: true },
     { n: 87,   suffix: '%', label: 'Satisfaction Rate',   sub: 'Client Retention',        counter: false, display: '87%' },
 ];
 
@@ -353,7 +354,7 @@ export default function Welcome() {
     useEffect(() => { openSvcRef.current = openSvc; },      [openSvc]);
 
     /* ── PAGE-SPECIFIC CSS ── */
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('welcome-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -441,7 +442,7 @@ export default function Welcome() {
             .tc-h{height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
             .tc-av{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:17px;color:#fff;position:relative;z-index:1;transition:transform .3s;box-shadow:0 8px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.2)}
             .tc-card:hover .tc-av{transform:scale(1.07)}
-            .tc-badge{position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--green);border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:9px}
+            .tc-badge{position:absolute;top:-7px;right:-7px;bottom:auto;width:24px;height:24px;border-radius:50%;background:var(--green);border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:9px}
             .tc-b{padding:16px}
 
             /* ── Contact ── */
@@ -465,7 +466,7 @@ export default function Welcome() {
             .srow-d{font-size:12px;color:var(--txt2);line-height:1.45}
             .srow-arr{color:var(--txt3);flex-shrink:0;margin-left:auto}
             .sdet{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;padding:0 16px}
-            .sdet.open{max-height:200px;padding:12px 16px}
+            .sdet.open{max-height:1100px;padding:12px 16px}
             .sdet-arr{transition:transform .3s}
             .msh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
             .msh-t{font-family:var(--disp);font-weight:700;font-size:17px;color:var(--txt)}
@@ -486,7 +487,7 @@ export default function Welcome() {
             .tmc{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-xl);overflow:hidden;margin-bottom:12px}
             .tmc-h{height:90px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
             .tmc-av{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:15px;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.2);position:relative;z-index:1}
-            .tmc-vf{position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--green);border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:9px}
+            .tmc-vf{position:absolute;top:-6px;right:-6px;bottom:auto;width:22px;height:22px;border-radius:50%;background:var(--green);border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:9px}
             .tmc-b{padding:14px}
             .tmc-n{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--txt)}
             .tmc-r{font-size:11px;font-family:var(--mono);margin:3px 0 8px}
@@ -537,17 +538,24 @@ export default function Welcome() {
         };
 
         const switchTab = (idx: number) => {
-            if (idx === curTab) return;
+            if (idx < 0 || idx >= SCREENS.length || idx === curTab) return;
             const dir = idx > curTab ? 1 : -1;
             const oldScr = document.getElementById(SCREENS[curTab]);
             const newScr = document.getElementById(SCREENS[idx]);
             if (!oldScr || !newScr) return;
             showProgress();
+            oldScr.setAttribute('aria-hidden', 'true');
+            oldScr.setAttribute('inert', '');
+            newScr.removeAttribute('aria-hidden');
+            newScr.removeAttribute('inert');
             oldScr.className = `asc ${dir > 0 ? 's-hide-l' : 's-hide-r'}`;
             newScr.className = `asc ${dir > 0 ? 's-hide-r' : 's-hide-l'}`;
             requestAnimationFrame(() => requestAnimationFrame(() => { newScr.className = 'asc s-act'; }));
             setTimeout(() => { newScr.scrollTop = 0; }, 60);
-            document.querySelectorAll('.ti-btn').forEach((t, i) => t.classList.toggle('act', i === idx));
+            document.querySelectorAll('#tbar .ti-btn').forEach((t, i) => {
+                t.classList.toggle('act', i === idx);
+                if (t instanceof HTMLButtonElement) t.setAttribute('aria-pressed', String(i === idx));
+            });
             if (idx === 2) setTimeout(triggerMobBars, 450);
             curTab = idx;
             setCurrentTab(idx);
@@ -585,46 +593,104 @@ export default function Welcome() {
         const openSrch  = () => { document.getElementById('srch-overlay')?.classList.add('open'); setTimeout(() => (document.getElementById('srch-inp') as HTMLInputElement)?.focus(), 100); };
         const closeSrch = () => { document.getElementById('srch-overlay')?.classList.remove('open'); };
 
-        const handleDeskForm = (e: Event) => {
+        // These homepage forms previously displayed a success message after a
+        // timeout without making a network request. Both now use the real
+        // contact endpoint with validation, timeout handling, and honest status.
+        const submitHomepageInquiry = async (e: Event, channel: 'desk' | 'mob') => {
             e.preventDefault();
-            const b = document.getElementById('desk-btn') as HTMLButtonElement;
-            if (!b) return;
-            b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .8s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="30 70"/></svg> Sending…';
-            b.disabled = true;
-            setTimeout(() => { b.innerHTML = "✓ Sent! We'll be in touch within 24 hours."; b.style.background = 'linear-gradient(135deg,#04432c,#059669,#34d399)'; b.style.animation = 'none'; }, 2000);
+            const field = (name: string) => document.getElementById(`${channel}-${name}`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+            const form = document.getElementById(`${channel}-contact-form`) as HTMLFormElement | null;
+            const button = document.getElementById(`${channel}-btn`) as HTMLButtonElement | null;
+            if (!form || !button || button.disabled) return;
+
+            const name = field('name')?.value.trim() || '';
+            const email = field('email')?.value.trim() || '';
+            const service = field('service')?.value || '';
+            const message = field('details')?.value.trim() || '';
+            if (name.length < 2 || !email || !service || message.length < 10) {
+                button.textContent = 'Please complete all fields (10+ characters in the brief).';
+                window.setTimeout(() => { if (button.isConnected) button.textContent = 'Send Message'; }, 3500);
+                return;
+            }
+
+            const oldMarkup = button.innerHTML;
+            button.disabled = true;
+            button.textContent = 'Sending your inquiry…';
+            const controller = new AbortController();
+            const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+            let delay = 4000;
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    },
+                    body: JSON.stringify({
+                        name, email, service, message,
+                        budget: field('budget')?.value || '',
+                        source: 'Website homepage (' + channel + ')',
+                    }),
+                    signal: controller.signal,
+                });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    if (response.status === 429) throw new Error('Too many requests. Please try again shortly.');
+                    const fieldError = Object.values(data.errors || {}).flat().find((x): x is string => typeof x === 'string');
+                    throw new Error(fieldError || data.message || 'Your inquiry could not be sent.');
+                }
+                button.textContent = '✓ Inquiry received successfully';
+                form.reset();
+            } catch (error) {
+                delay = 5500;
+                button.textContent = controller.signal.aborted
+                    ? 'Request timed out. Please try again.'
+                    : error instanceof Error ? error.message : 'Unable to send. Please try again.';
+            } finally {
+                window.clearTimeout(timeoutId);
+                window.setTimeout(() => {
+                    if (!button.isConnected) return;
+                    button.disabled = false;
+                    button.innerHTML = oldMarkup;
+                }, delay);
+            }
         };
 
-        const handleMobForm = (e: Event) => {
-            e.preventDefault();
-            const b = document.getElementById('mob-btn') as HTMLButtonElement;
-            if (!b) return;
-            b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .8s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="30 70"/></svg> Sending…';
-            b.disabled = true;
-            setTimeout(() => { b.innerHTML = "✓ Sent! We'll reply within 24 hours."; b.style.background = 'linear-gradient(135deg,#04432c,#059669)'; b.style.animation = 'none'; }, 2000);
-        };
+        const handleDeskForm = (e: Event) => { void submitHomepageInquiry(e, 'desk'); };
+        const handleMobForm = (e: Event) => { void submitHomepageInquiry(e, 'mob'); };
 
         /* swipe */
-        let tStartX = 0, tStartY = 0;
+        let tStartX = 0, tStartY = 0, startedOnControl = false;
+        const blocksHorizontalSwipe = (element: Element | null): boolean => {
+            for (let node = element; node && node.id !== 'mscr'; node = node.parentElement) {
+                if (node.matches('input, select, textarea, button, a, details, summary, [role="button"], [role="slider"], [contenteditable], [data-no-swipe]')) return true;
+                if (node instanceof HTMLElement && node.scrollWidth > node.clientWidth + 8) {
+                    const overflow = getComputedStyle(node).overflowX;
+                    if (overflow === 'auto' || overflow === 'scroll') return true;
+                }
+            }
+            return false;
+        };
         const ms = document.getElementById('mscr');
-        const onTouchStart = (e: TouchEvent) => { tStartX = e.touches[0].clientX; tStartY = e.touches[0].clientY; };
+        const onTouchStart = (e: TouchEvent) => {
+            tStartX = e.touches[0].clientX;
+            tStartY = e.touches[0].clientY;
+            startedOnControl = e.touches.length !== 1 || (e.target instanceof Element && blocksHorizontalSwipe(e.target));
+        };
         const onTouchEnd   = (e: TouchEvent) => {
+            // Do not navigate screens while a visitor edits forms or taps CTAs.
+            if (startedOnControl || e.changedTouches.length !== 1 || window.getSelection()?.toString()) return;
             const dx = e.changedTouches[0].clientX - tStartX;
             const dy = e.changedTouches[0].clientY - tStartY;
-            if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+            if (Math.abs(dx) > 78 && Math.abs(dx) > Math.abs(dy) * 1.7) {
                 if (dx < 0 && curTab < SCREENS.length - 1) switchTab(curTab + 1);
                 else if (dx > 0 && curTab > 0) switchTab(curTab - 1);
             }
         };
         if (ms) { ms.addEventListener('touchstart', onTouchStart, { passive: true }); ms.addEventListener('touchend', onTouchEnd, { passive: true }); }
 
-        /* scroll-to-top */
-        const sttBtn = document.getElementById('stt');
-        const trackScroll = () => {
-            const active = document.querySelector<HTMLElement>('.asc.s-act');
-            if (active) { active.addEventListener('scroll', () => { sttBtn?.classList.toggle('visible', active.scrollTop > 200); }, { passive: true }); }
-            else { setTimeout(trackScroll, 200); }
-        };
-        trackScroll();
+        /* Layout owns scroll-to-top for every mobile screen and inner page. */
 
         /* observers */
         const revealObs = new IntersectionObserver((entries) => {
@@ -684,6 +750,18 @@ export default function Welcome() {
         return () => {
             revealObs.disconnect(); counterObs.disconnect(); barObs.disconnect();
             if (ms) { ms.removeEventListener('touchstart', onTouchStart); ms.removeEventListener('touchend', onTouchEnd); }
+            // Inertia keeps the outer layout mounted. A homepage route exit
+            // must not leave callbacks pointing at DOM panels that no longer
+            // exist; that caused stale mobile actions on rapid navigation.
+            if (notifTimer) clearTimeout(notifTimer);
+            document.querySelector('.notif')?.remove();
+            const globals: Record<string, unknown> = {
+                switchTab, toggleSvc, showNotif, openSrch, closeSrch,
+                showProgress, handleDeskForm, handleMobForm,
+            };
+            for (const [key, fn] of Object.entries(globals)) {
+                if ((window as any)[key] === fn) delete (window as any)[key];
+            }
         };
     }, []);
 
@@ -727,7 +805,7 @@ export default function Welcome() {
         <>
              <SEO
                 title="Ayamil Coders - Software Development Company in Pakistan"
-                description="Pakistan's premier software house. Expert in Web Development, Blockchain, AI, and IT Consulting. 600+ projects, 50+ countries, 87% satisfaction."
+                description="Pakistan's premier software house. Expert in Web Development, Blockchain, AI, and IT Consulting. 600+ projects, international client delivery, 87% satisfaction."
                 keywords="software development, web development, blockchain development, AI development, IT consulting, Pakistan software house"
                 url="https://ayamilcoders.com"
                 schema={orgSchema}
@@ -740,10 +818,10 @@ export default function Welcome() {
                 a sibling of it, not a child.
             ══════════════════════════════════════ */}
             {typeof document !== 'undefined' && createPortal(
-                <div id="mscr">
+                <div id="mscr" role="main" aria-label="Home page content">
 
                     {/* ── SCREEN 0: HOME ── */}
-                    <div className="asc s-act" id="scr-0">
+                    <div className="asc s-act" id="scr-0" aria-hidden={currentTab !== 0} inert={currentTab !== 0}>
 
 
                         {/* Hero card */}
@@ -751,38 +829,38 @@ export default function Welcome() {
                             <div style={{ position: 'relative', zIndex: 2 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
                                     <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--green)', animation: 'pulse3d 2s ease infinite', display: 'inline-block', flexShrink: 0 }}></span>
-                                    <span style={{ fontSize: '11px', fontFamily: 'var(--mono)', color: 'rgba(255,255,255,.65)', letterSpacing: '.06em', textTransform: 'uppercase' }}>Available for New Projects</span>
+                                    <span style={{ fontSize: '11px', fontFamily: 'var(--mono)', color: 'rgba(255,255,255,.65)', letterSpacing: '.06em', textTransform: 'uppercase' }}>Accepting New Client Engagements</span>
                                 </div>
                                 <h1 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '26px', lineHeight: 1.1, letterSpacing: '-.02em', color: '#fff', marginBottom: '10px' }}>
-                                    We Build<br /><span className="shimmer-txt">Smart Digital</span><br />Solutions
+                                    We Engineer<br /><span className="shimmer-txt">Distinctive Digital</span><br />Solutions
                                 </h1>
                                 <p style={{ fontSize: '13px', color: 'rgba(255,255,255,.65)', lineHeight: 1.65, marginBottom: '20px' }}>
-                                    Pakistan's leading software house — Web Development, Blockchain Development, AI Development & Bug Fixing for global clients.
+                                    Purpose-built Web Development, Blockchain Development, AI Development, and Bug Fixing solutions for clients worldwide.
                                 </p>
                                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                                    <button onClick={() => (window as any).switchTab?.(3)} className="btn-p" style={{ padding: '10px 18px', fontSize: '13px', borderRadius: '10px' }}>Get Started →</button>
-                                    <button onClick={() => (window as any).switchTab?.(1)} className="btn-g" style={{ padding: '10px 18px', fontSize: '13px', borderRadius: '10px', background: 'rgba(255,255,255,.1)', borderColor: 'rgba(255,255,255,.2)', color: '#fff' }}>Our Services</button>
+                                    <button onClick={() => (window as any).switchTab?.(3)} className="btn-p" style={{ padding: '10px 18px', fontSize: '13px', borderRadius: '10px' }}>Request a Consultation →</button>
+                                    <button onClick={() => (window as any).switchTab?.(1)} className="btn-g" style={{ padding: '10px 18px', fontSize: '13px', borderRadius: '10px', background: 'rgba(255,255,255,.1)', borderColor: 'rgba(255,255,255,.2)', color: '#fff' }}>Our Expertise</button>
                                 </div>
                             </div>
                         </div>
 
                         {/* Stats */}
                         <div className="sg2" style={{ marginTop: 0 }}>
-                            <div className="sac"><div className="san">600+</div><div className="sal">Projects</div></div>
+                            <div className="sac"><div className="san">600+</div><div className="sal">Projects Delivered</div></div>
                             <div className="sac"><div className="san">2K+</div><div className="sal">Issues Solved</div></div>
-                            <div className="sac"><div className="san">10+</div><div className="sal">Years Exp.</div></div>
-                            <div className="sac"><div className="san">50+</div><div className="sal">Global Clients</div></div>
+                            <div className="sac"><div className="san">10+</div><div className="sal">Years of Experience</div></div>
+                            <div className="sac"><div className="san">50+</div><div className="sal">International Clients</div></div>
                         </div>
 
                         {/* Quick service links */}
                         <div style={{ padding: '0 16px 8px' }}>
-                            <div className="msh"><span className="msh-t">Our Services</span><span className="msh-a" onClick={() => (window as any).switchTab?.(1)}>See all →</span></div>
+                            <div className="msh"><span className="msh-t">Our Expertise</span><button type="button" className="msh-a" onClick={() => (window as any).switchTab?.(1)}>Explore all →</button></div>
                             {SERVICES.slice(0, 3).map(svc => (
-                                <div key={svc.id} className="srow mc-el" onClick={() => (window as any).switchTab?.(1)}>
+                                <button type="button" key={svc.id} className="srow mc-el" onClick={() => (window as any).switchTab?.(1)}>
                                     <div className={`srow-ico i3 ${svc.cls}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{svc.icon}</div>
                                     <div style={{ flex: 1 }}><div className="srow-t">{svc.title}</div><div className="srow-d">{svc.tags.map(t => t[1]).join(', ')}</div></div>
                                     <svg className="srow-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-                                </div>
+                                </button>
                             ))}
                         </div>
 
@@ -800,26 +878,28 @@ export default function Welcome() {
                     </div>
 
                     {/* ── SCREEN 1: SERVICES ── */}
-                    <div className="asc s-hide-r" id="scr-1">
+                    <div className="asc s-hide-r" id="scr-1" aria-hidden={currentTab !== 1} inert={currentTab !== 1}>
 
 
                         <div style={{ padding: '16px 16px 0' }}>
-                            <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '8px' }}>What We Do</span>
+                            <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '8px' }}>Our Expertise</span>
                             <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '22px', lineHeight: 1.2, letterSpacing: '-.02em', marginBottom: '16px', color: 'var(--txt)' }}>
-                                Expert <span className="shimmer-txt">Digital</span> Services
+                                Specialist <span className="shimmer-txt">Digital</span> Solutions
                             </h2>
                         </div>
 
                         <div style={{ padding: '0 16px', marginBottom: '8px' }}>
                             {SERVICES.map(svc => (
                                 <div key={svc.id}>
-                                    <div className="srow mc-el" onClick={() => (window as any).toggleSvc?.(svc.id)}
+                                    <button type="button" id={`toggle-${svc.id}`} className="srow mc-el" aria-expanded={openSvc.has(svc.id)} aria-controls={`det-${svc.id}`}
+                                        onClick={() => (window as any).toggleSvc?.(svc.id)}
                                         style={{ marginBottom: 0, borderRadius: 'var(--r-lg) var(--r-lg) 0 0', borderBottom: 'none' }}>
                                         <div className={`srow-ico i3 ${svc.cls}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '44px', height: '44px', borderRadius: '12px' }}>{svc.icon}</div>
                                         <div style={{ flex: 1 }}><div className="srow-t">{svc.title}</div><div className="srow-d">{svc.tags.map(t => t[1]).join(' · ')}</div></div>
                                         <svg id={`arr-${svc.id}`} className="srow-arr sdet-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-                                    </div>
-                                    <div id={`det-${svc.id}`} className="sdet mc-el" style={{ borderRadius: '0 0 var(--r-lg) var(--r-lg)', borderTop: 'none', marginBottom: '10px' }}>
+                                    </button>
+                                    <div id={`det-${svc.id}`} className="sdet mc-el" role="region" aria-labelledby={`toggle-${svc.id}`} aria-hidden={!openSvc.has(svc.id)}
+                                        style={{ borderRadius: '0 0 var(--r-lg) var(--r-lg)', borderTop: 'none', marginBottom: '10px' }}>
                                         <p style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6, marginBottom: '10px' }}>{svc.desc}</p>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                                             {svc.tags.map(([cls, label]) => (
@@ -833,7 +913,7 @@ export default function Welcome() {
 
                         {/* Process (mobile) */}
                         <div style={{ padding: '8px 16px 22px' }}>
-                            <div className="msh"><span className="msh-t">How We Work</span></div>
+                            <div className="msh"><span className="msh-t">Our Approach</span></div>
                             <div className="ptl" style={{ padding: 0 }}>
                                 {PROCESS_STEPS.map((step, i) => (
                                     <div key={step.num} className="pt-i">
@@ -852,14 +932,14 @@ export default function Welcome() {
                     </div>
 
                     {/* ── SCREEN 2: ABOUT ── */}
-                    <div className="asc s-hide-r" id="scr-2">
+                    <div className="asc s-hide-r" id="scr-2" aria-hidden={currentTab !== 2} inert={currentTab !== 2}>
 
 
                         <div style={{ margin: '16px', background: 'var(--bg2)', border: '1px solid var(--brd)', borderRadius: 'var(--r-xl)', padding: '20px', position: 'relative', overflow: 'hidden' }}>
                             <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', borderRadius: '50%', background: 'rgba(41,121,242,.06)', filter: 'blur(20px)', pointerEvents: 'none' }}></div>
-                            <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '10px' }}>About Ayamil</span>
+                            <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '10px' }}>About Ayamil Coders</span>
                             <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '20px', lineHeight: 1.2, letterSpacing: '-.02em', marginBottom: '10px', color: 'var(--txt)' }}>
-                                Pakistan's Leading <span className="shimmer-txt">Software House</span>
+                                Pakistan-Based. <span className="shimmer-txt">Globally Focused.</span>
                             </h2>
                             <p style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.65 }}>
                                 Founded on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong> by <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong>, based in <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab, Pakistan</strong> — serving 50+ international clients across 20+ countries with enterprise-grade digital solutions.
@@ -868,10 +948,10 @@ export default function Welcome() {
 
                         {/* Stats scroll */}
                         <div className="hss" style={{ marginBottom: '16px' }}>
-                            <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">600+</div><div className="sal">Projects</div></div>
+                            <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">600+</div><div className="sal">Projects Delivered</div></div>
                             <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">2K+</div><div className="sal">Issues Solved</div></div>
-                            <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">10+</div><div className="sal">Yrs Exp.</div></div>
-                            <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">50+</div><div className="sal">Int'l Clients</div></div>
+                            <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">10+</div><div className="sal">Years of Experience</div></div>
+                            <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san">50+</div><div className="sal">International Clients</div></div>
                             <div className="hss-i sac mc-el" style={{ minWidth: '120px' }}><div className="san" style={{ WebkitTextFillColor: '#34d399' }}>87%</div><div className="sal">Satisfaction</div></div>
                         </div>
 
@@ -894,7 +974,7 @@ export default function Welcome() {
                                     <div className="tmc-h" style={{ background: member.bg }}>
                                         <div style={{ position: 'relative' }}>
                                             <div className="tmc-av" style={{ background: member.avatarBg }}>{member.initials}</div>
-                                            <span className="tmc-vf">✓</span>
+                                            <AvatarCheck className="tmc-vf" />
                                         </div>
                                     </div>
                                     <div className="tmc-b">
@@ -908,16 +988,16 @@ export default function Welcome() {
                     </div>
 
                     {/* ── SCREEN 3: CONTACT ── */}
-                    <div className="asc s-hide-r" id="scr-3">
+                    <div className="asc s-hide-r" id="scr-3" aria-hidden={currentTab !== 3} inert={currentTab !== 3}>
 
 
                         <div style={{ padding: '16px 16px 0' }}>
-                            <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '10px' }}>Get In Touch</span>
+                            <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '10px' }}>Start a Conversation</span>
                             <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '22px', lineHeight: 1.2, letterSpacing: '-.02em', marginBottom: '8px', color: 'var(--txt)' }}>
-                                Let's Build <span className="shimmer-txt">Something</span> Great
+                                Let's Create <span className="shimmer-txt">Something</span> Exceptional
                             </h2>
                             <p style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6, marginBottom: '18px' }}>
-                                Based in Sadiqabad, Punjab — working fully remote with clients worldwide.
+                                Based in Sadiqabad, Punjab, with a remote-first delivery model for clients worldwide.
                             </p>
                         </div>
 
@@ -951,14 +1031,14 @@ export default function Welcome() {
 
                         {/* Mobile contact form */}
                         <div className="mform">
-                            <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '17px', color: 'var(--txt)', marginBottom: '16px' }}>Send a Message</div>
-                            <form onSubmit={(e) => (window as any).handleMobForm?.(e)}>
-                                <label className="mfl" htmlFor="mob-name">Your Name</label>
+                            <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '17px', color: 'var(--txt)', marginBottom: '16px' }}>Share Your Project Brief</div>
+                            <form id="mob-contact-form" onSubmit={(e) => (window as any).handleMobForm?.(e)}>
+                                <label className="mfl" htmlFor="mob-name">Full Name</label>
                                 <input id="mob-name" type="text" placeholder="Muhammad Ali" className="mff" required />
                                 <label className="mfl" htmlFor="mob-email">Email Address</label>
                                 <input id="mob-email" type="email" placeholder="you@company.com" className="mff" required />
-                                <label className="mfl" htmlFor="mob-service">Service Needed</label>
-                                <select id="mob-service" className="mff" aria-label="Service Needed" defaultValue="">
+                                <label className="mfl" htmlFor="mob-service">Service of Interest</label>
+                                <select id="mob-service" className="mff" aria-label="Service Needed" defaultValue="" required>
                                     <option value="" disabled>Select a service</option>
                                     <option>Web Development</option>
                                     <option>Blockchain Development</option>
@@ -966,8 +1046,8 @@ export default function Welcome() {
                                     <option>Bug Fixing</option>
                                     <option>Other</option>
                                 </select>
-                                <label className="mfl" htmlFor="mob-details">Project Details</label>
-                                <textarea id="mob-details" rows={4} placeholder="Describe your project briefly…" className="mff"></textarea>
+                                <label className="mfl" htmlFor="mob-details">Project Brief</label>
+                                <textarea id="mob-details" rows={4} minLength={10} maxLength={5000} required placeholder="Describe your project briefly…" className="mff"></textarea>
                                 <button id="mob-btn" type="submit" className="msub">
                                     Send Message
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
@@ -1031,19 +1111,19 @@ export default function Welcome() {
                         <div style={{ textAlign: 'right' }}>
                             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '6px 14px', borderRadius: '999px', background: 'rgba(41,121,242,.08)', border: '1px solid rgba(41,121,242,.2)', marginBottom: '22px' }}>
                                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green)', animation: 'blink 2s ease infinite' }}></span>
-                                <span style={{ fontSize: '11px', fontFamily: 'var(--mono)', color: 'var(--txt3)', letterSpacing: '.06em', textTransform: 'uppercase' }}>Available for New Projects</span>
+                                <span style={{ fontSize: '11px', fontFamily: 'var(--mono)', color: 'var(--txt3)', letterSpacing: '.06em', textTransform: 'uppercase' }}>Accepting New Client Engagements</span>
                             </div>
-                            <h1 className="hh1">We Build<br /><span className="shimmer-txt">Smart Digital</span><br />Solutions</h1>
+                            <h1 className="hh1">We Engineer<br /><span className="shimmer-txt">Distinctive Digital</span><br />Solutions</h1>
                             <p className="hdesc">
-                                Pakistan's leading software house — delivering Web Development, Blockchain Development, AI Development, and Bug Fixing to 50+ international clients worldwide.
+                                A Pakistan-based technology partner delivering tailored Web Development, Blockchain Development, AI Development, and Bug Fixing solutions to international clients.
                             </p>
                             <div className="hbtns">
-                                <a href="#contact" className="btn-p">Start a Project <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                                <a href="#services" className="btn-g">Our Services</a>
+                                <a href="#contact" className="btn-p">Discuss Your Project <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                                <a href="#services" className="btn-g">Our Expertise</a>
                             </div>
                             <div className="hbadges">
                                 <div className="hbadge"><span style={{ color: 'var(--green)' }}>✓</span> 600+ Projects Delivered</div>
-                                <div className="hbadge"><span style={{ color: 'var(--blue-lt)' }}>✓</span> 10+ Years Experience</div>
+                                <div className="hbadge"><span style={{ color: 'var(--blue-lt)' }}>✓</span> 10+ Years Combined Experience</div>
                                 <div className="hbadge"><span style={{ color: '#a78bfa' }}>✓</span> 50+ Global Clients</div>
                                 <div className="hbadge"><span style={{ color: '#fbbf24' }}>✓</span> 87% Satisfaction Rate</div>
                             </div>
@@ -1070,12 +1150,12 @@ export default function Welcome() {
                 {/* ── SERVICES ── */}
                 <section id="services" className="sp">
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '36px' }} data-a="right">
-                        <span className="section-lbl">What We Do</span>
+                        <span className="section-lbl">Our Expertise</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '6px' }}>
-                            Expert <span className="shimmer-txt">Digital</span> Services
+                            Specialist <span className="shimmer-txt">Digital</span> Solutions
                         </h2>
                         <p style={{ marginTop: '10px', maxWidth: '520px', fontSize: '14px', color: 'var(--txt2)', textAlign: 'right' }}>
-                            From idea to deployment — reliable, secure, and innovative solutions that drive real business results.
+                            From discovery through deployment, we deliver thoughtfully engineered solutions shaped around your business objectives.
                         </p>
                     </div>
                     <div className="svc-grid">
@@ -1104,11 +1184,11 @@ export default function Welcome() {
                         <div className="mosaic" data-a="left">
                             <div className="m-big">
                                 <div style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '38px', background: 'linear-gradient(135deg,var(--txt),var(--blue-lt))', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>600+</div>
-                                <p style={{ fontSize: '13px', color: 'var(--txt3)', marginTop: '6px' }}>Projects delivered to global clients</p>
+                                <p style={{ fontSize: '13px', color: 'var(--txt3)', marginTop: '6px' }}>Completed engagements for clients worldwide</p>
                                 <div style={{ width: '44px', height: '3px', background: 'linear-gradient(90deg,var(--blue-dk),var(--cyan))', borderRadius: '2px', margin: '10px auto 0' }}></div>
                             </div>
                             <div className="m-sm"><div style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '24px', color: '#34d399' }}>87%</div><div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)', marginTop: '4px' }}>Satisfaction</div></div>
-                            <div className="m-sm"><div style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '24px', color: '#a78bfa' }}>50+</div><div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)', marginTop: '4px' }}>Int'l Clients</div></div>
+                            <div className="m-sm"><div style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: '24px', color: '#a78bfa' }}>50+</div><div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)', marginTop: '4px' }}>International Clients</div></div>
                             <div className="m-bars">
                                 <div className="br"><div className="br-h"><span style={{ color: 'var(--txt2)', fontSize: '12px' }}>Web Development</span><span style={{ color: 'var(--blue-lt)', fontFamily: 'var(--mono)', fontSize: '12px' }}>98%</span></div><div className="bt"><div className="bf bf-b" data-w="98%"></div></div></div>
                                 <div className="br"><div className="br-h"><span style={{ color: 'var(--txt2)', fontSize: '12px' }}>Blockchain / Smart Contracts</span><span style={{ color: '#a78bfa', fontFamily: 'var(--mono)', fontSize: '12px' }}>92%</span></div><div className="bt"><div className="bf bf-p" data-w="92%"></div></div></div>
@@ -1119,7 +1199,7 @@ export default function Welcome() {
                         <div style={{ textAlign: 'right' }} data-a="right">
                             <span className="section-lbl">About Us</span>
                             <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginBottom: '16px', marginTop: '6px' }}>
-                                Pakistan's Leading <span className="shimmer-txt">Software House</span>
+                                Pakistan-Based. <span className="shimmer-txt">Globally Focused.</span>
                             </h2>
                             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--txt2)', marginBottom: '20px' }}>
                                 Founded on <strong style={{ color: 'var(--txt)', fontWeight: 600 }}>July 21, 2023</strong> by <strong style={{ color: 'var(--txt)', fontWeight: 600 }}>Muhammad Muzamil</strong>, Ayamil Coders is headquartered in <strong style={{ color: 'var(--txt)', fontWeight: 600 }}>Sadiqabad, Punjab, Pakistan</strong>. We serve 50+ international clients across 20+ countries with enterprise-grade digital solutions in Web Development, Blockchain Development, AI Development, and Bug Fixing.
@@ -1142,12 +1222,12 @@ export default function Welcome() {
                 {/* ── PROCESS ── */}
                 <section id="process" className="sp">
                     <div style={{ textAlign: 'center', marginBottom: '48px' }} data-a="blur">
-                        <span className="section-lbl" style={{ display: 'inline-flex' }}>How We Work</span>
+                        <span className="section-lbl" style={{ display: 'inline-flex' }}>Our Approach</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '6px' }}>
                             Our <span className="shimmer-txt">Process</span>
                         </h2>
                         <p style={{ marginTop: '10px', fontSize: '14px', color: 'var(--txt2)', maxWidth: '480px', margin: '10px auto 0' }}>
-                            A transparent, structured workflow that keeps you informed and in control at every stage.
+                            A structured, milestone-led delivery approach designed around clarity, collaboration, and accountability.
                         </p>
                     </div>
                     <div className="proc-grid">
@@ -1168,7 +1248,7 @@ export default function Welcome() {
                 {/* ── TEAM ── */}
                 <section id="team" className="sp">
                     <div style={{ marginBottom: '36px' }} data-a="left">
-                        <span className="section-lbl">The People</span>
+                        <span className="section-lbl">Our Leadership</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '6px' }}>
                             Meet the <span className="shimmer-txt">Leadership</span>
                         </h2>
@@ -1179,7 +1259,7 @@ export default function Welcome() {
                                 <div className="tc-h" style={{ background: member.bg }}>
                                     <div style={{ position: 'relative' }}>
                                         <div className="tc-av" style={{ background: member.avatarBg }}>{member.initials}</div>
-                                        <span className="tc-badge">✓</span>
+                                        <AvatarCheck className="tc-badge" />
                                     </div>
                                 </div>
                                 <div className="tc-b">
@@ -1197,7 +1277,7 @@ export default function Welcome() {
                      answer engines and LLMs can extract & cite this content) ── */}
                 <section id="faq" className="sp">
                     <div style={{ marginBottom: '36px' }} data-a="left">
-                        <span className="section-lbl">Quick Answers</span>
+                        <span className="section-lbl">Key Insights</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '6px' }}>
                             Frequently Asked <span className="shimmer-txt">Questions</span>
                         </h2>
@@ -1210,7 +1290,7 @@ export default function Welcome() {
                             },
                             {
                                 q: 'Where is Ayamil Coders located?',
-                                a: 'We are headquartered in Sadiqabad, Punjab, Pakistan, and work fully remote with clients across 20+ countries worldwide.',
+                                a: 'We are headquartered in Sadiqabad, Punjab, Pakistan, and collaborate remotely with clients worldwide.',
                             },
                             {
                                 q: 'Does Ayamil Coders fix bugs in projects built by other developers?',
@@ -1218,7 +1298,7 @@ export default function Welcome() {
                             },
                             {
                                 q: 'How quickly can you start a project?',
-                                a: 'Most engagements begin with a free discovery call within 24 hours of first contact, followed by a project roadmap before any code is written.',
+                                a: 'Most engagements begin with a complimentary discovery consultation within 24 hours of first contact, followed by a project roadmap before any code is written.',
                             },
                         ].map((item, i) => (
                             <details key={i} className="proc-card" data-a="up" data-d={i + 1} style={{ cursor: 'pointer' }}>
@@ -1236,12 +1316,12 @@ export default function Welcome() {
                 <section id="contact" className="sp" style={{ position: 'relative', overflow: 'hidden' }}>
                     <div className="cgrid">
                         <div data-a="left">
-                            <span className="section-lbl">Get In Touch</span>
+                            <span className="section-lbl">Start a Conversation</span>
                             <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginBottom: '14px', marginTop: '6px' }}>
-                                Let's Build <span className="shimmer-txt">Something</span> Great
+                                Let's Create <span className="shimmer-txt">Something</span> Exceptional
                             </h2>
                             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--txt2)', marginBottom: '28px' }}>
-                                Based in Sadiqabad, Punjab — working fully remote with clients across 20+ countries. Reach out and we'll respond within 24 hours.
+                                Based in Sadiqabad, Punjab — collaborating remotely with clients worldwide. Reach out and we'll respond within 24 hours.
                             </p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                                 <div className="ci"><div className="i3 ib" style={{ width: '42px', height: '42px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '2px' }}>Email</div><a href="mailto:info@ayamilcoders.com" style={{ fontSize: '14px', color: 'var(--txt)', textDecoration: 'none' }}>info@ayamilcoders.com</a></div></div>
@@ -1254,14 +1334,14 @@ export default function Welcome() {
                         {/* Desktop contact form */}
                         <div data-a="right">
                             <div className="fc">
-                                <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '18px', color: 'var(--txt)', marginBottom: '20px' }}>Send a Message</div>
-                                <form onSubmit={(e) => (window as any).handleDeskForm?.(e)}>
+                                <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '18px', color: 'var(--txt)', marginBottom: '20px' }}>Share Your Project Brief</div>
+                                <form id="desk-contact-form" onSubmit={(e) => (window as any).handleDeskForm?.(e)}>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
-                                        <div><label className="fl" htmlFor="desk-name">Name</label><input id="desk-name" type="text" placeholder="Your name" className="ff" required /></div>
+                                        <div><label className="fl" htmlFor="desk-name">Full Name</label><input id="desk-name" type="text" placeholder="Your name" className="ff" required /></div>
                                         <div><label className="fl" htmlFor="desk-email">Email</label><input id="desk-email" type="email" placeholder="you@company.com" className="ff" required /></div>
                                     </div>
-                                    <div style={{ marginBottom: '12px' }}><label className="fl" htmlFor="desk-service">Service Needed</label>
-                                        <select id="desk-service" className="ff" aria-label="Service Needed" defaultValue="">
+                                    <div style={{ marginBottom: '12px' }}><label className="fl" htmlFor="desk-service">Service of Interest</label>
+                                        <select id="desk-service" className="ff" aria-label="Service Needed" defaultValue="" required>
                                             <option value="" disabled>Select a service</option>
                                             <option>Web Development</option>
                                             <option>Blockchain Development</option>
@@ -1270,7 +1350,7 @@ export default function Welcome() {
                                             <option>Other</option>
                                         </select>
                                     </div>
-                                    <div style={{ marginBottom: '12px' }}><label className="fl" htmlFor="desk-budget">Budget Range</label>
+                                    <div style={{ marginBottom: '12px' }}><label className="fl" htmlFor="desk-budget">Estimated Investment</label>
                                         <select id="desk-budget" className="ff" aria-label="Budget Range" defaultValue="">
                                             <option value="" disabled>Select a budget</option>
                                             <option>Under $500</option>
@@ -1280,7 +1360,7 @@ export default function Welcome() {
                                             <option>Let's discuss</option>
                                         </select>
                                     </div>
-                                    <div style={{ marginBottom: '14px' }}><label className="fl" htmlFor="desk-details">Project Details</label><textarea id="desk-details" rows={4} placeholder="Describe your project briefly…" className="ff" style={{ resize: 'none' }}></textarea></div>
+                                    <div style={{ marginBottom: '14px' }}><label className="fl" htmlFor="desk-details">Project Brief</label><textarea id="desk-details" rows={4} minLength={10} maxLength={5000} required placeholder="Describe your project briefly…" className="ff" style={{ resize: 'none' }}></textarea></div>
                                     <button id="desk-btn" type="submit" className="btn-p" style={{ width: '100%', justifyContent: 'center', padding: '13px' }}>
                                         Send Message
                                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>

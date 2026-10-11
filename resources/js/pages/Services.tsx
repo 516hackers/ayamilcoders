@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { Link } from '@inertiajs/react';
+import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 export default function Services() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('services-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -50,7 +52,7 @@ export default function Services() {
             }
             .faq-item{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);margin-bottom:10px;transition:border-color .3s}
             .faq-item.open{border-color:var(--brd2)}
-            .faq-q{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none;gap:12px}
+            .faq-q{padding:18px 20px;cursor:pointer;display:flex;width:100%;background:transparent;border:0;text-align:left;font-family:inherit;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--txt);user-select:none;gap:12px}
             @media(max-width:480px){.faq-q{padding:15px 16px;font-size:13px}}
             /* Grid-rows collapse: animates to the answer's real height, so
                long FAQ answers never get clipped like the old max-height:200px
@@ -119,17 +121,17 @@ export default function Services() {
             id: 1,
             cls: 'ib',
             title: 'Web Development',
-            badge: 'Most Popular',
+            badge: 'Popular Choice',
             badgeCls: 'tb',
-            desc: 'We craft high-performance websites and web applications — fast, secure, and beautifully designed. From landing pages to enterprise-grade platforms.',
-            tags: ['React.js', 'Next.js', 'Laravel', 'Node.js', 'WordPress', 'Vue.js', 'PHP', 'MySQL'],
+            desc: 'We engineer high-performance websites and web applications with considered design, strong security, and scalable foundations — from tailored landing pages to enterprise platforms.',
+            tags: ['React.js', 'Next.js', 'Laravel', 'Node.js', 'Vue.js', 'PHP', 'MySQL'],
             features: [
-                'Custom frontend & responsive UI design',
-                'Scalable backend architecture & REST APIs',
-                'E-commerce with payment gateways',
-                'CMS integration (WordPress, Strapi)',
-                'SEO optimization & performance tuning',
-                'Ongoing maintenance & 24/7 support'
+                'Bespoke frontend development & responsive interfaces',
+                'Scalable application architecture & API engineering',
+                'Commerce experiences & payment integration',
+                'Custom content-management integration',
+                'Search visibility & performance optimization',
+                'Structured maintenance & technical support'
             ],
             icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
             btnBg: 'linear-gradient(135deg,var(--blue-dk),var(--blue),var(--blue-lt))'
@@ -138,16 +140,16 @@ export default function Services() {
             id: 2,
             cls: 'ip',
             title: 'Blockchain Development',
-            badge: 'Advanced',
+            badge: 'Specialist Capability',
             badgeCls: 'tp',
-            desc: 'DeFi platforms, smart contracts, NFT marketplaces, and crypto token development. Rock-solid security, thoroughly audited code.',
+            desc: 'Specialist development for DeFi platforms, smart contracts, NFT marketplaces, and token ecosystems, supported by security-conscious engineering practices.',
             tags: ['Solidity', 'Web3.js', 'Ethers.js', 'Hardhat', 'IPFS', 'DeFi', 'NFT', 'ERC-20/721'],
             features: [
-                'Smart contract development & auditing',
+                'Smart contract engineering & code review',
                 'DeFi protocol design & implementation',
                 'NFT marketplace & minting platforms',
                 'Crypto token creation (ERC-20, BEP-20)',
-                'Wallet integration & Web3 frontends',
+                'Web3 interfaces & wallet connectivity',
                 'DAO governance systems'
             ],
             icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
@@ -157,17 +159,17 @@ export default function Services() {
             id: 3,
             cls: 'ig',
             title: 'AI Development',
-            badge: 'Cutting Edge',
+            badge: 'Advanced Capabilities',
             badgeCls: 'tg',
-            desc: 'From AI chatbots to full ML pipelines — intelligent software that automates, predicts, and scales with your business.',
+            desc: 'From intelligent assistants to machine learning workflows, we develop tailored AI capabilities aligned with your operational priorities.',
             tags: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI API', 'LangChain', 'FastAPI', 'Automation'],
             features: [
-                'Custom AI chatbots & virtual assistants',
+                'Tailored AI assistants & conversational systems',
                 'Machine learning model development',
-                'Automation pipelines & workflow bots',
+                'Intelligent workflow automation',
                 'Data analysis & predictive analytics',
                 'SaaS product development',
-                'API integrations & third-party services'
+                'Enterprise integrations & API connectivity'
             ],
             icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
             btnBg: 'linear-gradient(135deg,#04432c,#059669,#34d399)'
@@ -176,17 +178,17 @@ export default function Services() {
             id: 4,
             cls: 'ia',
             title: 'Bug Fixing',
-            badge: 'Fast Turnaround',
+            badge: 'Focused Resolution',
             badgeCls: 'ta',
-            desc: 'Stuck with a broken website, app, or smart contract? We debug and fix issues in any codebase — built by us or another team — with root-cause repairs, not band-aids.',
+            desc: 'Facing an issue with your website, application, or smart contract? Our specialists diagnose the root cause and deliver lasting resolutions across existing codebases, regardless of the original developer.',
             tags: ['Debugging', 'Code Review', 'Performance Fixes', 'Security Patches', 'Legacy Code', 'QA Testing'],
             features: [
-                'Root-cause debugging for web & mobile apps',
-                'Smart contract & Web3 bug fixes',
-                'AI/ML pipeline error resolution',
-                'Performance & memory leak fixes',
-                'Security vulnerability patching',
-                'Same-week turnaround on most fixes'
+                'Root-cause analysis for web & mobile applications',
+                'Smart contract & Web3 issue resolution',
+                'AI/ML workflow diagnostics & resolution',
+                'Performance optimisation & memory leak remediation',
+                'Vulnerability assessment & remediation',
+                'Scope-based resolution timelines'
             ],
             icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M9 9l-2 2v6l2 2M15 9l2 2v6l-2 2M12 4v3M9 12h6M12 7a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0v-4a3 3 0 0 0-3-3z"/></svg>,
             btnBg: 'linear-gradient(135deg,#6b3500,#d97706,#fbbf24)'
@@ -213,22 +215,22 @@ export default function Services() {
 
     const pricing = [
         {
-            tier: 'Starter',
+            tier: 'Essential',
             price: '$300',
             per: 'starting from',
             features: ['Landing page / brochure site', 'Mobile responsive design', 'Basic SEO setup', 'Contact form integration', '2 rounds of revisions'],
             featured: false,
-            btnText: 'Get Started',
+            btnText: 'Request Consultation',
             btnClass: 'btn-g'
         },
         {
             tier: 'Professional',
             price: '$1,200',
             per: 'starting from',
-            features: ['Full-stack web application', 'Custom backend & database', 'User authentication system', 'Admin dashboard', 'Payment gateway integration', '3 months post-launch support'],
+            features: ['Full-stack web application', 'Custom backend & database', 'User authentication system', 'Admin dashboard', 'Payment gateway integration', '3 months complimentary post-launch support'],
             featured: true,
-            badge: 'Most Popular',
-            btnText: 'Get Started',
+            badge: 'Popular Choice',
+            btnText: 'Request Consultation',
             btnClass: 'btn-p'
         },
         {
@@ -237,7 +239,7 @@ export default function Services() {
             per: "let's discuss",
             features: ['Complex platforms & SaaS', 'Blockchain / AI integration', 'Dedicated development team', 'Priority bug-fixing SLA', 'Full QA & security testing', 'Ongoing retainer available'],
             featured: false,
-            btnText: 'Contact Us',
+            btnText: 'Discuss Your Requirements',
             btnClass: 'btn-g'
         }
     ];
@@ -248,7 +250,7 @@ export default function Services() {
         { q: 'Do you fix bugs in projects built by other developers?', a: 'Yes. Bug Fixing is one of our four core services — we regularly take on existing codebases for debugging, performance improvements, security patching, and feature additions, regardless of who originally built them.' },
         { q: 'Do you work with international clients?', a: 'Absolutely. We serve clients from UAE, UK, USA, Saudi Arabia, Canada, Australia, and Europe. All communication via WhatsApp, email, and video calls — fully remote.' },
         { q: 'What payment methods do you accept?', a: 'We accept bank transfers, PayPal, cryptocurrency (USDT/BTC), and local Pakistani payment methods. Typically 50% upfront / 50% on delivery.' },
-        { q: 'Do you offer post-launch support?', a: 'Yes! All projects include at least 30 days of free post-launch support, plus our dedicated Bug Fixing service for anything that comes up later. We also offer monthly retainer packages for ongoing maintenance.' }
+        { q: 'Do you offer post-launch support?', a: 'Yes! All projects include three months of complimentary post-launch support, plus our dedicated Bug Fixing service for anything that comes up later. For continued assistance, we can arrange a separate maintenance plan tailored to your needs.' }
     ];
 
     const pageSchema = {
@@ -321,9 +323,9 @@ export default function Services() {
             <div className="page-hero">
                 <div style={{ position: 'absolute', width: '400px', height: '400px', borderRadius: '50%', filter: 'blur(80px)', background: 'rgba(41,121,242,.06)', top: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
                 <div style={{ position: 'relative', zIndex: 2 }}>
-                    <span className="section-lbl">What We Offer</span>
+                    <span className="section-lbl">Our Capabilities</span>
                     <h1 style={{ fontSize: 'clamp(32px,5vw,58px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.03em', marginTop: '10px', marginBottom: '16px' }}>
-                        Expert <span className="shimmer-txt">Digital Services</span>
+                        Purpose-Built <span className="shimmer-txt">Digital Solutions</span>
                     </h1>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', maxWidth: '560px', lineHeight: 1.75 }}>
                         From custom websites to complex blockchain ecosystems — plus fast bug fixing for existing projects. Reliable, secure, and innovative solutions for businesses worldwide.
@@ -361,9 +363,9 @@ export default function Services() {
                             ))}
                         </div>
                         <div style={{ marginTop: '22px' }}>
-                            <a href="/contact" className="btn-p" style={{ padding: '10px 22px', fontSize: '13px', background: svc.btnBg }}>
-                                Get a Quote →
-                            </a>
+                            <Link href="/contact" className="btn-p" style={{ padding: '10px 22px', fontSize: '13px', background: svc.btnBg }}>
+                                Request a Tailored Proposal →
+                            </Link>
                         </div>
                     </div>
                 ))}
@@ -381,7 +383,7 @@ export default function Services() {
                 <div className="tech-grid">
                     {technologies.map((tech, index) => (
                         <div key={tech.name} className="tech-card" data-a="scale" data-d={(index % 4) + 1}>
-                            <div className="tech-ico3d" style={{ background: tech.bg, '--ti-shadow': tech.shadow } as React.CSSProperties}>{tech.icon}</div>
+                            <div className="tech-ico3d" style={{ background: tech.bg, '--ti-shadow': tech.shadow } as React.CSSProperties}><PremiumIcon glyph={tech.icon} bare size={25}/></div>
                             <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '13px', color: 'var(--txt)' }}>{tech.name}</div>
                             <div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)', marginTop: '3px' }}>{tech.label}</div>
                         </div>
@@ -395,9 +397,9 @@ export default function Services() {
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-a="blur">
                     <span className="section-lbl" style={{ display: 'inline-flex' }}>Pricing</span>
                     <h2 style={{ fontSize: 'clamp(24px,4vw,40px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                        Transparent <span className="shimmer-txt">Pricing</span>
+                        Transparent <span className="shimmer-txt">Project Investment</span>
                     </h2>
-                    <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px' }}>Custom quotes available — these are starting price ranges.</p>
+                    <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px' }}>Every engagement receives a tailored quotation. Displayed figures represent starting estimates.</p>
                 </div>
                 <div className="pricing-grid">
                     {pricing.map((plan, index) => (
@@ -416,9 +418,9 @@ export default function Services() {
                                     <li key={i}>{feat}</li>
                                 ))}
                             </ul>
-                            <a href="/contact" className={plan.btnClass} style={{ width: '100%', justifyContent: 'center' }}>
+                            <Link href="/contact" className={plan.btnClass} style={{ width: '100%', justifyContent: 'center' }}>
                                 {plan.btnText}
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </div>
@@ -436,11 +438,11 @@ export default function Services() {
                     </div>
                     {faqs.map((faq, index) => (
                         <div key={index} className={`faq-item${openFaq === index ? ' open' : ''}`}>
-                            <div className="faq-q" onClick={() => toggleFaq(index)}>
+                            <button type="button" className="faq-q" aria-expanded={openFaq === index} aria-controls={`service-faq-${index}`} onClick={() => toggleFaq(index)}>
                                 {faq.q}
-                                <span className="faq-arr">+</span>
-                            </div>
-                            <div className="faq-a-wrap">
+                                <span className="faq-arr" aria-hidden="true">+</span>
+                            </button>
+                            <div id={`service-faq-${index}`} className="faq-a-wrap" aria-hidden={openFaq !== index}>
                                 <div className="faq-a-inner">
                                     <div className="faq-a">{faq.a}</div>
                                 </div>

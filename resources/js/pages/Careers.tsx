@@ -1,7 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
-import { useState, useEffect, FormEvent } from 'react';
+import { useLayoutEffect, useState, useEffect, FormEvent } from 'react';
 import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 interface CareerFormData {
     name: string;
@@ -32,7 +33,7 @@ export default function Careers() {
     const [showToast, setShowToast] = useState(false);
 
     // Inject careers-specific CSS (matches careers.html <style> block exactly)
-    useEffect(() => {
+    useLayoutEffect(() => {
         const styleId = 'careers-page-css';
         if (document.getElementById(styleId)) return;
         const style = document.createElement('style');
@@ -177,15 +178,19 @@ export default function Careers() {
             if (value) submitData.append(key, value);
         });
 
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 25000);
         try {
             const response = await fetch('/api/careers/apply', {
                 method: 'POST',
                 headers: {
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
                 },
+                signal: controller.signal,
                 body: submitData
             });
-            const data = await response.json();
+            const data = await response.json().catch(() => ({}));
             if (response.ok) {
                 setSuccess(data.message || 'Application submitted! We\'ll be in touch within 48 hours.');
                 setFormData({ name: '', email: '', phone: '', role: '', experience: '', portfolio_url: '', message: '' });
@@ -195,12 +200,18 @@ export default function Careers() {
                 requestAnimationFrame(() => setShowToast(true));
                 setTimeout(() => setShowToast(false), 4000);
                 setTimeout(() => setSuccess(null), 4500);
+            } else if (response.status === 429) {
+                setError('Too many submissions. Please wait a minute before trying again.');
+            } else if (response.status === 422) {
+                const first = Object.values(data.errors || {}).flat().find((item): item is string => typeof item === 'string');
+                setError(first || data.message || 'Please review the application fields.');
             } else {
-                setError(data.message || 'Something went wrong. Please try again.');
+                setError(data.message || 'We could not receive your application. Please try again.');
             }
         } catch {
-            setError('Network error. Please try again.');
+            setError(controller.signal.aborted ? 'Submission timed out. Please try again.' : 'Network error. Please try again.');
         } finally {
+            window.clearTimeout(timeoutId);
             setLoading(false);
         }
     };
@@ -267,12 +278,12 @@ export default function Careers() {
                 <div className="page-hero-blob" style={{ width: '280px', height: '280px', background: 'radial-gradient(circle,rgba(41,121,242,.08),transparent 70%)', bottom: '-60px', left: '40px' }}></div>
                 <div style={{ position: 'relative', zIndex: 1 }}>
                     <div data-a="up">
-                        <span className="section-lbl">We're Hiring</span>
+                        <span className="section-lbl">Career Opportunities</span>
                         <h1 style={{ fontSize: 'clamp(36px,6vw,68px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.03em', lineHeight: 1.05, margin: '12px 0 18px' }}>
-                            Build Your Career<br /><span className="shimmer-txt">With Us.</span>
+                            Shape Your Career<br /><span className="shimmer-txt">With Ayamil.</span>
                         </h1>
                         <p style={{ fontSize: '16px', color: 'var(--txt2)', maxWidth: '520px', lineHeight: 1.75, marginBottom: '28px' }}>
-                            Join a remote-first team of engineers, designers, and builders based in Punjab, Pakistan — working on real-world projects for global clients every single day.
+                            Collaborate with a remote-first team of engineers and designers delivering meaningful technology projects for international clients.
                         </p>
                         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                             <a href="#open-roles" className="btn-p" style={{ padding: '12px 28px' }}>See Open Roles →</a>
@@ -281,11 +292,11 @@ export default function Careers() {
                     </div>
                     {/* Quick perks strip */}
                     <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginTop: '40px', paddingTop: '24px', borderTop: '1px solid var(--brd)' }} data-a="up" data-d="2">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '18px' }}>🌍</span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Fully Remote</span></div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '18px' }}>⏰</span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Flexible Hours</span></div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '18px' }}>📈</span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Fast Growth</span></div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '18px' }}>💰</span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Competitive Pay</span></div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '18px' }}>🔥</span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Real Projects</span></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ display: 'inline-flex' }}><PremiumIcon glyph="🌍" size={18} /></span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Remote-First Collaboration</span></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '18px' }}>⏰</span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Outcome-Focused Flexibility</span></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ display: 'inline-flex' }}><PremiumIcon glyph="📈" size={18} /></span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Professional Development</span></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ display: 'inline-flex' }}><PremiumIcon glyph="💰" size={18} /></span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Competitive Pay</span></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ display: 'inline-flex' }}><PremiumIcon glyph="🔥" size={18} /></span><span style={{ fontSize: '13px', color: 'var(--txt2)' }}>Meaningful Client Projects</span></div>
                     </div>
                 </div>
             </section>
@@ -296,34 +307,34 @@ export default function Careers() {
             <section className="sp" id="culture">
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }} className="career-split">
                     <div data-a="left">
-                        <span className="section-lbl">Life at Ayamil</span>
+                        <span className="section-lbl">Inside Ayamil Coders</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', margin: '12px 0 16px' }}>
-                            We Ship Real Work.<br /><span className="shimmer-txt">Together.</span>
+                            Meaningful Work.<br /><span className="shimmer-txt">Shared Expertise.</span>
                         </h2>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '20px' }}>
                             Ayamil Coders is not a training ground or an outsourcing churn machine. We are a team of builders who take ownership, speak honestly, and deliver work we're proud to put our name on.
                         </p>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8 }}>
-                            Every team member works directly on client projects from day one. No bench time, no make-work tasks. You'll build production code, talk to clients, and grow alongside the company.
+                            Contribute to live client engagements, collaborate directly with project stakeholders, and develop practical expertise alongside our engineering team.
                         </p>
                     </div>
                     <div data-a="right">
                         <div className="culture-grid">
                             <div className="culture-card" data-a="scale" data-d="1">
-                                <div className="i3 ib" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0, fontSize: '16px' }}>🤝</div>
-                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Mentorship</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>Learn directly from senior engineers and the founding team.</div></div>
+                                <div className="i3 ib" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0 }}><PremiumIcon glyph="🤝" bare size={20}/></div>
+                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Technical Mentorship</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>Learn directly from senior engineers and the founding team.</div></div>
                             </div>
                             <div className="culture-card" data-a="scale" data-d="2">
-                                <div className="i3 ig" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0, fontSize: '16px' }}>🚀</div>
-                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Ownership</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>You own your tasks end-to-end. No micro-management.</div></div>
+                                <div className="i3 ig" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0 }}><PremiumIcon glyph="🚀" bare size={20}/></div>
+                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>End-to-End Ownership</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>You own your tasks end-to-end. No micro-management.</div></div>
                             </div>
                             <div className="culture-card" data-a="scale" data-d="3">
-                                <div className="i3 ip" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0, fontSize: '16px' }}>🛠️</div>
-                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Modern Stack</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>Work with React, Laravel, Solidity, Python, and more.</div></div>
+                                <div className="i3 ip" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0 }}><PremiumIcon glyph="🛠️" bare size={20}/></div>
+                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Modern Engineering Stack</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>Work with React, Laravel, Solidity, Python, and more.</div></div>
                             </div>
                             <div className="culture-card" data-a="scale" data-d="4">
-                                <div className="i3 ia" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0, fontSize: '16px' }}>💬</div>
-                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Open Comms</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>Async-first, no-politics communication culture.</div></div>
+                                <div className="i3 ia" style={{ width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0 }}><PremiumIcon glyph="💬" bare size={20}/></div>
+                                <div><div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '4px' }}>Open Communication</div><div style={{ fontSize: '13px', color: 'var(--txt3)', lineHeight: 1.6 }}>Async-first, no-politics communication culture.</div></div>
                             </div>
                         </div>
                     </div>
@@ -333,44 +344,44 @@ export default function Careers() {
             <div className="divider"></div>
 
             {/* ── PERKS ── */}
-            <section className="sp" style={{ background: 'rgba(5,13,26,.3)' }}>
+            <section className="sp" style={{ background: 'var(--bg2)' }}>
                 <div style={{ textAlign: 'center', marginBottom: '44px' }} data-a="blur">
                     <span className="section-lbl">Benefits</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                        Why Join <span className="shimmer-txt">Ayamil Coders?</span>
+                        The Ayamil <span className="shimmer-txt">Career Experience</span>
                     </h2>
                     <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px', maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7 }}>
-                        We invest in our people the same way we invest in our products.
+                        We invest in professional development, thoughtful collaboration, and meaningful technical ownership.
                     </p>
                 </div>
                 <div className="perk-grid">
                     <div className="perk-card" data-a="scale" data-d="1">
-                        <div className="perk-icon ib i3">🌐</div>
+                        <div className="perk-icon ib i3"><PremiumIcon glyph="🌐" bare size={24}/></div>
                         <div className="perk-title">100% Remote</div>
                         <div className="perk-desc">Work from anywhere in Pakistan or globally. All you need is a laptop and a stable connection.</div>
                     </div>
                     <div className="perk-card" data-a="scale" data-d="2">
-                        <div className="perk-icon ig i3">💸</div>
-                        <div className="perk-title">Competitive Salary</div>
+                        <div className="perk-icon ig i3"><PremiumIcon glyph="💸" bare size={24}/></div>
+                        <div className="perk-title">Market-Aligned Compensation</div>
                         <div className="perk-desc">Market-rate pay reviewed every 6 months, plus performance bonuses on successful project deliveries.</div>
                     </div>
                     <div className="perk-card" data-a="scale" data-d="3">
-                        <div className="perk-icon ip i3">📚</div>
+                        <div className="perk-icon ip i3"><PremiumIcon glyph="📚" bare size={24}/></div>
                         <div className="perk-title">Learning Budget</div>
                         <div className="perk-desc">Access to paid courses, conferences, and resources. We cover tools and subscriptions you actually need.</div>
                     </div>
                     <div className="perk-card" data-a="scale" data-d="1">
                         <div className="perk-icon ia i3">⏰</div>
-                        <div className="perk-title">Flexible Hours</div>
+                        <div className="perk-title">Outcome-Focused Flexibility</div>
                         <div className="perk-desc">Results-first culture. Manage your own schedule as long as deliverables and client commitments are met.</div>
                     </div>
                     <div className="perk-card" data-a="scale" data-d="2">
-                        <div className="perk-icon ib i3">📈</div>
-                        <div className="perk-title">Fast-Track Growth</div>
+                        <div className="perk-icon ib i3"><PremiumIcon glyph="📈" bare size={24}/></div>
+                        <div className="perk-title">Accelerated Development</div>
                         <div className="perk-desc">Ayamil Coders is growing fast. High performers move up quickly — we promote from within aggressively.</div>
                     </div>
                     <div className="perk-card" data-a="scale" data-d="3">
-                        <div className="perk-icon ig i3">🌟</div>
+                        <div className="perk-icon ig i3"><PremiumIcon glyph="🌟" bare size={24}/></div>
                         <div className="perk-title">Global Exposure</div>
                         <div className="perk-desc">Work directly with clients from UAE, UK, USA, and Europe. Build an international portfolio from day one.</div>
                     </div>
@@ -383,9 +394,9 @@ export default function Careers() {
             <section className="sp" id="open-roles">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '36px' }} data-a="up">
                     <div>
-                        <span className="section-lbl">Open Positions</span>
+                        <span className="section-lbl">Available Opportunities</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                            Current <span className="shimmer-txt">Openings</span>
+                            Current <span className="shimmer-txt">Opportunities</span>
                         </h2>
                     </div>
                     <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--green)' }}>● 5 roles open</span>
@@ -398,7 +409,7 @@ export default function Careers() {
                             <div className="job-title">Full-Stack Web Developer</div>
                             <div className="job-dept">Engineering · Remote · Full-Time</div>
                         </div>
-                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px' }}>Apply →</a>
+                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px' }}>Explore & Apply →</a>
                     </div>
                     <div className="job-meta">
                         <span className="tag tb">React / Next.js</span>
@@ -422,7 +433,7 @@ export default function Careers() {
                             <div className="job-title">Blockchain / Solidity Developer</div>
                             <div className="job-dept">Web3 · Remote · Full-Time</div>
                         </div>
-                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)' }}>Apply →</a>
+                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)' }}>Explore & Apply →</a>
                     </div>
                     <div className="job-meta">
                         <span className="tag tp">Solidity</span>
@@ -446,7 +457,7 @@ export default function Careers() {
                             <div className="job-title">Mobile Developer (Flutter)</div>
                             <div className="job-dept">Mobile · Remote · Full-Time</div>
                         </div>
-                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#04432c,#059669,#34d399)' }}>Apply →</a>
+                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#04432c,#059669,#34d399)' }}>Explore & Apply →</a>
                     </div>
                     <div className="job-meta">
                         <span className="tag tg">Flutter / Dart</span>
@@ -470,7 +481,7 @@ export default function Careers() {
                             <div className="job-title">Bug Fixing / QA Engineer</div>
                             <div className="job-dept">Quality Assurance · Remote · Part-Time / Full-Time</div>
                         </div>
-                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#6b3500,#d97706,#fbbf24)' }}>Apply →</a>
+                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px', background: 'linear-gradient(135deg,#6b3500,#d97706,#fbbf24)' }}>Explore & Apply →</a>
                     </div>
                     <div className="job-meta">
                         <span className="tag ta">Debugging</span>
@@ -494,7 +505,7 @@ export default function Careers() {
                             <div className="job-title">AI / Python Engineer</div>
                             <div className="job-dept">AI & Automation · Remote · Full-Time</div>
                         </div>
-                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px' }}>Apply →</a>
+                        <a href="#apply" className="btn-p" style={{ padding: '9px 20px', fontSize: '13px' }}>Explore & Apply →</a>
                     </div>
                     <div className="job-meta">
                         <span className="tag tb">Python</span>
@@ -515,36 +526,36 @@ export default function Careers() {
             <div className="divider"></div>
 
             {/* ── HIRING PROCESS ── */}
-            <section className="sp" style={{ background: 'rgba(5,13,26,.3)' }}>
+            <section className="sp" style={{ background: 'var(--bg2)' }}>
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-a="blur">
-                    <span className="section-lbl">Hiring Process</span>
+                    <span className="section-lbl">Our Selection Process</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                        From Apply to <span className="shimmer-txt">Day One</span>
+                        From Application to <span className="shimmer-txt">Onboarding</span>
                     </h2>
-                    <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px' }}>Fast, transparent, and respectful of your time. Typically 1–2 weeks end-to-end.</p>
+                    <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px' }}>A transparent application journey with clear next steps, typically spanning one to two weeks.</p>
                 </div>
                 <div className="process-strip">
                     <div className="proc-step" data-a="up" data-d="1">
                         <div className="proc-num">Step 01</div>
-                        <div style={{ fontSize: '28px', marginBottom: '10px' }}>📋</div>
+                        <div style={{ marginBottom: '10px' }}><PremiumIcon glyph="📋" tone="blue" size={22}/></div>
                         <div className="proc-title">Apply</div>
                         <div className="proc-desc">Fill out the form below. We read every application within 48 hours.</div>
                     </div>
                     <div className="proc-step" data-a="up" data-d="2">
                         <div className="proc-num">Step 02</div>
-                        <div style={{ fontSize: '28px', marginBottom: '10px' }}>💬</div>
+                        <div style={{ marginBottom: '10px' }}><PremiumIcon glyph="💬" tone="teal" size={22}/></div>
                         <div className="proc-title">Intro Call</div>
                         <div className="proc-desc">A 20-minute WhatsApp or video call to get to know each other.</div>
                     </div>
                     <div className="proc-step" data-a="up" data-d="3">
                         <div className="proc-num">Step 03</div>
-                        <div style={{ fontSize: '28px', marginBottom: '10px' }}>🛠️</div>
+                        <div style={{ marginBottom: '10px' }}><PremiumIcon glyph="🛠️" tone="violet" size={22}/></div>
                         <div className="proc-title">Skill Task</div>
                         <div className="proc-desc">A small paid task relevant to your role — no unpaid work, ever.</div>
                     </div>
                     <div className="proc-step" data-a="up" data-d="4">
                         <div className="proc-num">Step 04</div>
-                        <div style={{ fontSize: '28px', marginBottom: '10px' }}>🎉</div>
+                        <div style={{ marginBottom: '10px' }}><PremiumIcon glyph="🎉" tone="amber" size={22}/></div>
                         <div className="proc-title">Offer & Onboard</div>
                         <div className="proc-desc">Clear offer letter, onboarding guide, and you're live on day one.</div>
                     </div>
@@ -556,7 +567,7 @@ export default function Careers() {
             {/* ── APPLY FORM ── */}
             <section className="sp" id="apply">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-a="blur">
-                    <span className="section-lbl">Apply Now</span>
+                    <span className="section-lbl">Your Application</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
                         Ready to <span className="shimmer-txt">Join Us?</span>
                     </h2>
@@ -582,29 +593,29 @@ export default function Careers() {
                     )}
                     {error && (
                         <div style={{ marginBottom: '20px', padding: '14px 20px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '10px', color: '#ef4444', fontSize: '14px' }}>
-                            ❌ {error}
+                            <strong>Submission error:</strong> {error}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-row">
                             <div className="fg">
-                                <label className="fl">Full Name</label>
-                                <input className="ff" type="text" name="name" placeholder="Muhammad Ali" value={formData.name} onChange={handleChange} required />
+                                <label className="fl" htmlFor="career-name">Full Name</label>
+                                <input className="ff" id="career-name" type="text" name="name" placeholder="Muhammad Ali" value={formData.name} onChange={handleChange} required />
                             </div>
                             <div className="fg">
-                                <label className="fl">Email Address</label>
-                                <input className="ff" type="email" name="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} required />
+                                <label className="fl" htmlFor="career-email">Email Address</label>
+                                <input className="ff" id="career-email" type="email" name="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} required />
                             </div>
                         </div>
                         <div className="form-row">
                             <div className="fg">
-                                <label className="fl">Phone / WhatsApp</label>
-                                <input className="ff" type="tel" name="phone" placeholder="+92 300 0000000" value={formData.phone} onChange={handleChange} />
+                                <label className="fl" htmlFor="career-phone">Phone / WhatsApp</label>
+                                <input className="ff" id="career-phone" type="tel" name="phone" placeholder="+92 300 0000000" value={formData.phone} onChange={handleChange} />
                             </div>
                             <div className="fg">
-                                <label className="fl">Role Applying For</label>
-                                <select className="ff" name="role" value={formData.role} onChange={handleChange} required>
+                                <label className="fl" htmlFor="career-role">Role Applying For</label>
+                                <select className="ff" id="career-role" name="role" value={formData.role} onChange={handleChange} required>
                                     <option value="" disabled>Select a role</option>
                                     <option>Full-Stack Web Developer</option>
                                     <option>Blockchain / Solidity Developer</option>
@@ -616,12 +627,12 @@ export default function Careers() {
                             </div>
                         </div>
                         <div className="fg">
-                            <label className="fl">Portfolio / GitHub / LinkedIn URL</label>
-                            <input className="ff" type="url" name="portfolio_url" placeholder="https://github.com/yourname" value={formData.portfolio_url} onChange={handleChange} />
+                            <label className="fl" htmlFor="career-portfolio_url">Portfolio / GitHub / LinkedIn URL</label>
+                            <input className="ff" id="career-portfolio_url" type="url" name="portfolio_url" placeholder="https://github.com/yourname" value={formData.portfolio_url} onChange={handleChange} />
                         </div>
                         <div className="fg">
-                            <label className="fl">Experience Level</label>
-                            <select className="ff" name="experience" value={formData.experience} onChange={handleChange}>
+                            <label className="fl" htmlFor="career-experience">Experience Level</label>
+                            <select className="ff" id="career-experience" name="experience" value={formData.experience} onChange={handleChange} required>
                                 <option value="" disabled>Select experience level</option>
                                 <option>Fresher (0–1 yr)</option>
                                 <option>Junior (1–2 yrs)</option>
@@ -630,8 +641,8 @@ export default function Careers() {
                             </select>
                         </div>
                         <div className="fg">
-                            <label className="fl">Tell Us About Yourself</label>
-                            <textarea className="ff" name="message" rows={5} placeholder="Share what you've built, why you want to join Ayamil Coders, and what you'd like to work on..." value={formData.message} onChange={handleChange} required style={{ resize: 'none' }} />
+                            <label className="fl" htmlFor="career-message">Tell Us About Yourself</label>
+                            <textarea className="ff" id="career-message" name="message" rows={5} minLength={20} maxLength={5000} placeholder="Share what you've built, why you want to join Ayamil Coders, and what you'd like to work on..." value={formData.message} onChange={handleChange} required style={{ resize: 'none' }} />
                         </div>
                         <div className="fg" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                             <input

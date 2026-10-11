@@ -16,7 +16,7 @@
   --bg:#060d1a; --bg2:#08101f; --bg3:#0b1628;
   --surf:rgba(255,255,255,.04); --surf2:rgba(255,255,255,.07);
   --brd:rgba(255,255,255,.07); --brd2:rgba(41,121,242,.25);
-  --txt:#e8edf5; --txt2:#8fa4c4; --txt3:#4d6a90;
+  --txt:#e8edf5; --txt2:#8fa4c4; --txt3:#91a7c8;
   --card-bg:rgba(255,255,255,.03); --card-hov:rgba(41,121,242,.05);
   --topbar-bg:rgba(6,13,26,.9); --nav-bg:rgba(6,13,26,.92);
   --input-bg:rgba(255,255,255,.04); --code-bg:#07111e;
@@ -26,10 +26,10 @@
   --bg:#f0f4ff; --bg2:#ffffff; --bg3:#e8eef8;
   --surf:rgba(255,255,255,.9); --surf2:rgba(255,255,255,1);
   --brd:rgba(41,121,242,.12); --brd2:rgba(41,121,242,.3);
-  --txt:#0d1b38; --txt2:#3a5580; --txt3:#7a96c0;
+  --txt:#0d1b38; --txt2:#3a5580; --txt3:#516580;
   --card-bg:rgba(255,255,255,.95); --card-hov:rgba(41,121,242,.04);
   --topbar-bg:rgba(240,244,255,.95); --nav-bg:rgba(255,255,255,.97);
-  --input-bg:rgba(41,121,242,.04); --code-bg:#0e1c38;
+  --input-bg:rgba(41,121,242,.04); --code-bg:#f7faff;
   --shimmer1:#1a5fd4; --shimmer2:#0099cc; --shimmer3:#2979f2;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -70,7 +70,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);overflow-x:hi
 .glass{background:var(--card-bg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--brd)}
 .card{background:var(--card-bg);border:1px solid var(--brd);border-radius:var(--r-lg);transition:border-color .3s,background .3s,box-shadow .3s,transform .3s}
 .card:hover{border-color:var(--brd2);background:var(--card-hov);box-shadow:0 12px 40px rgba(41,121,242,.1);transform:translateY(-4px)}
-.section-lbl{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(41,121,242,.1);border:1px solid rgba(41,121,242,.2);color:var(--blue-lt);font-size:11px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.section-lbl{display:inline-flex;width:max-content;max-width:100%;flex:0 0 auto;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(41,121,242,.1);border:1px solid rgba(41,121,242,.2);color:var(--blue-lt);font-size:11px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
 [data-theme="light"] .section-lbl{background:rgba(41,121,242,.08);border-color:rgba(41,121,242,.2);color:var(--blue-dk)}
 .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(41,121,242,.25),rgba(0,200,232,.15),rgba(41,121,242,.25),transparent);margin:0 40px}
 @media(max-width:639px){.divider{margin:0 16px}}
@@ -197,4 +197,559 @@ textarea.ff{resize:none}
   .mobile-theme{width:38px;height:38px;border-radius:11px;background:var(--surf);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;font-size:18px;transition:all .2s}
   .mw{padding-top:calc(50px + var(--safe-t))!important}
   .topbar{display:none}
+}
+
+/* AYAMIL CODERS · PREMIUM THEME SYSTEM V3
+   Public-site visual refinements. Dark-mode palette is not modified.
+   Appended to public/css/shared.css so it follows existing token definitions.
+   The data-theme attribute drives the entire public color system. */
+
+[data-theme="light"] {
+  /* A coherent hierarchy: porcelain canvas, blue-tinted sections, white raised cards. */
+  --bg: #f8faff;
+  --bg2: #edf3ff;
+  --bg3: #e2ebfa;
+  --surf: #ffffff;
+  --surf2: #f3f7ff;
+  --brd: rgba(27, 63, 113, .20);
+  --brd2: rgba(22, 83, 166, .42);
+  --txt: #13243e;
+  --txt2: #394f70;
+  --txt3: #516580;
+  --card-bg: #ffffff;
+  --card-hov: #f1f7ff;
+  --topbar-bg: rgba(250, 252, 255, .97);
+  --nav-bg: rgba(255, 255, 255, .98);
+  --input-bg: #ffffff;
+  --premium-shadow: 0 5px 24px rgba(25, 57, 103, .075), 0 1px 3px rgba(25, 57, 103, .07);
+  --premium-shadow-hover: 0 16px 38px rgba(25, 67, 128, .14), 0 2px 8px rgba(25, 67, 128, .07);
+}
+
+/* Give the large pale regions purposeful tonal separation instead of flat grey. */
+[data-theme="light"] body { background: var(--bg); color: var(--txt); }
+[data-theme="light"] :is(.page-hero, .sol-hero, .ben-hero, .bshp-hero, .sad-hero) {
+  background: linear-gradient(145deg, #ffffff 0%, #f3f7ff 52%, #eaf2ff 100%);
+  border-bottom: 1px solid var(--brd);
+}
+[data-theme="light"] .footer {
+  background: linear-gradient(180deg, #eef4ff, #f9fbff);
+  border-top: 1px solid var(--brd);
+}
+[data-theme="light"] :is(.topbar, #sb, #sidebar, .tabs-bar) {
+  border-color: var(--brd);
+}
+
+/* The site has many page-specific card components; make each clearly distinct
+   from its surrounding section without altering their size or DOM structure. */
+[data-theme="light"] :is(
+  .card, .glass, .sc, .svc-c, .proc-card, .tc-card,
+  .m-big, .m-sm, .m-bars, .mc-el, .sac, .srow, .tmc, .cia, .mform,
+  .svc-full, .tech-card, .price-card, .faq-item,
+  .val-card, .team-card, .award-card, .culture-card, .perk-card, .job-card,
+  .ben-card, .ben-process-card, .sol-case, .sol-note,
+  .fnd-skill-card, .fnd-val-card, .bshp-cmp-card, .bshp-svc-card,
+  .sad-svc-card, .sad-addr-card,
+  .acreg-reg-card, .acreg-capital-card
+) {
+  border-color: var(--brd);
+  box-shadow: var(--premium-shadow);
+}
+[data-theme="light"] :is(
+  .card, .glass, .sc, .svc-c, .proc-card, .tc-card,
+  .m-big, .m-sm, .m-bars, .mc-el, .sac, .srow, .tmc, .cia, .mform,
+  .svc-full, .tech-card, .price-card, .faq-item,
+  .val-card, .team-card, .award-card, .culture-card, .perk-card, .job-card,
+  .ben-card, .ben-process-card, .fnd-skill-card, .fnd-val-card,
+  .bshp-svc-card, .sad-svc-card, .sad-addr-card
+) { background-color: var(--card-bg); }
+[data-theme="light"] :is(
+  .card, .sc, .svc-c, .proc-card, .tc-card, .svc-full,
+  .tech-card, .price-card, .val-card, .team-card, .award-card,
+  .culture-card, .perk-card, .job-card, .ben-card,
+  .fnd-skill-card, .fnd-val-card, .bshp-cmp-card, .bshp-svc-card,
+  .sad-svc-card, .sad-addr-card
+):hover {
+  border-color: var(--brd2);
+  box-shadow: var(--premium-shadow-hover);
+}
+
+/* Consistent accessible typography, visible controls and well-defined outlines. */
+[data-theme="light"] :is(.fl, .mfl, .fct, .nav-lbl, .ti-lbl, .flinks a, .legal-footer-bar-label) {
+  color: var(--txt2);
+}
+[data-theme="light"] :is(.btn-g, .ff, .mff, .srch-input, .mobile-theme, .sb-icon-btn, .theme-btn) {
+  border-color: var(--brd);
+}
+[data-theme="light"] :is(.btn-g, .ff, .mff, .mobile-theme, .sb-icon-btn) {
+  background-color: #ffffff;
+}
+[data-theme="light"] :is(.ff, .mff, .srch-input):focus-visible,
+[data-theme="light"] :is(.btn-g, .btn-p, .nav-a, .ti-btn, .lf-link):focus-visible {
+  outline: 3px solid rgba(24, 97, 205, .32);
+  outline-offset: 2px;
+  border-color: var(--blue-dk);
+}
+[data-theme="light"] .section-lbl {
+  color: #164e9e;
+  background: rgba(35, 104, 209, .08);
+  border-color: rgba(35, 104, 209, .25);
+}
+[data-theme="light"] :is(.tb, .price-badge) { color: #174d99; }
+[data-theme="light"] .nav-cta { color: #174d99; background: #e5efff; }
+[data-theme="light"] :is(.sb-dot, .ti-dot, .nav-dot) { border-color: transparent; }
+
+/* Maintain responsive layout and existing motion: colors/shadows only above. */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="light"] :is(.card, .svc-c, .price-card, .tech-card):hover {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* V4 · Page-specific surfaces reviewed against actual React component CSS.
+   Respect unique branded accent blocks while restoring readable, distinct
+   elevation for FAQ, contact, careers, comparison and registration areas. */
+[data-theme="light"] :is(
+  .ben-step, .ben-faq, .contact-panel, .contact-form,
+  .faq-contact-item, .soc-lg-a, .proc-step, .apply-form,
+  .bshp-stat, .bshp-city, .bshp-faq, .sad-stat, .sad-why,
+  .sad-faq, .fnd-stat, .acreg-trust-item, .acreg-business-scope,
+  .acreg-source, .acreg-chip, .acreg-id-pill, .acreg-scope-item
+) {
+  background-color: #ffffff;
+  border-color: var(--brd);
+  box-shadow: var(--premium-shadow);
+}
+[data-theme="light"] :is(
+  .contact-panel, .contact-form, .faq-contact-item,
+  .ben-step, .ben-faq, .apply-form, .proc-step, .sad-why,
+  .bshp-faq, .sad-faq, .acreg-business-scope, .acreg-source,
+  .acreg-credential, .acreg-live, .acreg-capital-main
+) { border-color: var(--brd); }
+
+/* The Hidden Partner panel was originally dark purple even in light mode.
+   Replace only its light appearance with a luminous violet/porcelain tone. */
+[data-theme="light"] .hidden-section {
+  background: linear-gradient(135deg, #fcfaff 0%, #f3efff 58%, #eee8fc 100%);
+  border-color: rgba(103, 65, 173, .26);
+  box-shadow: 0 12px 34px rgba(64, 45, 118, .09);
+}
+[data-theme="light"] .hidden-fact {
+  background: rgba(255, 255, 255, .76);
+  border-color: rgba(103, 65, 173, .20);
+}
+[data-theme="light"] .hidden-name-pill {
+  color: #56319a;
+  border-color: rgba(103, 65, 173, .22);
+  background: rgba(103, 65, 173, .08);
+}
+
+/* Accent-only controls stay on brand: no unnecessary saturated fills. */
+[data-theme="light"] .price-card.featured {
+  background: linear-gradient(158deg, #ffffff, #f1f6ff);
+  border-color: rgba(28, 96, 192, .30);
+}
+[data-theme="light"] .acreg-section--alt,
+[data-theme="light"] .ben-process {
+  background: #ecf3ff;
+}
+[data-theme="light"] .acreg-credential,
+[data-theme="light"] .acreg-capital-main,
+[data-theme="light"] .acreg-live {
+  border-color: rgba(27, 63, 113, .24);
+  box-shadow: var(--premium-shadow);
+}
+[data-theme="light"] .acreg-reg-card,
+[data-theme="light"] .acreg-capital-card {
+  box-shadow: var(--premium-shadow);
+}
+
+/* Prevent low-contrast brand/accent text from inheriting light-palette shades
+   originally chosen for the dark site. */
+[data-theme="light"] :is(.faq-arr, .price-badge, .ben-step-num) {
+  color: #1b58af;
+}
+[data-theme="light"] :is(.msh-a, .srow-arr, .lsheet-arr, .lsheet-lbl-d) {
+  color: var(--txt2);
+}
+[data-theme="light"] :is(.lf-link, .nav-cta, .btn-g) {
+  text-underline-offset: 3px;
+}
+[data-theme="light"] :is(.ff, .mff, .srch-input, .acreg-refresh):focus-visible,
+[data-theme="light"] :is(a, button, summary):focus-visible {
+  outline: 2px solid #2065c2;
+  outline-offset: 3px;
+}
+
+/* Allow long, premium CTA labels to wrap on small viewports, not overflow. */
+@media (max-width: 639px) {
+  [data-theme="light"] :is(.btn-p, .btn-g, .nav-cta) {
+    white-space: normal;
+    max-width: 100%;
+  }
+  [data-theme="light"] :is(.contact-panel, .contact-form, .apply-form) {
+    box-shadow: 0 3px 16px rgba(25, 57, 103, .07);
+  }
+}
+/* Ayamil audited UX: reduced-motion, touch and accessible disclosure controls. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  :is(.card, .svc-c, .price-card, .tech-card, .team-card, .job-card, .ben-card):hover {
+    transform: none;
+  }
+  :is(.hero-blob, .shimmer-txt, .nav-logo, .i3) { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+@media (hover: none) and (pointer: coarse) {
+  :is(.card, .svc-c, .price-card, .tech-card, .team-card, .job-card):hover {
+    transform: none;
+  }
+}
+:is(.faq-q, .faq-contact-q):focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+
+/* AYAMIL CODERS · THEME CONTRAST & NATIVE CONTROLS FIX · 2026-10-12 */
+/* Browsers/OSes can render native <option> popups with a different surface
+   from the closed <select>. Set BOTH popup foreground and background, and
+   native color-scheme. This applies to all current and future native selects,
+   including homepage, Contact, Careers and the shared JSX forms. */
+html[data-theme="dark"] {
+  --native-option-bg: #111f33;
+  --native-option-fg: #edf3ff;
+  --native-option-muted: #b3c5df;
+  --native-option-selected: #244768;
+}
+html[data-theme="light"] {
+  --native-option-bg: #ffffff;
+  --native-option-fg: #13243e;
+  --native-option-muted: #516580;
+  --native-option-selected: #e6f0ff;
+  /* The homepage config editor follows the selected theme, not the dark theme. */
+  --code-bg: #f7faff;
+}
+html[data-theme="dark"] select { color-scheme: dark; }
+html[data-theme="light"] select { color-scheme: light; }
+html[data-theme] select :is(option, optgroup) {
+  background-color: var(--native-option-bg) !important;
+  color: var(--native-option-fg) !important;
+}
+html[data-theme] select option:disabled {
+  color: var(--native-option-muted) !important;
+}
+html[data-theme] select option:checked {
+  background-color: var(--native-option-selected) !important;
+  color: var(--native-option-fg) !important;
+}
+/* Explicit closed-select surface and affordance. No global select background
+   overwrite: authenticated dashboard inputs retain their own component styles. */
+html[data-theme="dark"] :is(select.ff, select.mff) {
+  background-color: #111f33;
+  color: #edf3ff;
+  border-color: rgba(148, 172, 206, .30);
+}
+html[data-theme="light"] :is(select.ff, select.mff) {
+  background-color: #ffffff;
+  color: #13243e;
+  border-color: rgba(27, 63, 113, .26);
+}
+html[data-theme] :is(select.ff, select.mff) {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 42px;
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px 14px;
+}
+html[data-theme="dark"] :is(select.ff, select.mff) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b3c5df' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+html[data-theme="light"] :is(select.ff, select.mff) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23394f70' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+html[data-theme] :is(select.ff, select.mff):focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Light-mode code-editor surface: match existing light syntax highlighting
+   and preserve the dark editor intact when switching back. */
+html[data-theme="light"] .cc {
+  background: var(--code-bg);
+  border-color: rgba(38, 85, 153, .30);
+  box-shadow: 0 18px 42px rgba(25, 67, 128, .11), 0 3px 9px rgba(25, 67, 128, .07);
+}
+html[data-theme="light"] .cc-top {
+  background: #eaf2ff;
+  border-bottom-color: rgba(38, 85, 153, .20);
+}
+html[data-theme="light"] .cc-body {
+  color: var(--txt);
+  background: #f7faff;
+}
+html[data-theme="light"] .cc-sb {
+  background: #e9f3ff;
+  border-top-color: rgba(38, 85, 153, .20);
+}
+html[data-theme="light"] .cc-fn { color: #394f70; }
+
+/* Status colors previously designed for dark backgrounds. In light mode
+   their bright foregrounds were too faint on white cards/forms. */
+html[data-theme="light"] :is(.avail-slot:not(.busy), .resp-time, .sc-yes .sc-label) {
+  color: #12683b;
+}
+html[data-theme="light"] :is(.avail-slot.busy, .sc-no .sc-label) {
+  color: #b42346;
+}
+html[data-theme="light"] .sc-maybe .sc-label { color: #905100; }
+html[data-theme="light"] :is(.contact-form, .apply-form, .mform, .ff, .mff) {
+  color: var(--txt);
+}
+
+
+/* ═══ V6: source-level cross-theme audit ═══
+   Readable fallback text before React injects layout rules.
+   Native menus inherit the correct platform color-scheme and popup palette.
+   Toasts retain readable text on their deliberately dark surfaces.
+   Keyboard focus is always visible, including dark mode. */
+html[data-theme="dark"] :is(.cf-toast) { color: #f1f5fd; }
+html[data-theme="light"] :is(.cf-toast) { color: #f1f5fd; }
+html[data-theme] :is(.ff, .mff, .srch-input, .acreg-refresh, .lsheet-close, .theme-btn, .mobile-theme):focus-visible,
+html[data-theme] :is(button, a, summary, [role="button"]):focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+html[data-theme="dark"] :is(input.ff, textarea.ff, input.mff, textarea.mff) {
+  color: #edf3ff;
+  caret-color: #edf3ff;
+}
+html[data-theme="light"] :is(input.ff, textarea.ff, input.mff, textarea.mff) {
+  color: #13243e;
+  caret-color: #13243e;
+}
+html[data-theme] :is(input.ff, textarea.ff, input.mff, textarea.mff)::placeholder {
+  color: var(--txt3);
+  opacity: 1;
+}
+/* OS forced-contrast mode: do not obscure system-defined focus and form colors. */
+@media (forced-colors: active) {
+  html[data-theme] :is(select.ff, select.mff) {
+    appearance: auto;
+    -webkit-appearance: auto;
+    background-image: none;
+    forced-color-adjust: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] :is(.btn-p, .shimmer-txt, .nav-logo, .hero-blob, .i3, .app-hero) {
+    animation: none !important;
+  }
+  html[data-theme] :is([data-a="up"], [data-a="left"], [data-a="right"], [data-a="scale"], [data-a="flip"], [data-a="blur"]) {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Premium icon system — small vector elements, no external image or font downloads. */
+.ac-picon{--ac-picon-ink:#1253ab;display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;flex:0 0 auto;width:46px;height:46px;border-radius:15px;position:relative;isolation:isolate;overflow:hidden;color:var(--ac-picon-ink);background:linear-gradient(150deg,#fff 0%,#edf5ff 54%,#d9e9ff 100%);border:1px solid rgba(5,82,223,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,1),inset 0 -3px 6px rgba(5,82,223,.08),0 9px 20px -12px rgba(5,58,151,.48)}
+.ac-picon::before{content:'';position:absolute;inset:2px 2px 48% 2px;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.65),transparent);pointer-events:none}
+.ac-picon__svg{position:relative;z-index:1;filter:drop-shadow(0 2px 2px rgba(0,38,116,.13))}
+.ac-picon--violet{--ac-picon-ink:#6b39ad;background:linear-gradient(150deg,#fff,#f5eeff 52%,#e9d7ff);border-color:rgba(107,57,173,.16)}
+.ac-picon--teal{--ac-picon-ink:#067870;background:linear-gradient(150deg,#fff,#e9fbf9 52%,#d1f5f0);border-color:rgba(6,120,112,.17)}
+.ac-picon--amber{--ac-picon-ink:#92551a;background:linear-gradient(150deg,#fff,#fff4df 52%,#ffe5b2);border-color:rgba(146,85,26,.19)}
+.ac-picon--rose{--ac-picon-ink:#b12a51;background:linear-gradient(150deg,#fff,#fff0f4 52%,#ffdbe6);border-color:rgba(177,42,81,.16)}
+[data-theme="dark"] .ac-picon{--ac-picon-ink:#c5ddff;background:linear-gradient(155deg,#244a80,#13305a 62%,#0e2344);border-color:rgba(127,174,244,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.21),inset 0 -4px 7px rgba(0,0,0,.20),0 10px 20px -12px rgba(0,0,0,.6)}
+[data-theme="dark"] .ac-picon--violet{--ac-picon-ink:#e4d0ff;background:linear-gradient(155deg,#5c4385,#332151 65%,#27183c)}
+[data-theme="dark"] .ac-picon--teal{--ac-picon-ink:#b3f7e7;background:linear-gradient(155deg,#16675e,#0d3b39 65%,#082c2b)}
+[data-theme="dark"] .ac-picon--amber{--ac-picon-ink:#ffdd9c;background:linear-gradient(155deg,#82521d,#4e311a 65%,#362310)}
+[data-theme="dark"] .ac-picon--rose{--ac-picon-ink:#ffc5d3;background:linear-gradient(155deg,#843650,#4e2037 65%,#381b2b)}
+.ac-picon--bare,[data-theme="dark"] .ac-picon--bare{width:auto;height:auto;min-width:0;border:0;border-radius:0;overflow:visible;background:none;box-shadow:none;color:#fff}
+.ac-picon--bare::before{display:none}
+.ac-picon--bare .ac-picon__svg{filter:drop-shadow(0 2px 2px rgba(0,0,0,.20))}
+@media(prefers-reduced-motion:reduce){.ac-picon,.ac-picon__svg{transition:none!important;animation:none!important}}
+
+/* Untiled icon treatments for light surfaces and compact icon-only controls. */
+.ac-picon--flat,[data-theme="dark"] .ac-picon--flat{width:auto;height:auto;min-width:0;border:0;border-radius:0;overflow:visible;background:none;box-shadow:none;color:var(--blue-dk)}
+[data-theme="dark"] .ac-picon--flat{color:#9ec8ff}
+.ac-picon--flat::before{display:none}
+.ac-picon--flat .ac-picon__svg{filter:none}
+/* Lucide icon pairs replace platform-dependent emoji on the global theme controls. */
+.ac-theme-sun,.ac-thumb-light{display:none}
+[data-theme="light"] .ac-theme-sun,[data-theme="light"] .ac-thumb-light{display:inline-block}
+[data-theme="light"] .ac-theme-moon,[data-theme="light"] .ac-thumb-dark{display:none}
+.mobile-theme svg,.theme-icon svg,.theme-thumb svg{display:block;flex-shrink:0}
+.mobile-theme{color:var(--txt)}
+/* Specificity matters: the generic icon sizing rule above must not unhide the inactive theme icon. */
+.mobile-theme svg.ac-theme-sun,.theme-thumb svg.ac-thumb-light{display:none}
+[data-theme="light"] .mobile-theme svg.ac-theme-sun,[data-theme="light"] .theme-thumb svg.ac-thumb-light{display:block}
+[data-theme="light"] .mobile-theme svg.ac-theme-moon,[data-theme="light"] .theme-thumb svg.ac-thumb-dark{display:none}
+
+/* V8 FIRST-PAINT RESPONSIVE SHELL — loaded before React effects.
+   Public inner pages mount exactly once, regardless of viewport width. */
+.nav-ico{display:none;flex-shrink:0;color:var(--txt2)}
+@media (min-width:640px) and (max-width:1023px){
+  #sidebar .nav-ico{display:block}
+  #sidebar .nav-a{min-height:44px;justify-content:center;gap:0}
+  #sidebar .nav-dot{display:none}
+  #sidebar .nav-a:hover .nav-ico,#sidebar .nav-a.act .nav-ico{color:var(--blue)}
+  #sidebar .nav-a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+}
+@media(max-width:639px){
+  .mw:not(.public-inner-page){display:none!important}
+  .mw.public-inner-page{display:block!important;margin:0!important;padding:0!important}
+  .mw.public-inner-page>.topbar,.mw.public-inner-page>.twr,.mw.public-inner-page>.footer{display:none!important}
+  .mw.public-inner-page>.public-page-content{
+    position:fixed;top:calc(50px + var(--safe-t));bottom:calc(64px + var(--safe-b));
+    left:0;right:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;background:var(--bg);padding-bottom:80px;scrollbar-width:none
+  }
+  .mw.public-inner-page>.public-page-content::-webkit-scrollbar{display:none}
+  #mscr{display:block;position:fixed;top:calc(50px + var(--safe-t));bottom:calc(64px + var(--safe-b));left:0;right:0;overflow:hidden}
+  #mscr .asc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;background:var(--bg);scrollbar-width:none}
+  #mscr .asc::-webkit-scrollbar{display:none}
+  #tbar{display:flex;position:fixed;bottom:0;left:0;right:0;height:calc(64px + var(--safe-b));padding-bottom:var(--safe-b);z-index:200;background:var(--nav-bg);border-top:1px solid var(--brd);align-items:center;justify-content:space-around}
+  #sb{display:flex}
+  .ti-btn{appearance:none;min-width:0;min-height:48px}
+}
+@media(min-width:640px){#mscr,#tbar{display:none!important}}
+@media(max-width:639px){
+  .public-page-content .sp{padding-left:20px;padding-right:20px}
+  .public-page-content .page-hero{padding-left:20px;padding-right:20px}
+}
+
+/* MOBILE-FIRST PAINT: real tabs and hidden panels must be laid out correctly
+   before the layout useEffect injects its optional animation rules. */
+@media(max-width:639px){
+  #sidebar{display:none!important}
+  #sb{height:calc(50px + var(--safe-t));padding:var(--safe-t) 16px 0}
+  .sb-icon-btn{width:38px;height:38px;border-radius:11px;background:var(--surf);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;color:var(--txt2);text-decoration:none;flex-shrink:0}
+  .ti-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;color:var(--txt2);cursor:pointer;border:0;background:none;text-decoration:none;-webkit-tap-highlight-color:transparent;font-family:var(--font)}
+  .ti-icon{width:33px;height:33px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+  .ti-ico{color:var(--txt2)}
+  .ti-lbl{font-size:10px;font-weight:600;white-space:nowrap;color:var(--txt2)}
+  .ti-dot{width:4px;height:4px;border-radius:50%;background:transparent}
+  .ti-btn.act .ti-icon{background:rgba(41,121,242,.15)}
+  .ti-btn.act .ti-ico,.ti-btn.act .ti-lbl{color:var(--blue)}
+  [data-theme="light"] .ti-btn.act .ti-ico,[data-theme="light"] .ti-btn.act .ti-lbl{color:var(--blue-dk)}
+  .ti-btn.act .ti-dot{background:var(--blue)}
+  #mscr .asc.s-hide-r{transform:translateX(100%);opacity:0;pointer-events:none}
+  #mscr .asc.s-hide-l{transform:translateX(-100%);opacity:0;pointer-events:none}
+  #mscr .asc.s-act{transform:translateX(0);opacity:1;pointer-events:auto}
+}
+
+
+/* V9 · Cohesive raised status mark: tied to avatar TOP-RIGHT, not the bottom.
+   This treatment is shared by desktop homepage, mobile portal and About. */
+:is(.tc-badge,.tmc-vf,.team-badge).ac-verify{
+  position:absolute;top:-7px;right:-7px;bottom:auto;left:auto;
+  width:24px;height:24px;min-width:24px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#ffffff;
+  background:linear-gradient(145deg,#69eeb0 0%,#13a96d 48%,#087750 100%);
+  border:2px solid var(--bg2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -2px 3px rgba(0,51,35,.28),0 4px 11px rgba(2,98,71,.3);
+  z-index:3;pointer-events:none;
+}
+:is(.tc-badge,.tmc-vf,.team-badge).ac-verify svg{width:13px;height:13px;display:block;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tmc-vf.ac-verify{width:22px;height:22px;min-width:22px;top:-6px;right:-6px}
+[data-theme="light"] :is(.tc-badge,.tmc-vf,.team-badge).ac-verify{border-color:#f6f9ff}
+/* Consistent chip geometry regardless of the parent flex direction. */
+.section-lbl{width:max-content;max-width:100%;flex-shrink:0;white-space:normal;overflow-wrap:anywhere;line-height:1.35}
+/* Mobile quick links and service accordions: keyboard and touch friendly. */
+.srow:is(button){-webkit-appearance:none;appearance:none;width:100%;font:inherit;color:var(--txt);text-align:left;line-height:1.5}
+.msh-a:is(button){appearance:none;background:transparent;border:0;padding:7px 2px;font:inherit;color:var(--blue-lt);font-size:12px;font-weight:600;cursor:pointer}
+:is(.srow,.msh-a):focus-visible{outline:3px solid var(--blue);outline-offset:3px;position:relative;z-index:5}
+[data-theme="light"] .msh-a:is(button){color:var(--blue-dk)}
+@media (prefers-reduced-motion:reduce){:is(.tc-card,.team-card,.tmc) .ac-verify{transition:none;animation:none}}
+
+/* ═══════ AYAMIL V10 — PHONE-ONLY INTERACTION & VISUAL AUDIT ═══════
+   320px compact phones, iOS virtual keyboard, short landscape, native
+   form controls, safe areas, touch targets and mobile floating actions.
+   Desktop color palette and desktop layout are deliberately unchanged. */
+@media (max-width:639px) {
+  /* Keep header usable on the narrowest Android/iPhone viewports. */
+  #sb { gap:8px; padding-left:max(12px,env(safe-area-inset-left)); padding-right:max(12px,env(safe-area-inset-right)); }
+  #sb .sb-brand { min-width:0; flex:1 1 auto; }
+  #sb .sb-logo { flex:0 0 30px; }
+  #sb .sb-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+  #sb .sb-r { flex:0 0 auto; gap:6px; }
+  #sb .sb-icon-btn, #sb .mobile-theme { width:42px;height:42px;min-width:42px;min-height:42px; }
+  /* Use at least 16px inputs to avoid Safari's automatic focus zoom. */
+  :is(input.ff,select.ff,textarea.ff,input.mff,select.mff,textarea.mff,.srch-input) {
+    font-size:16px; min-height:46px;
+  }
+  textarea.ff,textarea.mff { line-height:1.5; }
+  :is(.ff,.mff,.srch-input) { max-width:100%; }
+  :is(.contact-form,.apply-form,.mform,.fc) { min-width:0; }
+  /* Long labels, URLs, tags and card values should wrap instead of overflow. */
+  :is(.srow,.cia,.sac,.tmc,.tc-card,.team-card,.contact-panel,.contact-form,.apply-form,.acreg-shell) { min-width:0; }
+  :is(.cia,.srow,.tmc-b,.lsheet-lbl,.contact-panel,.acreg-shell) { overflow-wrap:anywhere; }
+  :is(.srow,.lsheet-row,.cia) { -webkit-tap-highlight-color:transparent; }
+  #mscr .asc { padding-bottom:calc(96px + var(--safe-b)); scroll-padding-block:16px calc(96px + var(--safe-b)); }
+  .mw.public-inner-page>.public-page-content { scroll-padding-block:16px calc(110px + var(--safe-b)); }
+  #tbar .ti-btn { min-height:56px; justify-content:center; }
+  :is(#legal-pill,#stt,.lsheet-close,.srch-close) { min-height:44px; }
+  #stt { width:44px; height:44px; }
+  .lsheet-close,.srch-close { width:44px;height:44px; }
+  #legal-pill { padding:10px 14px; }
+  #legal-sheet { overscroll-behavior-y:contain; }
+  #legal-sheet .lsheet-row { min-height:64px; }
+  #legal-sheet .lsheet-lbl { min-width:0; }
+  /* Native focus indication and selection, without heavy touch animations. */
+  :is(.fab-whatsapp,#legal-pill,#stt,.ti-btn,.sb-icon-btn,.mobile-theme,.lsheet-close):focus-visible {
+    outline:3px solid var(--blue);outline-offset:3px;
+  }
+  /* The keyboard gets priority over all floating navigation. */
+  body.ac-mobile-editing :is(#tbar,.fab,#legal-pill,#stt) { display:none!important; }
+  body.ac-mobile-editing #mscr { bottom:0!important; }
+  body.ac-mobile-editing .mw.public-inner-page>.public-page-content { bottom:0!important; }
+  body.ac-mobile-editing :is(#mscr .asc,.mw.public-inner-page>.public-page-content) {
+    scroll-padding-bottom:24px;
+  }
+  /* Lightweight WhatsApp-brand 3D, SVG only: no emoji, fonts or images. */
+  .fab.fab-whatsapp {
+    display:flex; width:56px;height:56px;right:max(16px,env(safe-area-inset-right));
+    bottom:calc(81px + var(--safe-b));border-radius:18px;color:#fff;
+    background:linear-gradient(145deg,#82f1b5 0%,#32cf79 16%,#10a962 58%,#08784a 100%);
+    border:1px solid rgba(5,103,60,.38);
+    box-shadow:inset 0 2px 1px rgba(255,255,255,.68),inset 0 -4px 7px rgba(0,65,40,.32),
+       0 5px 0 rgba(2,85,49,.43),0 12px 24px rgba(2,108,58,.28);
+    isolation:isolate;overflow:hidden;position:fixed;text-decoration:none;
+    transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;
+    will-change:auto;
+  }
+  .fab.fab-whatsapp::before {
+    content:'';position:absolute;left:5px;right:5px;top:3px;height:48%;
+    border-radius:15px 15px 35% 35%;background:linear-gradient(180deg,rgba(255,255,255,.33),transparent);
+    pointer-events:none;
+  }
+  .fab.fab-whatsapp::after {
+    content:'';position:absolute;inset:6px;border:1px solid rgba(255,255,255,.22);
+    border-radius:14px;pointer-events:none;
+  }
+  .fab-whatsapp-icon { width:33px;height:33px;display:block;position:relative;z-index:1;
+    filter:drop-shadow(0 2px 2px rgba(0,83,44,.42)); }
+  .fab.fab-whatsapp:active { transform:translateY(3px) scale(.97);
+    box-shadow:inset 0 2px 2px rgba(255,255,255,.4),inset 0 -3px 5px rgba(0,65,40,.3),0 2px 0 rgba(2,85,49,.43),0 5px 15px rgba(2,108,58,.25);
+  }
+}
+@media (max-width:360px) {
+  #sb .sb-r > a[href="/solutions"] { display:none; } /* Discoverability remains in Expertise navigation. */
+  #sb .sb-name { font-size:14px;letter-spacing:-.02em; }
+  #sb .sb-r { gap:5px; }
+  #mscr .app-hero { margin-inline:12px!important; padding-inline:15px!important; }
+  .mform { margin-inline:12px; padding-inline:14px; }
+}
+@media (max-width:639px) and (max-height:480px) and (orientation:landscape) {
+  /* Short landscape displays: prioritize actual content over fixed chips. */
+  #legal-pill,#stt { display:none!important; }
+  .fab.fab-whatsapp { width:48px;height:48px;right:10px;bottom:calc(69px + var(--safe-b));border-radius:15px; }
+  .fab-whatsapp-icon { width:28px;height:28px; }
+  #mscr .asc { padding-bottom:26px; }
+}
+@media (max-width:639px) and (prefers-reduced-motion:reduce) {
+  .fab.fab-whatsapp,.fab-whatsapp-icon,.ti-icon { transition:none!important;animation:none!important; }
+  #mscr .asc { transition:none!important; }
 }

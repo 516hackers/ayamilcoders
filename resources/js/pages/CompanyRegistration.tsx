@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useCallback, useEffect, useMemo, useState } from 'react';
 import SEO from '@/components/SEO';
 import {
     BadgeCheck,
@@ -208,7 +208,7 @@ export default function CompanyRegistration() {
         };
     }, [loadMetrics]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existing = document.getElementById('company-registration-premium-v3-css');
         existing?.remove();
 
@@ -1698,6 +1698,11 @@ export default function CompanyRegistration() {
             <section className="acreg-hero">
                 <img
                     src="/logo/ac-512.png"
+                    width={512}
+                    height={512}
+                    decoding="async"
+                    loading="lazy"
+                    fetchPriority="low"
                     alt=""
                     className="acreg-watermark"
                     aria-hidden="true"
@@ -1742,7 +1747,7 @@ export default function CompanyRegistration() {
                     <div className="acreg-credential">
                         <div className="acreg-credential-top">
                             <div className="acreg-credential-label">
-                                Corporate identity record
+                                Corporate Identity Overview
                             </div>
 
                             <div className="acreg-credential-status">
@@ -1755,6 +1760,9 @@ export default function CompanyRegistration() {
                             <div className="acreg-logo-ring">
                                 <img
                                     src="/logo/ac-512.png"
+                                    width={512}
+                                    height={512}
+                                    decoding="async"
                                     alt="Ayamil Coders"
                                     className="acreg-logo"
                                 />
@@ -1840,7 +1848,7 @@ export default function CompanyRegistration() {
                             </div>
 
                             <h2 className="acreg-h2">
-                                Core corporate identity.
+                                Corporate identity at a glance.
                             </h2>
 
                             <p className="acreg-desc">
@@ -2108,7 +2116,7 @@ export default function CompanyRegistration() {
 
                                 <div>
                                     <div className="acreg-live-source">
-                                        <span>Data Source</span>
+                                        <span>Financial Data Source</span>
                                         <strong>
                                             {connected
                                                 ? metrics?.source || 'Financial sync'
@@ -2131,7 +2139,7 @@ export default function CompanyRegistration() {
 
                         <div className="acreg-live-stats">
                             <div className="acreg-live-stat">
-                                <span>Official Face Value</span>
+                                <span>Registered Face Value</span>
                                 <strong>{formatPKR(FACE_VALUE)}</strong>
                             </div>
 
@@ -2209,7 +2217,7 @@ export default function CompanyRegistration() {
                             </div>
 
                             <h3 className="acreg-business-title">
-                                Technology Business Scope
+                                Registered Technology Activities
                             </h3>
 
                             <p className="acreg-business-copy">

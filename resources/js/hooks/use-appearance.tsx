@@ -34,7 +34,10 @@ const getStoredAppearance = (): Appearance => {
         return 'system';
     }
 
-    return (localStorage.getItem('appearance') as Appearance) || 'system';
+    const explicit = localStorage.getItem('appearance');
+    if (explicit === 'dark' || explicit === 'light' || explicit === 'system') return explicit;
+    const legacyTheme = localStorage.getItem('theme');
+    return legacyTheme === 'dark' || legacyTheme === 'light' ? legacyTheme : 'system';
 };
 
 const isDarkMode = (appearance: Appearance): boolean => {
@@ -48,8 +51,12 @@ const applyTheme = (appearance: Appearance): void => {
 
     const isDark = isDarkMode(appearance);
 
+    const resolved = isDark ? 'dark' : 'light';
     document.documentElement.classList.toggle('dark', isDark);
-    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', resolved);
+    document.documentElement.style.colorScheme = resolved;
+    const meta = document.getElementById('theme-meta');
+    if (meta) meta.setAttribute('content', isDark ? '#060d1a' : '#f8faff');
 };
 
 const subscribe = (callback: () => void) => {
@@ -68,7 +75,10 @@ const mediaQuery = (): MediaQueryList | null => {
     return window.matchMedia('(prefers-color-scheme: dark)');
 };
 
-const handleSystemThemeChange = (): void => applyTheme(currentAppearance);
+const handleSystemThemeChange = (): void => {
+    applyTheme(currentAppearance);
+    if (currentAppearance === 'system') notify();
+};
 
 export function initializeTheme(): void {
     if (typeof window === 'undefined') {
@@ -76,8 +86,10 @@ export function initializeTheme(): void {
     }
 
     if (!localStorage.getItem('appearance')) {
-        localStorage.setItem('appearance', 'system');
-        setCookie('appearance', 'system');
+        const original = localStorage.getItem('theme');
+        const initial: Appearance = original === 'light' || original === 'dark' ? original : 'dark';
+        localStorage.setItem('appearance', initial);
+        setCookie('appearance', initial);
     }
 
     currentAppearance = getStoredAppearance();
@@ -85,6 +97,13 @@ export function initializeTheme(): void {
 
     // Set up system theme change listener
     mediaQuery()?.addEventListener('change', handleSystemThemeChange);
+    window.addEventListener('ayamil:theme-changed', ((event: Event) => {
+        const requested = (event as CustomEvent<'light' | 'dark'>).detail;
+        if (requested !== 'light' && requested !== 'dark') return;
+        currentAppearance = requested;
+        applyTheme(requested);
+        notify();
+    }) as EventListener);
 }
 
 export function useAppearance(): UseAppearanceReturn {
@@ -103,6 +122,7 @@ export function useAppearance(): UseAppearanceReturn {
 
         // Store in localStorage for client-side persistence...
         localStorage.setItem('appearance', mode);
+        localStorage.setItem('theme', isDarkMode(mode) ? 'dark' : 'light');
 
         // Store in cookie for SSR...
         setCookie('appearance', mode);

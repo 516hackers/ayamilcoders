@@ -14,5 +14,5 @@ Route::get('/company/share-value', [
     'shareValue'
 ]);
 
-Route::post('/contact', [FormController::class, 'submitContact']);
-Route::post('/careers/apply', [FormController::class, 'submitCareer']);
+Route::post('/contact', [FormController::class, 'submitContact'])->middleware('throttle:6,1');
+Route::post('/careers/apply', [FormController::class, 'submitCareer'])->middleware('throttle:3,1');

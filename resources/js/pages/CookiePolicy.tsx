@@ -1,11 +1,13 @@
+import { Link } from '@inertiajs/react';
 // resources/js/pages/CookiePolicy.tsx
 
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 export default function CookiePolicy() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('cookie-policy-css');
         if (existingStyle) existingStyle.remove();
 
@@ -643,25 +645,25 @@ export default function CookiePolicy() {
                         We use cookies minimally and transparently — only to make your experience better. This policy explains exactly what we use and why.
                     </p>
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '20px' }}>
-                        <a href="/privacy-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        <Link href="/privacy-policy" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
                             Privacy Policy
-                        </a>
-                        <a href="/terms" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        </Link>
+                        <Link href="/terms" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                 <polyline points="14 2 14 8 20 8"/>
                             </svg>
                             Terms &amp; Conditions
-                        </a>
-                        <a href="/contact" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
+                        </Link>
+                        <Link href="/contact" className="btn-g" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                             </svg>
                             Talk to Us
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -724,7 +726,7 @@ export default function CookiePolicy() {
                                 <p>Cookies are small text files that are placed on your device (computer, smartphone, or tablet) when you visit a website. They are widely used to make websites work more efficiently, remember your preferences, and provide a better user experience.</p>
                                 <p>Cookies are not programs and cannot execute code or access your device's files. They are passive text files that only contain information which is sent back to the website that set them.</p>
                                 <div className="info-box info-box-green">
-                                    <p>🍪 <strong>Our approach:</strong> We use cookies minimally — only what's needed for the website to function properly and to remember your theme preference. We do not use tracking cookies, advertising cookies, or any cookies designed to profile you across the web.</p>
+                                    <p><strong>Our approach:</strong> We use cookies minimally — only what's needed for the website to function properly and to remember your theme preference. We do not use tracking cookies, advertising cookies, or any cookies designed to profile you across the web.</p>
                                 </div>
                             </div>
                         </div>
@@ -751,7 +753,7 @@ export default function CookiePolicy() {
                                     <li>Building user profiles for commercial purposes</li>
                                 </ul>
                                 <div className="info-box">
-                                    <p>📌 All cookies used on this site are either <strong>Strictly Necessary</strong> (for the site to function) or <strong>Functional</strong> (to remember your preferences). We do not use cookies that track you across the internet.</p>
+                                    <p>All cookies used on this site are either <strong>Strictly Necessary</strong> (for the site to function) or <strong>Functional</strong> (to remember your preferences). We do not use cookies that track you across the internet.</p>
                                 </div>
                             </div>
                         </div>
@@ -768,7 +770,7 @@ export default function CookiePolicy() {
                                 <div className="cookie-category-grid">
                                     {cookieCategories.map((cat, index) => (
                                         <div key={index} className="cookie-cat" data-a="scale" data-d={index + 1}>
-                                            <div className="cookie-cat-icon">{cat.icon}</div>
+                                            <div className="cookie-cat-icon"><PremiumIcon glyph={cat.icon} size={23}/></div>
                                             <div className="cookie-cat-title">{cat.title}</div>
                                             <div className="cookie-cat-desc">{cat.desc}</div>
                                         </div>
@@ -842,7 +844,7 @@ export default function CookiePolicy() {
                                     <li><strong>WhatsApp</strong> — <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">WhatsApp Privacy Policy</a></li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>Important:</strong> Clicking on external links will take you to third-party websites that operate under their own privacy and cookie policies. We recommend reviewing these policies before providing any personal information.</p>
+                                    <p><strong>Important:</strong> Clicking on external links will take you to third-party websites that operate under their own privacy and cookie policies. We recommend reviewing these policies before providing any personal information.</p>
                                 </div>
                             </div>
                         </div>
@@ -865,7 +867,7 @@ export default function CookiePolicy() {
                                 </ul>
 
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ <strong>Note:</strong> Disabling all cookies may affect your experience. Essential cookies (like those needed for security and basic functionality) cannot be disabled without breaking the website. If you disable all cookies, the website may not function correctly, and your theme preference will not be saved.</p>
+                                    <p><strong>Note:</strong> Disabling all cookies may affect your experience. Essential cookies (like those needed for security and basic functionality) cannot be disabled without breaking the website. If you disable all cookies, the website may not function correctly, and your theme preference will not be saved.</p>
                                 </div>
 
                                 <p><strong>Opting out of specific cookies:</strong></p>
@@ -875,7 +877,7 @@ export default function CookiePolicy() {
                                 </ul>
 
                                 <div className="info-box">
-                                    <p>💡 <strong>Simplest option:</strong> Use your browser's <strong>private/incognito mode</strong>. This automatically deletes all cookies when you close the window, meaning no cookies are stored permanently.</p>
+                                    <p><strong>Simplest option:</strong> Use your browser's <strong>private/incognito mode</strong>. This automatically deletes all cookies when you close the window, meaning no cookies are stored permanently.</p>
                                 </div>
                             </div>
                         </div>
@@ -910,21 +912,21 @@ export default function CookiePolicy() {
                                         <strong>Ayamil Coders</strong><br/>
                                         Founded by Muhammad Muzamil<br/>
                                         Sadiqabad &amp; Rahimyar Khan, Punjab, Pakistan<br/><br/>
-                                        📧 <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
-                                        💬 <a href="https://wa.me/923127592672" target="_blank" rel="noopener noreferrer">WhatsApp: +92 312 759 2672</a><br/>
-                                        🛍️ <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener noreferrer">Fiverr: fiverr.com/muzamil516</a><br/>
-                                        🌐 <a href="https://ayamilcoders.com">ayamilcoders.com</a>
+                                        <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br/>
+                                        <a href="https://wa.me/923127592672" target="_blank" rel="noopener noreferrer">WhatsApp: +92 312 759 2672</a><br/>
+                                        <a href="https://fiverr.com/muzamil516" target="_blank" rel="noopener noreferrer">Fiverr: fiverr.com/muzamil516</a><br/>
+                                        <a href="https://ayamilcoders.com">ayamilcoders.com</a>
                                     </p>
                                 </div>
                                 <p style={{ fontSize: '13px', color: 'var(--txt3)' }}>We aim to respond to all inquiries within <strong>1–2 business days</strong>.</p>
 
                                 {/* Related legal links */}
                                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '22px' }}>
-                                    <a href="/privacy-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Privacy Policy</a>
-                                    <a href="/terms" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Terms &amp; Conditions</a>
-                                    <a href="/refund-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Refund Policy</a>
-                                    <a href="/disclaimer" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Disclaimer</a>
-                                    <a href="/contact" className="btn-p" style={{ padding: '9px 18px', fontSize: '13px' }}>Contact Us</a>
+                                    <Link href="/privacy-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Privacy Policy</Link>
+                                    <Link href="/terms" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Terms &amp; Conditions</Link>
+                                    <Link href="/refund-policy" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Refund Policy</Link>
+                                    <Link href="/disclaimer" className="btn-g" style={{ padding: '9px 18px', fontSize: '13px' }}>Disclaimer</Link>
+                                    <Link href="/contact" className="btn-p" style={{ padding: '9px 18px', fontSize: '13px' }}>Contact Us</Link>
                                 </div>
                             </div>
                         </div>

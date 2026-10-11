@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
 
 export default function PrivacyPolicy() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('privacy-policy-css');
         if (existingStyle) existingStyle.remove();
 
@@ -564,7 +564,7 @@ export default function PrivacyPolicy() {
                                 <p>Ayamil Coders ("we", "us", "our") is a software development company registered and operating in Sadiqabad, Punjab, Pakistan, founded by Muhammad Muzamil. This Privacy Policy applies to our website at <strong>ayamilcoders.com</strong>, our Fiverr profile (<strong>muzamil516</strong>), and any direct communications or services we provide.</p>
                                 <p>By using our website or engaging our services, you agree to the collection and use of information as described in this policy. If you do not agree, please discontinue use of our site and services.</p>
                                 <div className="info-box">
-                                    <p>🔒 <strong>Short version:</strong> We collect only what we need to deliver our services and respond to inquiries. We do not sell your data to anyone — ever.</p>
+                                    <p><strong>Short version:</strong> We collect only what we need to deliver our services and respond to inquiries. We do not sell your data to anyone — ever.</p>
                                 </div>
                             </div>
                         </div>
@@ -629,7 +629,7 @@ export default function PrivacyPolicy() {
                                     <li><strong>Legal obligation</strong> — if required by Pakistani law, a court order, or to protect the rights and safety of Ayamil Coders or third parties.</li>
                                 </ul>
                                 <div className="info-box info-box-warn">
-                                    <p>⚠️ Any sub-contractor who handles client data is required to sign a confidentiality agreement before accessing project materials.</p>
+                                    <p>Any sub-contractor who handles client data is required to sign a confidentiality agreement before accessing project materials.</p>
                                 </div>
                             </div>
                         </div>
@@ -762,8 +762,8 @@ export default function PrivacyPolicy() {
                                         <strong>Ayamil Coders</strong><br />
                                         Founded by Muhammad Muzamil<br />
                                         Sadiqabad, Punjab, Pakistan<br />
-                                        📧 <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br />
-                                        💬 <a href="https://wa.me/923127592672" target="_blank">WhatsApp: +92 312 759 2672</a>
+                                        <a href="mailto:info@ayamilcoders.com">info@ayamilcoders.com</a><br />
+                                        <a href="https://wa.me/923127592672" target="_blank">WhatsApp: +92 312 759 2672</a>
                                     </p>
                                 </div>
                             </div>

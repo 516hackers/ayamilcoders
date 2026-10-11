@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { Link } from '@inertiajs/react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
+import AvatarCheck from '@/components/AvatarCheck';
 
 export default function About() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('about-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -36,7 +39,7 @@ export default function About() {
             .team-banner{height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
             .team-av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:18px;color:#fff;z-index:1;box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .3s}
             .team-card:hover .team-av{transform:scale(1.07)}
-            .team-badge{position:absolute;top:-4px;right:-4px;width:20px;height:20px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;border:2px solid var(--bg)}
+            .team-badge{position:absolute;top:-7px;right:-7px;width:24px;height:24px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;border:2px solid var(--bg)}
 
             .skill-row{margin-bottom:18px}
             .skill-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -153,8 +156,8 @@ export default function About() {
         },
         {
             year: '2025',
-            title: '600+ Projects. 50+ Countries. Still Growing.',
-            desc: 'Ayamil Coders now serves clients across 50+ countries with a structured remote team — specialising in Web Development, Blockchain Development, AI Development, and Bug Fixing.',
+            title: '600+ Projects. International Reach. Continuing Forward.',
+            desc: 'Ayamil Coders serves international clients through a structured remote team specialising in Web Development, Blockchain Development, AI Development, and Bug Fixing.',
         },
         {
             year: '2026',
@@ -166,33 +169,33 @@ export default function About() {
     const values = [
         {
             icon: '🎯',
-            title: 'Radical Transparency',
-            desc: 'Honest timelines, clear progress updates, no hidden scope, no surprise invoices. We say what we will do — then we do it.',
+            title: 'Transparent Communication',
+            desc: 'Clear deliverables, transparent timelines, and regular progress updates. Every engagement begins with shared expectations and direct communication.',
         },
         {
             icon: '🔒',
-            title: 'Security First',
-            desc: 'Every codebase leaves hardened — OWASP-aware, dependency-audited, and production-ready. Security is built in from day one, not bolted on at the end.',
+            title: 'Security-Led Engineering',
+            desc: 'Security considerations guide our engineering process, from architecture and dependency review through testing and deployment.',
         },
         {
             icon: '⚡',
-            title: 'Velocity Without Compromise',
-            desc: 'We move fast through clean architecture, reusable components, and a no-shortcuts culture in QA. Speed that ships quality — not bugs.',
+            title: 'Deliberate Delivery',
+            desc: 'We combine thoughtful architecture, reusable engineering practices, and quality assurance to deliver efficiently without unnecessary shortcuts.',
         },
         {
             icon: '🌍',
-            title: 'Global Mindset, Local Heart',
-            desc: 'We build to international standards while proudly rooted in Sadiqabad, Pakistan — putting Punjab on the global software map, one project at a time.',
+            title: 'Global Perspective, Local Roots',
+            desc: 'Our work is shaped by an international perspective while remaining proudly rooted in Sadiqabad, Punjab, Pakistan.',
         },
         {
             icon: '🤝',
-            title: 'Long-Term Partnerships',
-            desc: 'Our best clients have been with us since month one. We invest in relationships, not just tickets — your business growth is our real metric of success.',
+            title: 'Partnership-Led Delivery',
+            desc: 'We prioritise enduring working relationships, responsive communication, and solutions aligned with each client\'s longer-term objectives.',
         },
         {
             icon: '📈',
-            title: 'Continuous Learning',
-            desc: 'Every engineer at Ayamil stays current — exploring emerging stacks, shipping side projects, and sharing knowledge across the team every week.',
+            title: 'Continuous Development',
+            desc: 'Our specialists continually refine their technical capabilities and share practical knowledge across the team.',
         },
     ];
 
@@ -273,7 +276,7 @@ export default function About() {
             bg: 'linear-gradient(135deg,#0c1a3a,#0d2f8c,#1e40af)',
             avBg: 'linear-gradient(135deg,#0d2f8c,#2979f2,#60a5fa)',
             desc: 'Dedicated testers and support specialists ensuring every delivery is bug-free and every client question gets a fast, clear answer.',
-            tags: [['tb', 'Testing'], ['tg', '24/7 Support'], ['ta', 'QA']],
+            tags: [['tb', 'Testing'], ['tg', 'Dedicated Client Assistance'], ['ta', 'QA']],
             showBadge: false,
             avSize: '13px',
         },
@@ -305,14 +308,14 @@ export default function About() {
     const awards = [
         { icon: '⭐', title: 'Top Rated', sub: 'Fiverr Seller' },
         { icon: '🏆', title: '600+ Projects', sub: 'Completed' },
-        { icon: '🌐', title: '50+ Countries', sub: 'Client Base' },
+        { icon: '🌐', title: 'International', sub: 'Client Reach' },
         { icon: '💯', title: '87% Satisfaction', sub: 'Rate' },
     ];
 
     const stats = [
         { label: 'Projects Delivered', value: 600,  color: 'var(--blue-lt)' },
         { label: 'Issues Resolved',    value: 2000, color: 'var(--cyan)'    },
-        { label: 'Countries Served',   value: 50,   color: 'var(--green)'   },
+        { label: 'International Clients', value: 50, color: 'var(--green)' },
         { label: 'Years Experience',   value: 10,   color: 'var(--purple)'  },
     ];
 
@@ -474,7 +477,7 @@ export default function About() {
                             Ayamil Coders is a remote-first software house founded on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong> in Sadiqabad, Punjab — shipping world-class Web Development, Blockchain Development, AI Development, and Bug Fixing to clients across <strong style={{ color: 'var(--txt)' }}>50+ countries</strong>.
                         </p>
                         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                            <a href="/contact" className="btn-p" style={{ padding: '12px 28px' }}>Work With Us →</a>
+                            <Link href="/contact" className="btn-p" style={{ padding: '12px 28px' }}>Work With Us →</Link>
                             <a href="#story" className="btn-g" style={{ padding: '12px 28px' }}>Our Story ↓</a>
                         </div>
                     </div>
@@ -497,12 +500,12 @@ export default function About() {
             <section className="sp" id="story">
                 <div className="about-two-col">
                     <div data-a="left">
-                        <span className="section-lbl">Origin Story</span>
+                        <span className="section-lbl">Our Origins</span>
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', margin: '12px 0 18px' }}>
-                            From a Small City.<br />To a Global Stage.
+                            Rooted in Sadiqabad.<br />Connected Worldwide.
                         </h2>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '16px' }}>
-                            Ayamil Coders was born in July 2023 out of a simple conviction: high-quality software shouldn't require a big-city address or a Western price tag. Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> started the company in <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab, Pakistan</strong>, guided from day one by the strategic direction of the company's CEO — known publicly as the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong> — operating fully remotely and building a team of full-stack engineers, blockchain specialists, AI developers, and dedicated bug-fixing/QA testers.
+                            Ayamil Coders was born in July 2023 out of a simple conviction: exceptional engineering should be accessible beyond established technology hubs. Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> started the company in <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab, Pakistan</strong>, guided from day one by the strategic direction of the company's CEO — known publicly as the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong> — operating fully remotely and building a team of full-stack engineers, blockchain specialists, AI developers, and dedicated bug-fixing/QA testers.
                         </p>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '16px' }}>
                             While Muhammad Muzamil leads publicly as Founder, the Hidden Partner has steered the company's long-term vision and decision-making as CEO since its earliest days — their identity kept private by choice, not absence. Every major milestone in this timeline carries their fingerprint, even where their name doesn't appear.
@@ -538,11 +541,11 @@ export default function About() {
             <div className="divider"></div>
 
             {/* ===== VALUES ===== */}
-            <section className="sp" style={{ background: 'rgba(5,13,26,.3)' }}>
+            <section className="sp" style={{ background: 'var(--bg2)' }}>
                 <div style={{ textAlign: 'center', marginBottom: '44px' }} data-a="blur">
-                    <span className="section-lbl">What Drives Us</span>
+                    <span className="section-lbl">Our Principles</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
-                        Core <span className="shimmer-txt">Values</span>
+                        Guiding <span className="shimmer-txt">Principles</span>
                     </h2>
                     <p style={{ fontSize: '14px', color: 'var(--txt2)', marginTop: '10px', maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7 }}>
                         The principles that govern every commit, every client call, and every delivery at Ayamil Coders.
@@ -551,7 +554,7 @@ export default function About() {
                 <div className="val-grid">
                     {values.map((val, index) => (
                         <div key={index} className="val-card" data-a="scale" data-d={(index % 3) + 1}>
-                            <div className="val-icon ib i3">{val.icon}</div>
+                            <div className="val-icon ib i3"><PremiumIcon glyph={val.icon} bare size={22} /></div>
                             <div className="val-title">{val.title}</div>
                             <div className="val-desc">{val.desc}</div>
                         </div>
@@ -564,7 +567,7 @@ export default function About() {
             {/* ===== HIDDEN PARTNER — DEDICATED SECTION ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '40px' }} data-a="blur">
-                    <span className="section-lbl">The Heart Behind Ayamil</span>
+                    <span className="section-lbl">The Vision Behind Ayamil</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
                         The <span className="shimmer-txt">Hidden Partner</span>
                     </h2>
@@ -576,7 +579,7 @@ export default function About() {
                 <div className="hidden-section" data-a="scale">
                     <div className="hidden-grid">
                         {/* Avatar */}
-                        <div className="hidden-avatar">🌙</div>
+                        <div className="hidden-avatar"><PremiumIcon glyph="🌙" bare size={42} /></div>
 
                         {/* Content */}
                         <div>
@@ -595,7 +598,7 @@ export default function About() {
                             {/* Three key facts */}
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                 <div className="hidden-fact">
-                                    <div className="hidden-fact-icon">✨</div>
+                                    <div className="hidden-fact-icon"><PremiumIcon glyph="✨" tone="violet" size={19} /></div>
                                     <div>
                                         <div className="hidden-fact-t">The Name "Ayamil" Is a Tribute</div>
                                         <div className="hidden-fact-d">
@@ -604,7 +607,7 @@ export default function About() {
                                     </div>
                                 </div>
                                 <div className="hidden-fact">
-                                    <div className="hidden-fact-icon">🎂</div>
+                                    <div className="hidden-fact-icon"><PremiumIcon glyph="🎂" tone="violet" size={19} /></div>
                                     <div>
                                         <div className="hidden-fact-t">July 21 — A Birthday Gift</div>
                                         <div className="hidden-fact-d">
@@ -613,7 +616,7 @@ export default function About() {
                                     </div>
                                 </div>
                                 <div className="hidden-fact">
-                                    <div className="hidden-fact-icon">🛡️</div>
+                                    <div className="hidden-fact-icon"><PremiumIcon glyph="🛡️" tone="violet" size={19} /></div>
                                     <div>
                                         <div className="hidden-fact-t">Identity Kept Private — By Design</div>
                                         <div className="hidden-fact-d">
@@ -622,9 +625,9 @@ export default function About() {
                                     </div>
                                 </div>
                             </div>
-                            <a href="/ceo" className="btn-g" style={{ display: 'inline-flex', marginTop: '22px', padding: '11px 24px', fontSize: '13.5px' }}>
+                            <Link href="/ceo" className="btn-g" style={{ display: 'inline-flex', marginTop: '22px', padding: '11px 24px', fontSize: '13.5px' }}>
                                 Meet Our CEO →
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -635,7 +638,7 @@ export default function About() {
             {/* ===== TEAM ===== */}
             <section className="sp">
                 <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '40px' }} data-a="right" className="tr ae">
-                    <span className="section-lbl">The People</span>
+                    <span className="section-lbl">Our People</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '6px' }} className="tr">
                         Meet the <span className="shimmer-txt">Team</span>
                     </h2>
@@ -649,7 +652,7 @@ export default function About() {
                                         {member.initials}
                                     </div>
                                     {member.showBadge && (
-                                        <span className="team-badge">✓</span>
+                                        <AvatarCheck className="team-badge" />
                                     )}
                                 </div>
                             </div>
@@ -663,9 +666,9 @@ export default function About() {
                                     ))}
                                 </div>
                                 {member.name === 'Hidden Partner' && (
-                                    <a href="/ceo" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '14px', fontSize: '12.5px', fontWeight: 600, color: '#a78bfa', textDecoration: 'none' }}>
+                                    <Link href="/ceo" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '14px', fontSize: '12.5px', fontWeight: 600, color: '#a78bfa', textDecoration: 'none' }}>
                                         Learn more about our CEO →
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                         </div>
@@ -676,15 +679,15 @@ export default function About() {
             <div className="divider"></div>
 
             {/* ===== SKILLS / EXPERTISE BARS ===== */}
-            <section className="sp" style={{ background: 'rgba(5,13,26,.3)' }}>
+            <section className="sp" style={{ background: 'var(--bg2)' }}>
                 <div className="about-two-col">
                     <div data-a="left">
                         <span className="section-lbl">Expertise</span>
                         <h2 style={{ fontSize: 'clamp(24px,4vw,40px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', margin: '12px 0 14px' }}>
-                            Where We <span className="shimmer-txt">Excel</span>
+                            Our Areas of <span className="shimmer-txt">Expertise</span>
                         </h2>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.75, marginBottom: '28px' }}>
-                            600+ delivered projects across four core disciplines — sharpened through real client work, not just theory.
+                            Experience shaped by 600+ delivered projects across four principal engineering disciplines.
                         </p>
                         <div>
                             {skills.map((skill, index) => (
@@ -703,14 +706,14 @@ export default function About() {
 
                     {/* Awards */}
                     <div data-a="right">
-                        <span className="section-lbl">Recognition</span>
+                        <span className="section-lbl">Our Milestones</span>
                         <h2 style={{ fontSize: 'clamp(24px,4vw,40px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', margin: '12px 0 28px' }}>
-                            Milestones & <span className="shimmer-txt">Badges</span>
+                            Milestones & <span className="shimmer-txt">Progress</span>
                         </h2>
                         <div className="award-grid">
                             {awards.map((award, index) => (
                                 <div key={index} className="award-card" data-a="scale" data-d={(index % 4) + 1}>
-                                    <div style={{ fontSize: '28px', marginBottom: '8px' }}>{award.icon}</div>
+                                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}><PremiumIcon glyph={award.icon} tone="blue" /></div>
                                     <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '13px', color: 'var(--txt)', marginBottom: '3px' }}>{award.title}</div>
                                     <div style={{ fontSize: '11px', color: 'var(--txt3)', fontFamily: 'var(--mono)' }}>{award.sub}</div>
                                 </div>
@@ -722,7 +725,7 @@ export default function About() {
                             <div style={{ fontSize: '32px' }}>🇵🇰</div>
                             <div>
                                 <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '14px', color: 'var(--txt)', marginBottom: '3px' }}>Sadiqabad, Punjab, Pakistan</div>
-                                <div style={{ fontSize: '12px', color: 'var(--txt3)', lineHeight: 1.6 }}>Headquartered locally, operating globally. All work done remotely with async + real-time communication across 50+ countries.</div>
+                                <div style={{ fontSize: '12px', color: 'var(--txt3)', lineHeight: 1.6 }}>Headquartered locally, operating globally. All work done remotely with async + real-time communication across international markets.</div>
                             </div>
                         </div>
                     </div>
@@ -735,7 +738,7 @@ export default function About() {
                  so answer engines and LLMs can extract & cite trust signals) ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '36px' }} data-a="blur">
-                    <span className="section-lbl">Quick Answers</span>
+                    <span className="section-lbl">Key Insights</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', margin: '12px 0 0' }}>
                         About Ayamil Coders — <span className="shimmer-txt">FAQ</span>
                     </h2>
@@ -774,16 +777,16 @@ export default function About() {
             {/* ===== CTA BANNER ===== */}
             <section className="sp" style={{ textAlign: 'center' }}>
                 <div data-a="scale">
-                    <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Connect</span>
+                    <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '18px' }}>Connect With Us</span>
                     <h2 style={{ fontSize: 'clamp(28px,5vw,54px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.03em', marginBottom: '16px' }}>
-                        Ready to Build<br /><span className="shimmer-txt">Something Great?</span>
+                        Ready to Create<br /><span className="shimmer-txt">Something Distinctive?</span>
                     </h2>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', maxWidth: '480px', margin: '0 auto 28px', lineHeight: 1.7 }}>
                         Whether it's a startup MVP, a DeFi protocol, or an enterprise AI tool — we've built it before, and we'll build it better for you.
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <a href="/contact" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Start a Project →</a>
-                        <a href="/careers" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>Join Our Team</a>
+                        <Link href="/contact" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Discuss Your Project →</Link>
+                        <Link href="/careers" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>Explore Opportunities</Link>
                     </div>
                 </div>
             </section>

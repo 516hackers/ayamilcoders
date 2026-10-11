@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 // ════════════════════════════════════════════════════════════════
 // NATIONAL SEO / REPUTATION LANDING PAGE — targets "best software
@@ -28,7 +29,7 @@ import SEO from '@/components/SEO';
 // ════════════════════════════════════════════════════════════════
 
 export default function BestSoftwareHousePakistan() {
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('bshp-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -123,7 +124,7 @@ export default function BestSoftwareHousePakistan() {
         },
         {
             q: 'Should I hire a Pakistani software house or outsource to an international agency?',
-            a: 'It depends on priorities. A Pakistan-based team like Ayamil Coders typically offers lower fixed costs than Western agencies, closer time-zone overlap for South Asian and Gulf clients, and direct access to the people building the project rather than layers of account management — trade-offs worth weighing against an agency\'s specific portfolio and scale.'
+            a: 'The right partner depends on technical requirements, delivery experience, communication, and accountability. Ayamil Coders combines a Pakistan-based team with remote-first collaboration and direct technical access for international engagements.'
         },
         {
             q: 'How much does web development cost in Pakistan?',
@@ -221,8 +222,8 @@ export default function BestSoftwareHousePakistan() {
                 </div>
                 <div data-f data-fd="1">
                     <div className="bshp-stats">
-                        <div className="bshp-stat"><div className="bshp-stat-num">600+</div><div className="bshp-stat-lbl">Projects Delivered</div></div>
-                        <div className="bshp-stat"><div className="bshp-stat-num">87%</div><div className="bshp-stat-lbl">Client Satisfaction</div></div>
+                        <div className="bshp-stat"><div className="bshp-stat-num">600+</div><div className="bshp-stat-lbl">Completed Projects</div></div>
+                        <div className="bshp-stat"><div className="bshp-stat-num">87%</div><div className="bshp-stat-lbl">Client Satisfaction Rate</div></div>
                         <div className="bshp-stat"><div className="bshp-stat-num">2023</div><div className="bshp-stat-lbl">Founded</div></div>
                         <div className="bshp-stat"><div className="bshp-stat-num">4</div><div className="bshp-stat-lbl">Core Services</div></div>
                     </div>
@@ -234,7 +235,7 @@ export default function BestSoftwareHousePakistan() {
             {/* ===== NATIONAL CITY COVERAGE (unique vs. Sadiqabad page) ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '32px' }} data-f>
-                    <span className="section-lbl">Nationwide Reach</span>
+                    <span className="section-lbl">Nationwide Capabilities</span>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(24px,3.4vw,34px)', letterSpacing: '-.02em', marginTop: '10px', color: 'var(--txt)' }}>
                         Cities We Serve Across Pakistan
                     </h2>
@@ -254,9 +255,9 @@ export default function BestSoftwareHousePakistan() {
             {/* ===== SOFTWARE HOUSE VS FREELANCER VS OUTSOURCING (unique content type) ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '32px' }} data-f>
-                    <span className="section-lbl">Choosing a Partner</span>
+                    <span className="section-lbl">Selecting Your Technology Partner</span>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(24px,3.4vw,34px)', letterSpacing: '-.02em', marginTop: '10px', color: 'var(--txt)' }}>
-                        Software House vs. Freelancer vs. Outsourcing Abroad
+                        Choosing Your Technology Delivery Partner
                     </h2>
                 </div>
                 <div data-f data-fd="1" className="bshp-cmp-grid">
@@ -296,15 +297,15 @@ export default function BestSoftwareHousePakistan() {
 
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '32px' }} data-f>
-                    <span className="section-lbl">What We Do</span>
+                    <span className="section-lbl">Our Expertise</span>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(24px,3.4vw,34px)', letterSpacing: '-.02em', marginTop: '10px', color: 'var(--txt)' }}>
-                        Four Services, One Team
+                        Four Disciplines. One Technology Partner.
                     </h2>
                 </div>
                 <div data-f data-fd="1" className="bshp-svc-grid">
                     {services.map(s => (
                         <div key={s.title} className="bshp-svc-card">
-                            <div className="bshp-svc-ico" style={{ background: s.bg, '--sk-shadow': s.shadow } as React.CSSProperties}>{s.icon}</div>
+                            <div className="bshp-svc-ico" style={{ background: s.bg, '--sk-shadow': s.shadow } as React.CSSProperties}><PremiumIcon glyph={s.icon} bare size={25}/></div>
                             <div className="bshp-svc-title">{s.title}</div>
                             <div className="bshp-svc-desc">{s.desc}</div>
                         </div>
@@ -316,7 +317,7 @@ export default function BestSoftwareHousePakistan() {
 
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '32px' }} data-f>
-                    <span className="section-lbl">Frequently Asked</span>
+                    <span className="section-lbl">Common Client Questions</span>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(24px,3.4vw,34px)', letterSpacing: '-.02em', marginTop: '10px', color: 'var(--txt)' }}>
                         Common Questions
                     </h2>
@@ -336,14 +337,14 @@ export default function BestSoftwareHousePakistan() {
             <section className="sp" style={{ textAlign: 'center' }}>
                 <div data-f>
                     <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(26px,4.5vw,44px)', letterSpacing: '-.03em', marginBottom: '14px', color: 'var(--txt)' }}>
-                        Work With a Team That Ships, Anywhere in Pakistan
+                        Partner With a Delivery-Focused Team Across Pakistan
                     </h2>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', maxWidth: '480px', margin: '0 auto 26px', lineHeight: 1.7 }}>
-                        Wherever you're based — Lahore, Karachi, Islamabad, or beyond — tell us what you're building.
+                        Whether you are based in Lahore, Karachi, Islamabad, or elsewhere, share your project objectives with our team.
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Link href="/contact" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Start a Project →</Link>
-                        <Link href="/services" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>See All Services</Link>
+                        <Link href="/contact" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Discuss Your Project →</Link>
+                        <Link href="/services" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>Explore Our Expertise</Link>
                     </div>
                 </div>
             </section>

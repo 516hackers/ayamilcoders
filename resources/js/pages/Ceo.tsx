@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { Link } from '@inertiajs/react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
+import PremiumIcon from '@/components/PremiumIcon';
 
 export default function Ceo() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('ceo-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -145,7 +147,7 @@ export default function Ceo() {
 
                 <div className="hidden-section" data-a="scale">
                     <div className="hidden-grid">
-                        <div className="hidden-avatar">🌙</div>
+                        <div className="hidden-avatar"><PremiumIcon glyph="🌙" bare size={42}/></div>
                         <div>
                             <div className="hidden-name-pill">
                                 <span className="hidden-dot"></span>
@@ -198,7 +200,7 @@ export default function Ceo() {
                 </div>
                 <div style={{ maxWidth: '720px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     <div className="hidden-fact" data-a="up" data-d="1">
-                        <div className="hidden-fact-icon">✨</div>
+                        <div className="hidden-fact-icon"><PremiumIcon glyph="✨" tone="violet" size={19}/></div>
                         <div>
                             <div className="hidden-fact-t">The Name "Ayamil" Is a Tribute</div>
                             <div className="hidden-fact-d">
@@ -207,7 +209,7 @@ export default function Ceo() {
                         </div>
                     </div>
                     <div className="hidden-fact" data-a="up" data-d="2">
-                        <div className="hidden-fact-icon">🎂</div>
+                        <div className="hidden-fact-icon"><PremiumIcon glyph="🎂" tone="violet" size={19}/></div>
                         <div>
                             <div className="hidden-fact-t">July 21 — A Birthday Gift</div>
                             <div className="hidden-fact-d">
@@ -216,7 +218,7 @@ export default function Ceo() {
                         </div>
                     </div>
                     <div className="hidden-fact" data-a="up" data-d="3">
-                        <div className="hidden-fact-icon">🛡️</div>
+                        <div className="hidden-fact-icon"><PremiumIcon glyph="🛡️" tone="violet" size={19}/></div>
                         <div>
                             <div className="hidden-fact-t">Identity Kept Private — By Design</div>
                             <div className="hidden-fact-d">
@@ -239,19 +241,19 @@ export default function Ceo() {
                 </div>
                 <div className="ceo-grid3">
                     <div className="val-card" data-a="scale" data-d="1">
-                        <div style={{ fontSize: '26px', marginBottom: '12px' }}>🤝</div>
-                        <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>Personal Choice, Respected</h3>
-                        <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>The Hidden Partner asked for privacy. That's a reasonable, ordinary request from a real person, and Ayamil Coders honors it the same way we'd honor any teammate's boundary.</p>
+                        <div style={{ marginBottom: '12px' }}><PremiumIcon glyph="🤝" tone="blue" size={23} /></div>
+                        <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>Privacy by Choice</h3>
+                        <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>The Hidden Partner has chosen to maintain a private identity. Ayamil Coders respects this decision as part of its leadership privacy policy.</p>
                     </div>
                     <div className="val-card" data-a="scale" data-d="2">
-                        <div style={{ fontSize: '26px', marginBottom: '12px' }}>🏗️</div>
-                        <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>Work Over Persona</h3>
-                        <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>We'd rather you judge Ayamil Coders by the 600+ projects we've delivered than by a founder's personal brand. The output is the evidence.</p>
+                        <div style={{ marginBottom: '12px' }}><PremiumIcon glyph="🏗️" tone="violet" size={23} /></div>
+                        <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>Leadership Through Contribution</h3>
+                        <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>We invite clients to assess our work through the projects delivered and the engineering practices behind each engagement.</p>
                     </div>
                     <div className="val-card" data-a="scale" data-d="3">
-                        <div style={{ fontSize: '26px', marginBottom: '12px' }}>🔓</div>
-                        <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>Not Permanent, Not Hidden From You</h3>
-                        <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>We're not pretending this role doesn't exist — this whole page is proof of the opposite. The door to disclosing more in the future stays open.</p>
+                        <div style={{ marginBottom: '12px' }}><PremiumIcon glyph="🔓" tone="teal" size={23} /></div>
+                        <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '16px', marginBottom: '8px', color: 'var(--txt)' }}>A Considered Privacy Policy</h3>
+                        <p style={{ fontSize: '13px', color: 'var(--txt2)', lineHeight: 1.7 }}>The CEO role is disclosed openly while personal identifying details remain private. This approach may be revisited in the future.</p>
                     </div>
                 </div>
             </section>
@@ -261,7 +263,7 @@ export default function Ceo() {
             {/* ===== FAQ ===== */}
             <section className="sp">
                 <div style={{ textAlign: 'center', marginBottom: '36px' }} data-a="blur">
-                    <span className="section-lbl">Quick Answers</span>
+                    <span className="section-lbl">Key Insights</span>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '8px' }}>
                         CEO <span className="shimmer-txt">FAQ</span>
                     </h2>
@@ -291,14 +293,14 @@ export default function Ceo() {
                 <div data-a="scale">
                     <span className="section-lbl" style={{ display: 'inline-flex', marginBottom: '18px' }}>Keep Exploring</span>
                     <h2 style={{ fontSize: 'clamp(28px,5vw,54px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.03em', marginBottom: '16px' }}>
-                        Want the Full <br /><span className="shimmer-txt">Ayamil Coders Story?</span>
+                        Explore the Full <br /><span className="shimmer-txt">Ayamil Coders Story?</span>
                     </h2>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', maxWidth: '480px', margin: '0 auto 28px', lineHeight: 1.7 }}>
                         Meet the rest of the team, see our timeline since 2023, and learn how we work.
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <a href="/about" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Back to About →</a>
-                        <a href="/contact" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>Start a Project</a>
+                        <Link href="/about" className="btn-p" style={{ padding: '14px 32px', fontSize: '15px' }}>Back to About →</Link>
+                        <Link href="/contact" className="btn-g" style={{ padding: '14px 32px', fontSize: '15px' }}>Discuss Your Project</Link>
                     </div>
                 </div>
             </section>

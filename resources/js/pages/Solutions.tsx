@@ -15,14 +15,14 @@
  * scrolling through unrelated content.
  */
 
-import { useEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import SEO from '@/components/SEO';
 
 const WHATSAPP = 'https://wa.me/923127592672?text=Hi%2C%20I%20found%20your%20Solutions%20page%20and%20I%27d%20like%20to%20talk%20about%20my%20project.';
 
 export default function Solutions() {
     // ===== INJECT PAGE-SPECIFIC CSS =====
-    useEffect(() => {
+    useLayoutEffect(() => {
         const existingStyle = document.getElementById('solutions-page-css');
         if (existingStyle) existingStyle.remove();
 
@@ -115,20 +115,20 @@ export default function Solutions() {
                 <div className="sol-hero-inner">
                     <span className="section-lbl">Ayamil Coders</span>
                     <h1 className="sol-h2" style={{ fontSize: 'clamp(28px,5vw,48px)', marginTop: '10px' }}>
-                        Website Problems? We <span className="shimmer-txt">Fix Them, Build Them,</span> and Make Sure People Find Them.
+                        Digital Challenges? We <span className="shimmer-txt">Resolve, Build,</span> and Elevate Your Online Presence.
                     </h1>
                     <p className="sol-body">
-                        One team for the whole picture — broken things get fixed, new things get built, and your site actually gets seen by people (and increasingly, by AI).
+                        One specialist team for dependable issue resolution, tailored development, and stronger visibility across traditional and AI-powered search.
                     </p>
                     <div className="sol-btn-wrap">
                         <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn-p">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.113.554 4.094 1.523 5.817L.036 23.145a.5.5 0 0 0 .613.613l5.391-1.472A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" opacity=".9"/></svg>
-                            Chat With Us on WhatsApp
+                            Consult Our Team on WhatsApp
                         </a>
                     </div>
                     <div className="sol-trust">
                         <span className="dot"></span>
-                        Trusted by 50+ clients worldwide &middot; 600+ projects delivered
+                        Selected by 50+ international clients &middot; 600+ projects delivered
                     </div>
                 </div>
             </div>
@@ -141,12 +141,12 @@ export default function Solutions() {
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><path d="M9 9l-2 2v6l2 2M15 9l2 2v6l-2 2M12 4v3M9 12h6M12 7a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0v-4a3 3 0 0 0-3-3z"/></svg>
                         </div>
                     </div>
-                    <h2 className="sol-h2">Website Crashing? Errors? We Fix It.</h2>
+                    <h2 className="sol-h2">Website Issues? Begin With Expert Diagnosis.</h2>
                     <p className="sol-body">
-                        We don't guess and patch. We diagnose the real, root cause first — research it properly, walk you through what's actually possible, and only then fix it, so the same bug doesn't come back in a different shape next month.
+                        We begin with a thorough technical assessment, identify the underlying cause, and explain the available options before implementing a considered resolution.
                     </p>
                     <div className="sol-note">
-                        💬 Simple process: a short contract + 50% advance to start, clear terms throughout, no surprise costs.
+                        Streamlined engagement: a clear written agreement, 50% advance to begin, and transparent terms throughout.
                     </div>
                     <div className="sol-btn-wrap">
                         <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn-p">
@@ -165,9 +165,9 @@ export default function Solutions() {
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         </div>
                     </div>
-                    <h2 className="sol-h2">Is Your Website Visible — Even to AI?</h2>
+                    <h2 className="sol-h2">Is Your Business Visible Across Search and AI?</h2>
                     <p className="sol-body">
-                        Search isn't just Google anymore. We handle classic SEO alongside the newer AI-search disciplines — AEO, GEO, and LLMO — so your business shows up whether someone types a search query or asks ChatGPT, Gemini, or Perplexity a question.
+                        Discovery now extends beyond conventional search. We combine established SEO practices with AEO, GEO, and LLMO strategies to strengthen visibility across search engines and AI-powered discovery platforms.
                     </p>
                     <div className="sol-case">
                         <strong>Real pattern we see often:</strong> a client's website was fully built but never indexed properly — invisible on Google, and completely absent from AI search answers. After a visibility fix, it started appearing in both.
@@ -189,9 +189,9 @@ export default function Solutions() {
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
                         </div>
                     </div>
-                    <h2 className="sol-h2">Need a Custom Page or Feature Built?</h2>
+                    <h2 className="sol-h2">Require a Tailored Page or Feature?</h2>
                     <p className="sol-body">
-                        Already have a website but need something a template can't do? We build custom, dynamic pages and features on top of existing sites — tokenomics pages, interactive calculators, dashboards, or anything else beyond standard layouts.
+                        Enhance an existing platform with purpose-built capabilities that standard templates cannot accommodate, from interactive dashboards and calculators to specialised business workflows.
                     </p>
                     <div className="sol-btn-wrap">
                         <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn-p">
@@ -206,8 +206,8 @@ export default function Solutions() {
             <section className="sol-cta-final" data-a="up">
                 <div style={{ position: 'absolute', width: '360px', height: '360px', borderRadius: '50%', filter: 'blur(90px)', background: 'rgba(41,121,242,.06)', bottom: '-100px', right: '-80px', pointerEvents: 'none' }}></div>
                 <div style={{ position: 'relative', zIndex: 2 }}>
-                    <h2>Whatever the Problem, Let's Talk First.</h2>
-                    <p>No pressure, no obligation — just a real conversation on WhatsApp about what you need and whether we're a fit.</p>
+                    <h2>Whatever the Challenge, Start With Clarity.</h2>
+                    <p>Begin with a no-obligation consultation to explore your requirements, priorities, and the right next steps.</p>
                     <div className="sol-btn-wrap">
                         <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn-p">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.113.554 4.094 1.523 5.817L.036 23.145a.5.5 0 0 0 .613.613l5.391-1.472A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" opacity=".9"/></svg>
@@ -215,7 +215,7 @@ export default function Solutions() {
                         </a>
                     </div>
                     <div className="sol-disclaimer">
-                        This page isn't part of our main site navigation — you've likely landed here from an ad or a direct link.
+                        This dedicated solutions page provides focused information about selected Ayamil Coders capabilities.
                     </div>
                 </div>
             </section>

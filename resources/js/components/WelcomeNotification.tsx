@@ -109,8 +109,11 @@ export default function WelcomeNotification() {
                     .wn-toast{
                         left:16px;
                         right:16px;
-                        bottom:calc(16px + var(--safe-b));
+                        /* Stay above the fixed 64px mobile tab bar on first visit. */
+                        bottom:calc(80px + var(--safe-b));
                         width:auto;
+                        max-height:calc(100svh - 150px);
+                        overflow-y:auto;
                     }
                 }
                 .wn-row{display:flex;align-items:flex-start;gap:12px}
