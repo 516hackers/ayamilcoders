@@ -759,3 +759,157 @@ html[data-theme] :is(input.ff, textarea.ff, input.mff, textarea.mff)::placeholde
 #d-sun{opacity:.4}
 [data-theme="light"] #d-moon{opacity:.4}
 [data-theme="light"] #d-sun{opacity:1}
+
+
+/* ═══════════ V14 · QUIET MOBILE DOCK ═══════════
+   Understated floating navigation with four equal touch targets. Keep active
+   styling tonal (not glossy/3D). Loaded as part of shared.css before React.
+   The #tbar-specific selectors override late-injected layout animation CSS. */
+@media (max-width:639px) {
+  html body #tbar {
+    position:fixed;
+    left:50%;right:auto;
+    bottom:calc(10px + var(--safe-b));
+    width:min(410px, calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
+    max-width:410px;
+    height:68px;min-height:68px;
+    padding:5px 6px;
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    align-items:stretch;justify-content:stretch;
+    gap:3px;
+    transform:translateX(-50%);
+    border-radius:21px;
+    border:1px solid rgba(146,166,204,.22);
+    background:rgba(11,22,40,.96);
+    box-shadow:0 5px 18px rgba(0,0,0,.18);
+    -webkit-backdrop-filter:blur(16px);
+    backdrop-filter:blur(16px);
+    isolation:isolate;overflow:hidden;
+    z-index:200;
+    -webkit-tap-highlight-color:transparent;
+  }
+  html body #tbar::before {content:none;display:none}
+  html[data-theme="light"] body #tbar {
+    background:rgba(255,255,255,.97);
+    border-color:rgba(38,81,151,.14);
+    box-shadow:0 5px 18px rgba(22,56,103,.09);
+  }
+  html body #tbar .ti-btn {
+    appearance:none;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:3px;
+    flex:initial;min-width:0;
+    width:100%;height:100%;min-height:55px;
+    padding:5px 2px 6px;
+    margin:0;border:0;
+    border-radius:15px;
+    background:transparent;
+    box-shadow:none;
+    color:var(--txt2);
+    text-decoration:none;text-align:center;
+    font-family:var(--font);
+    cursor:pointer;touch-action:manipulation;
+    transition:background-color .15s ease,color .15s ease;
+  }
+  html body #tbar .ti-btn.act {
+    background:rgba(52,126,238,.10);
+    border:0;
+    box-shadow:none;
+  }
+  html[data-theme="light"] body #tbar .ti-btn.act {
+    background:rgba(5,82,223,.075);
+  }
+  html body #tbar .ti-btn.act::before {content:none;display:none}
+  html body #tbar .ti-icon {
+    display:flex;align-items:center;justify-content:center;
+    width:28px;height:28px;flex:0 0 28px;
+    border:0;border-radius:9px;
+    background:none;box-shadow:none;
+    color:var(--txt2);
+    transform:none;
+    transition:color .15s ease;
+  }
+  html body #tbar .ti-icon svg,
+  html body #tbar .ti-ico {
+    width:21px;height:21px;
+    color:var(--txt2);
+    stroke:currentColor;
+    filter:none;
+    transform:none;
+    transition:color .15s ease;
+  }
+  html body #tbar .ti-btn.act .ti-icon {
+    background:none;
+    border:0;
+    box-shadow:none;
+    transform:none;
+  }
+  html body #tbar .ti-btn.act .ti-ico {color:#73aeff;filter:none}
+  html[data-theme="light"] body #tbar .ti-btn.act .ti-ico {color:#0552df}
+  html body #tbar .ti-lbl {
+    font-size:10.5px;
+    line-height:1.2;
+    letter-spacing:0;
+    font-weight:500;
+    white-space:nowrap;
+    color:var(--txt2);
+    transition:color .15s ease;
+  }
+  html body #tbar .ti-btn.act .ti-lbl {
+    color:#9ac7ff;
+    font-weight:700;
+  }
+  html[data-theme="light"] body #tbar .ti-btn.act .ti-lbl {color:#0f3cb0}
+  html body #tbar .ti-dot {
+    display:none;opacity:0;
+  }
+  html body #tbar .ti-btn:focus-visible {
+    outline:2px solid #73aeff;
+    outline-offset:-2px;
+  }
+  html body #tbar .ti-btn:active {
+    background:rgba(52,126,238,.12);
+  }
+  html body #tbar .ti-btn:active .ti-icon {transform:none}
+  /* Keep scrollable content and fixed controls clear of the dock. */
+  html body #mscr,
+  html body .mw.public-inner-page>.public-page-content {
+    bottom:calc(84px + var(--safe-b));
+  }
+  html body .fab.fab-whatsapp,
+  html body #legal-pill {bottom:calc(92px + var(--safe-b))}
+  html body #stt {bottom:calc(155px + var(--safe-b))}
+}
+@media (max-width:360px) {
+  html body #tbar {width:calc(100% - 18px);height:66px;min-height:66px;padding:4px;gap:1px;border-radius:19px}
+  html body #tbar .ti-btn {min-height:55px;padding:4px 1px 5px;border-radius:14px}
+  html body #tbar .ti-icon {width:27px;height:27px;flex-basis:27px}
+  html body #tbar .ti-lbl {font-size:10px;letter-spacing:-.01em}
+  html body #mscr,
+  html body .mw.public-inner-page>.public-page-content {bottom:calc(82px + var(--safe-b))}
+}
+@media (max-width:639px) and (max-height:480px) and (orientation:landscape) {
+  html body #tbar {height:58px;min-height:58px;bottom:calc(6px + var(--safe-b));padding:3px 5px;border-radius:17px}
+  html body #tbar .ti-btn {min-height:49px;padding:2px;gap:1px;border-radius:12px}
+  html body #tbar .ti-icon {width:24px;height:24px;flex-basis:24px}
+  html body #tbar .ti-icon svg,html body #tbar .ti-ico {width:19px;height:19px}
+  html body #tbar .ti-lbl {font-size:9.5px}
+  html body #mscr,html body .mw.public-inner-page>.public-page-content {bottom:calc(70px + var(--safe-b))}
+  html body .fab.fab-whatsapp {bottom:calc(75px + var(--safe-b))}
+}
+@media (max-width:639px) and (prefers-reduced-motion:reduce) {
+  html body #tbar,html body #tbar .ti-btn,html body #tbar .ti-icon,
+  html body #tbar .ti-lbl {transition:none!important;animation:none!important}
+}
+
+/* V15: consistent, high-contrast React-managed form submission feedback. */
+.inquiry-feedback{font-size:13px;line-height:1.5;margin-top:10px;color:#166534}
+.inquiry-feedback--error{color:#b42318}
+[data-theme="dark"] .inquiry-feedback{color:#86efac}
+[data-theme="dark"] .inquiry-feedback--error{color:#fda4af}
+/* Once reveal has completed, release potentially expensive GPU layers. */
+[data-a].in{will-change:auto}

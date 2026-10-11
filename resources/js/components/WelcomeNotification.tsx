@@ -163,7 +163,7 @@ export default function WelcomeNotification() {
                             {CONTENT.linkText}
                         </Link>
                     </div>
-                    <button className="wn-close" onClick={handleClose} aria-label="Dismiss notification">✕</button>
+                    <button type="button" className="wn-close" onClick={handleClose} aria-label="Dismiss notification">✕</button>
                 </div>
             </div>
         </>,

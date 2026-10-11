@@ -10,6 +10,7 @@
  */
 
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
 import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
 import WelcomeNotification from '@/components/WelcomeNotification';
@@ -350,6 +351,90 @@ export default function Welcome() {
     const currentTabRef = useRef(0);
     const openSvcRef    = useRef<Set<string>>(new Set());
 
+    // React owns the homepage submission button content. Never replace its
+    // child nodes with innerHTML/textContent: that can break React unmounts
+    // (especially when third-party extensions also modify the DOM).
+    type InquiryChannel = 'desk' | 'mob';
+    type InquiryFeedback = { loading: boolean; message: string; error: boolean };
+    const initialFeedback = (): InquiryFeedback => ({ loading: false, message: '', error: false });
+    const [inquiryFeedback, setInquiryFeedback] = useState<Record<InquiryChannel, InquiryFeedback>>({
+        desk: initialFeedback(), mob: initialFeedback(),
+    });
+    const submittingRef = useRef<Record<InquiryChannel, boolean>>({ desk: false, mob: false });
+    const pendingInquiryRequests = useRef(new Set<AbortController>());
+    const mountedRef = useRef(false);
+
+    useEffect(() => {
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+            for (const request of pendingInquiryRequests.current) request.abort();
+            pendingInquiryRequests.current.clear();
+        };
+    }, []);
+
+    const updateInquiry = (channel: InquiryChannel, update: InquiryFeedback) => {
+        if (mountedRef.current) setInquiryFeedback(prev => ({ ...prev, [channel]: update }));
+    };
+
+    const submitHomepageInquiry = async (event: FormEvent<HTMLFormElement>, channel: InquiryChannel) => {
+        event.preventDefault();
+        if (submittingRef.current[channel]) return;
+        const form = event.currentTarget;
+        const field = (name: string) => form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`#${channel}-${name}`);
+        const name = field('name')?.value.trim() || '';
+        const email = field('email')?.value.trim() || '';
+        const service = field('service')?.value || '';
+        const message = field('details')?.value.trim() || '';
+        if (name.length < 2 || !email || !service || message.length < 10) {
+            updateInquiry(channel, { loading: false, message: 'Please complete all fields (minimum 10 characters in the brief).', error: true });
+            return;
+        }
+
+        submittingRef.current[channel] = true;
+        updateInquiry(channel, { loading: true, message: 'Sending your inquiry…', error: false });
+        const controller = new AbortController();
+        pendingInquiryRequests.current.add(controller);
+        const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                },
+                body: JSON.stringify({
+                    name, email, service, message,
+                    budget: field('budget')?.value || '',
+                    source: `Website homepage (${channel})`,
+                }),
+                signal: controller.signal,
+            });
+            const data: { message?: string; errors?: Record<string, string[]> } = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                if (response.status === 429) throw new Error('Too many requests. Please try again shortly.');
+                const firstError = Object.values(data.errors || {}).flat().find((value): value is string => typeof value === 'string');
+                throw new Error(firstError || data.message || 'Your inquiry could not be sent.');
+            }
+            form.reset();
+            updateInquiry(channel, { loading: false, message: 'Inquiry received successfully. We will be in touch.', error: false });
+        } catch (error) {
+            if (mountedRef.current) {
+                updateInquiry(channel, {
+                    loading: false,
+                    message: controller.signal.aborted ? 'Request timed out. Please try again.'
+                        : error instanceof Error ? error.message : 'Unable to send. Please try again.',
+                    error: true,
+                });
+            }
+        } finally {
+            window.clearTimeout(timeoutId);
+            pendingInquiryRequests.current.delete(controller);
+            submittingRef.current[channel] = false;
+        }
+    };
+
     useEffect(() => { currentTabRef.current = currentTab; }, [currentTab]);
     useEffect(() => { openSvcRef.current = openSvc; },      [openSvc]);
 
@@ -581,84 +666,28 @@ export default function Welcome() {
 
         let notifTimer: ReturnType<typeof setTimeout> | null = null;
         const showNotif = (title: string, msg: string) => {
+            // Text is inserted as text, not interpolated into HTML. This keeps
+            // notification copy safe and avoids unexpected markup mutation.
             document.querySelector('.notif')?.remove();
             if (notifTimer) clearTimeout(notifTimer);
             const n = document.createElement('div');
             n.className = 'notif';
-            n.innerHTML = `<div class="i3 ib" style="width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div><div style="font-family:var(--disp);font-weight:700;font-size:13px;color:var(--txt);">${title}</div><div style="font-size:12px;color:var(--txt3);margin-top:2px;">${msg}</div></div>`;
+            n.innerHTML = '<div class="i3 ib" style="width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>';
+            const body = document.createElement('div');
+            const heading = document.createElement('div');
+            heading.style.cssText = 'font-family:var(--disp);font-weight:700;font-size:13px;color:var(--txt)';
+            heading.textContent = title;
+            const details = document.createElement('div');
+            details.style.cssText = 'font-size:12px;color:var(--txt3);margin-top:2px';
+            details.textContent = msg;
+            body.append(heading, details);
+            n.appendChild(body);
             document.body.appendChild(n);
-            notifTimer = setTimeout(() => { n.parentNode && n.remove(); }, 3600);
+            notifTimer = setTimeout(() => n.remove(), 3600);
         };
 
         const openSrch  = () => { document.getElementById('srch-overlay')?.classList.add('open'); setTimeout(() => (document.getElementById('srch-inp') as HTMLInputElement)?.focus(), 100); };
         const closeSrch = () => { document.getElementById('srch-overlay')?.classList.remove('open'); };
-
-        // These homepage forms previously displayed a success message after a
-        // timeout without making a network request. Both now use the real
-        // contact endpoint with validation, timeout handling, and honest status.
-        const submitHomepageInquiry = async (e: Event, channel: 'desk' | 'mob') => {
-            e.preventDefault();
-            const field = (name: string) => document.getElementById(`${channel}-${name}`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
-            const form = document.getElementById(`${channel}-contact-form`) as HTMLFormElement | null;
-            const button = document.getElementById(`${channel}-btn`) as HTMLButtonElement | null;
-            if (!form || !button || button.disabled) return;
-
-            const name = field('name')?.value.trim() || '';
-            const email = field('email')?.value.trim() || '';
-            const service = field('service')?.value || '';
-            const message = field('details')?.value.trim() || '';
-            if (name.length < 2 || !email || !service || message.length < 10) {
-                button.textContent = 'Please complete all fields (10+ characters in the brief).';
-                window.setTimeout(() => { if (button.isConnected) button.textContent = 'Send Message'; }, 3500);
-                return;
-            }
-
-            const oldMarkup = button.innerHTML;
-            button.disabled = true;
-            button.textContent = 'Sending your inquiry…';
-            const controller = new AbortController();
-            const timeoutId = window.setTimeout(() => controller.abort(), 25000);
-            let delay = 4000;
-            try {
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-                    },
-                    body: JSON.stringify({
-                        name, email, service, message,
-                        budget: field('budget')?.value || '',
-                        source: 'Website homepage (' + channel + ')',
-                    }),
-                    signal: controller.signal,
-                });
-                const data = await response.json().catch(() => ({}));
-                if (!response.ok) {
-                    if (response.status === 429) throw new Error('Too many requests. Please try again shortly.');
-                    const fieldError = Object.values(data.errors || {}).flat().find((x): x is string => typeof x === 'string');
-                    throw new Error(fieldError || data.message || 'Your inquiry could not be sent.');
-                }
-                button.textContent = '✓ Inquiry received successfully';
-                form.reset();
-            } catch (error) {
-                delay = 5500;
-                button.textContent = controller.signal.aborted
-                    ? 'Request timed out. Please try again.'
-                    : error instanceof Error ? error.message : 'Unable to send. Please try again.';
-            } finally {
-                window.clearTimeout(timeoutId);
-                window.setTimeout(() => {
-                    if (!button.isConnected) return;
-                    button.disabled = false;
-                    button.innerHTML = oldMarkup;
-                }, delay);
-            }
-        };
-
-        const handleDeskForm = (e: Event) => { void submitHomepageInquiry(e, 'desk'); };
-        const handleMobForm = (e: Event) => { void submitHomepageInquiry(e, 'mob'); };
 
         /* swipe */
         let tStartX = 0, tStartY = 0, startedOnControl = false;
@@ -744,8 +773,6 @@ export default function Welcome() {
         (window as any).openSrch      = openSrch;
         (window as any).closeSrch     = closeSrch;
         (window as any).showProgress  = showProgress;
-        (window as any).handleDeskForm = handleDeskForm;
-        (window as any).handleMobForm  = handleMobForm;
 
         return () => {
             revealObs.disconnect(); counterObs.disconnect(); barObs.disconnect();
@@ -757,7 +784,7 @@ export default function Welcome() {
             document.querySelector('.notif')?.remove();
             const globals: Record<string, unknown> = {
                 switchTab, toggleSvc, showNotif, openSrch, closeSrch,
-                showProgress, handleDeskForm, handleMobForm,
+                showProgress,
             };
             for (const [key, fn] of Object.entries(globals)) {
                 if ((window as any)[key] === fn) delete (window as any)[key];
@@ -1032,7 +1059,7 @@ export default function Welcome() {
                         {/* Mobile contact form */}
                         <div className="mform">
                             <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '17px', color: 'var(--txt)', marginBottom: '16px' }}>Share Your Project Brief</div>
-                            <form id="mob-contact-form" onSubmit={(e) => (window as any).handleMobForm?.(e)}>
+                            <form id="mob-contact-form" onSubmit={(e) => { void submitHomepageInquiry(e, 'mob'); }}>
                                 <label className="mfl" htmlFor="mob-name">Full Name</label>
                                 <input id="mob-name" type="text" placeholder="Muhammad Ali" className="mff" required />
                                 <label className="mfl" htmlFor="mob-email">Email Address</label>
@@ -1048,10 +1075,11 @@ export default function Welcome() {
                                 </select>
                                 <label className="mfl" htmlFor="mob-details">Project Brief</label>
                                 <textarea id="mob-details" rows={4} minLength={10} maxLength={5000} required placeholder="Describe your project briefly…" className="mff"></textarea>
-                                <button id="mob-btn" type="submit" className="msub">
-                                    Send Message
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                                <button id="mob-btn" type="submit" className="msub" disabled={inquiryFeedback.mob.loading}>
+                                    {inquiryFeedback.mob.loading ? 'Sending…' : 'Send Message'}
+                                    {!inquiryFeedback.mob.loading && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>}
                                 </button>
+                                {inquiryFeedback.mob.message && <p className={`inquiry-feedback${inquiryFeedback.mob.error ? ' inquiry-feedback--error' : ''}`} role={inquiryFeedback.mob.error ? 'alert' : 'status'} aria-live="polite">{inquiryFeedback.mob.message}</p>}
                             </form>
                         </div>
                     </div>
@@ -1335,7 +1363,7 @@ export default function Welcome() {
                         <div data-a="right">
                             <div className="fc">
                                 <div style={{ fontFamily: 'var(--disp)', fontWeight: 700, fontSize: '18px', color: 'var(--txt)', marginBottom: '20px' }}>Share Your Project Brief</div>
-                                <form id="desk-contact-form" onSubmit={(e) => (window as any).handleDeskForm?.(e)}>
+                                <form id="desk-contact-form" onSubmit={(e) => { void submitHomepageInquiry(e, 'desk'); }}>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
                                         <div><label className="fl" htmlFor="desk-name">Full Name</label><input id="desk-name" type="text" placeholder="Your name" className="ff" required /></div>
                                         <div><label className="fl" htmlFor="desk-email">Email</label><input id="desk-email" type="email" placeholder="you@company.com" className="ff" required /></div>
@@ -1361,10 +1389,11 @@ export default function Welcome() {
                                         </select>
                                     </div>
                                     <div style={{ marginBottom: '14px' }}><label className="fl" htmlFor="desk-details">Project Brief</label><textarea id="desk-details" rows={4} minLength={10} maxLength={5000} required placeholder="Describe your project briefly…" className="ff" style={{ resize: 'none' }}></textarea></div>
-                                    <button id="desk-btn" type="submit" className="btn-p" style={{ width: '100%', justifyContent: 'center', padding: '13px' }}>
-                                        Send Message
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                                    <button id="desk-btn" type="submit" className="btn-p" disabled={inquiryFeedback.desk.loading} style={{ width: '100%', justifyContent: 'center', padding: '13px' }}>
+                                        {inquiryFeedback.desk.loading ? 'Sending…' : 'Send Message'}
+                                        {!inquiryFeedback.desk.loading && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>}
                                     </button>
+                                    {inquiryFeedback.desk.message && <p className={`inquiry-feedback${inquiryFeedback.desk.error ? ' inquiry-feedback--error' : ''}`} role={inquiryFeedback.desk.error ? 'alert' : 'status'} aria-live="polite">{inquiryFeedback.desk.message}</p>}
                                 </form>
                             </div>
                         </div>

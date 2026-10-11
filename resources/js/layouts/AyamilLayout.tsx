@@ -8,7 +8,7 @@ const TICKER_ITEMS: Array<{ value: string; label: string } | { text: string }> =
     { value: '2,000+', label: 'Issues Fixed' }, { text: '✦ Blockchain' },
     { value: '10+', label: 'Years Exp.' }, { text: '✦ AI & ML' },
     { value: '87%', label: 'Satisfaction' }, { text: '✦ IT Consulting' },
-    { value: '50+', label: 'Countries' }, { text: '✦ Smart Contracts' },
+    { value: '50+', label: 'International Clients' }, { text: '✦ Smart Contracts' },
     { text: '✦ E-Commerce' },
 ];
 
@@ -27,7 +27,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     }, []);
 
     const { url } = usePage();
-    const currentPath = url.split('?')[0].replace(/\/$/, '') || '/';
+    const currentPath = url.split(/[?#]/)[0].replace(/\/$/, '') || '/';
 
     const isActive = (href: string) => {
         const normalized = href.replace(/\/$/, '') || '/';
@@ -894,7 +894,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
 </li>
                                 <li><Link href="/ceo">Our CEO</Link></li>
                                 <li><Link href="/top-it-company-sadiqabad">IT Company in Sadiqabad</Link></li>
-                                <li><a href="https://apply.ayamilcoders.com/careers" target="_blank" rel="noopener noreferrer">Careers</a></li>
+                                <li><Link href="/careers">Careers</Link></li>
                             </ul>
                         </div>
                         <div data-a="up" data-d="4">
@@ -993,7 +993,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             </a>
 
             {/* ════════ SCROLL TO TOP ════════ */}
-            <button id="stt" aria-label="Scroll to top" onClick={() => {
+            <button id="stt" type="button" aria-label="Scroll to top" onClick={() => {
                 const activeScr = document.querySelector<HTMLElement>('.asc.s-act');
                 if (activeScr && activeScr.scrollHeight > activeScr.clientHeight) {
                     activeScr.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1005,7 +1005,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             </button>
 
             {/* ════════ LEGAL PILL (Mobile) ════════ */}
-            <button id="legal-pill" onClick={() => { document.getElementById('legal-overlay')?.classList.add('open'); document.body.style.overflow = 'hidden'; document.getElementById('legal-sheet-close')?.focus(); }} aria-label="Legal pages" aria-haspopup="dialog">
+            <button id="legal-pill" type="button" onClick={() => { document.getElementById('legal-overlay')?.classList.add('open'); document.body.style.overflow = 'hidden'; document.getElementById('legal-sheet-close')?.focus(); }} aria-label="Legal pages" aria-haspopup="dialog">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 Legal &amp; Policies
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>

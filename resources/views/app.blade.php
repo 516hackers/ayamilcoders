@@ -85,7 +85,7 @@
          the real font stack — a second, uncontrolled font-swap on top of
          the @font-face rule's own (already CLS-safe) display:optional
          handling above. That's what caused the 0.222 CLS regression. -->
-    <link rel="stylesheet" href="/css/shared.css?v=20261012-hydration-v12">
+    <link rel="stylesheet" href="/css/shared.css?v=20261012-react-safety-v15">
 
     <!-- JSON-LD -->
     @verbatim
