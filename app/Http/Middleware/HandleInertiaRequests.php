@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use App\Support\PublicSeo;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -33,6 +34,15 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
+    public function handle(Request $request, \Closure $next)
+    {
+        $response = parent::handle($request, $next);
+        if (PublicSeo::privatePath($request) && ! $request->is('sitemap.xml')) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        }
+        return $response;
+    }
+
     public function share(Request $request): array
     {
         $user = $request->user();
@@ -40,6 +50,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'publicSeo' => PublicSeo::forRequest($request),
             'auth' => [
                 'user' => $user,
             ],

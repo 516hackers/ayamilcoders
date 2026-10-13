@@ -53,109 +53,12 @@
 
     <!-- Favicons -->
     <link rel="icon" href="/logo/favicon.ico?v=2026" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/logo/apple-touch-icon.png">
 
     <!-- Shared tokens and styling load before content to prevent layout/theme flash. -->
     <link rel="stylesheet" href="/css/shared.css?v=23-nav-footer">
 
-    <!-- JSON-LD -->
-    @verbatim
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://ayamilcoders.com/#website",
-          "name": "Ayamil Coders",
-          "url": "https://ayamilcoders.com",
-          "publisher": {
-            "@id": "https://ayamilcoders.com/#organization"
-          }
-        },
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://ayamilcoders.com/#organization",
-          "name": "Ayamil Coders",
-          "url": "https://ayamilcoders.com",
-          "logo": "https://ayamilcoders.com/logo/ac-512.png",
-          "foundingDate": "2023-07-21",
-          "founder": {
-            "@type": "Person",
-            "name": "Muhammad Muzamil"
-          },
-          "employee": [
-            {
-              "@type": "Person",
-              "name": "Hidden Partner",
-              "jobTitle": "Chief Executive Officer",
-              "description": "Ayamil Coders' CEO, known publicly as the Hidden Partner. Their real-world identity is intentionally kept private by company policy."
-            }
-          ],
-          "email": "info@ayamilcoders.com",
-          "telephone": "+92-312-759-2672",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Sadiqabad",
-            "addressRegion": "Punjab",
-            "addressCountry": "PK"
-          },
-          "areaServed": {
-            "@type": "Place",
-            "name": "Worldwide"
-          },
-          "sameAs": [
-            "https://facebook.com/ayamilcoders",
-            "https://www.linkedin.com/company/ayamilcoders",
-            "https://www.instagram.com/ayamilcoders",
-            "https://www.fiverr.com/muzamil516"
-          ],
-          "knowsAbout": [
-            "Web Development",
-            "Blockchain Development",
-            "AI Development",
-            "Bug Fixing"
-          ],
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Ayamil Coders Services",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Web Development"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Blockchain Development"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "AI Development"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Bug Fixing"
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
-    </script>
-    @endverbatim
+    @include('partials.seo-bootstrap')
 
     @viteReactRefresh
     @vite([
@@ -164,7 +67,7 @@
     ])
 
     <x-inertia::head>
-        <title>{{ config('app.name', 'Ayamil Coders') }}</title>
+        @include('partials.seo-fallback')
     </x-inertia::head>
 </head>
 

@@ -135,80 +135,6 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
         };
     }, []);
 
-    // ===== SITEWIDE WEBSITE + ORGANIZATION JSON-LD =====
-    // Injected once into every page via the shared layout so search engines
-    // and LLM answer engines (AEO/GEO/LLMO) see a single consistent entity
-    // graph for Ayamil Coders no matter which page was crawled first.
-    useEffect(() => {
-        const scriptId = 'ayamil-sitewide-schema';
-        if (document.getElementById(scriptId)) return;
-
-        const script = document.createElement('script');
-        script.id = scriptId;
-        script.type = 'application/ld+json';
-        script.textContent = JSON.stringify({
-            '@context': 'https://schema.org',
-            '@graph': [
-                {
-                    '@type': 'WebSite',
-                    '@id': 'https://ayamilcoders.com/#website',
-                    name: 'Ayamil Coders',
-                    url: 'https://ayamilcoders.com',
-                    publisher: { '@id': 'https://ayamilcoders.com/#organization' },
-                },
-                {
-                    '@type': 'ProfessionalService',
-                    '@id': 'https://ayamilcoders.com/#organization',
-                    name: 'Ayamil Coders',
-                    url: 'https://ayamilcoders.com',
-                    logo: 'https://ayamilcoders.com/logo/ac-512.png',
-                    image: 'https://ayamilcoders.com/logo/ac-512.png',
-                    foundingDate: '2023-07-21',
-                    founder: { '@type': 'Person', name: 'Muhammad Muzamil' },
-                    employee: [
-                        {
-                            '@type': 'Person',
-                            name: 'Hidden Partner',
-                            jobTitle: 'Chief Executive Officer',
-                            description: "Ayamil Coders' CEO, known publicly as the Hidden Partner. Their real-world identity is intentionally kept private by company policy.",
-                        },
-                    ],
-                    email: 'info@ayamilcoders.com',
-                    telephone: '+92-312-759-2672',
-                    address: {
-                        '@type': 'PostalAddress',
-                        addressLocality: 'Sadiqabad',
-                        addressRegion: 'Punjab',
-                        addressCountry: 'PK',
-                    },
-                    areaServed: { '@type': 'Place', name: 'Worldwide' },
-                    sameAs: [
-                        'https://facebook.com/ayamilcoders',
-                        'https://www.linkedin.com/company/ayamilcoders',
-                        'https://www.instagram.com/ayamilcoders',
-                        'https://www.fiverr.com/muzamil516',
-                    ],
-                    knowsAbout: [
-                        'Web Development', 'Blockchain Development', 'AI Development', 'Bug Fixing',
-                    ],
-                    hasOfferCatalog: {
-                        '@type': 'OfferCatalog',
-                        name: 'Ayamil Coders Services',
-                        itemListElement: [
-                            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web Development', serviceType: 'Web Development', url: 'https://ayamilcoders.com/services#web-development' } },
-                            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Blockchain Development', serviceType: 'Blockchain Development', url: 'https://ayamilcoders.com/services#blockchain-development' } },
-                            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI Development', serviceType: 'AI Development', url: 'https://ayamilcoders.com/services#ai-development' } },
-                            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bug Fixing', serviceType: 'Bug Fixing', url: 'https://ayamilcoders.com/services#bug-fixing' } },
-                        ],
-                    },
-                },
-            ],
-        });
-        document.head.appendChild(script);
-        // Intentionally not removed on unmount — this schema is valid for
-        // every route, so it should persist across client-side navigations.
-    }, []);
-
     // ===== EXTRACTED CSS FOR LAYOUT (from index.html <style> tag) =====
     useEffect(() => {
         const styleId = 'ayamil-layout-css';
@@ -892,6 +818,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                                 <li><Link href="/about">Our Story</Link></li>
                                 <li><Link href="/company-registration">Company Registration</Link></li>
                                 <li><Link href="/top-it-company-sadiqabad">IT Company in Sadiqabad</Link></li>
+                                <li><Link href="/best-software-house-pakistan">Software House in Pakistan</Link></li>
                                 <li><Link href="/careers">Careers</Link></li>
                                 <li><Link href="/updates">Updates &amp; Changelog</Link></li>
                             </ul>

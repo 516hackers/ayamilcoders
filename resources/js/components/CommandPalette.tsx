@@ -2,22 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { Search, ArrowUpRight, X, Bookmark, BookmarkCheck, History, ClipboardCopy, Link2, Trash2, Wrench, Command } from 'lucide-react';
 import '../../css/command-base.css';
+import { PUBLIC_PAGES, PUBLIC_SEARCH_ENTRIES } from '@/data/public-pages';
 
 // V25: Spotlight is intentionally SEARCH ONLY. Independent tools have their own surfaces.
-const PAGES = [
-    ['/', 'Home', 'Company overview'], ['/services','Services & Expertise','Custom development and troubleshooting'],
-    ['/about','Our Story','Company and team'], ['/contact','Contact','Discuss your project'],
-    ['/careers','Careers','Opportunities'], ['/solutions','Solutions','Engineering solutions'],
-    ['/benefits','Client Benefits','Working with Ayamil Coders'], ['/updates','Updates & Changelog','Website development history'],
-    ['/company-registration','Company Registration','Corporate information'],
-    ['/services#web-development','Web Development','Custom web applications'],
-    ['/services#bug-fixing','Bug Fixing','Software troubleshooting'],
-    ['/services#blockchain-development','Blockchain','Smart contracts and DApps'],
-    ['/services#ai-development','AI Development','AI integration'],
-    ['/privacy-policy','Privacy Policy','Privacy and data'], ['/terms','Terms','Service terms'],
-    ['/refund-policy','Refund Policy','Refund conditions'],
-    ['/top-it-company-sadiqabad','Sadiqabad IT Services','Local development services'],
-] as const;
+const PAGES = PUBLIC_SEARCH_ENTRIES;
 const TOOLS = [
     ['navigator','Page Navigator'],['lens','Developer Lens'],['compare','Service Comparison'],
     ['focus','Focus Mode'],['preview','Quick Preview'],['guide','Keyboard Guide'],
@@ -37,18 +25,18 @@ export default function CommandPalette({open,onOpen: _onOpen,onClose}:{open:bool
     const [saved,setSaved]=useState<string[]>([]),[recent,setRecent]=useState<string[]>([]),[status,setStatus]=useState('');
     const input=useRef<HTMLInputElement>(null),restoreFocus=useRef<HTMLElement|null>(null);
     useEffect(()=>{setSaved(safeRead(SAVED));setRecent(safeRead(RECENT,true));},[]);
-    useEffect(()=>{const p=PAGES.find(([href])=>href===path);if(!p)return;setRecent(prev=>{const next=[path,...prev.filter(x=>x!==path)].slice(0,10);safeWrite(RECENT,next,true);return next;});},[path]);
+    useEffect(()=>{const p=PUBLIC_PAGES.find((p)=>p.url===path);if(!p)return;setRecent(prev=>{const next=[path,...prev.filter(x=>x!==path)].slice(0,10);safeWrite(RECENT,next,true);return next;});},[path]);
     useEffect(()=>{if(!open)return;restoreFocus.current=document.activeElement as HTMLElement;setQuery('');setIndex(0);setStatus('');const frame=requestAnimationFrame(()=>input.current?.focus());return()=>{cancelAnimationFrame(frame);restoreFocus.current?.focus();};},[open]);
     useEffect(()=>{if(!open)return;const onEscape=(e:KeyboardEvent)=>{if(e.key==='Escape'){e.preventDefault();onClose();}};document.addEventListener('keydown',onEscape);return()=>document.removeEventListener('keydown',onEscape);},[open,onClose]);
     const results=useMemo(()=>{
         const raw=query.toLowerCase().trim();const prefix=['>','@','#'].includes(raw.charAt(0))?raw.charAt(0):'';const search=(prefix?raw.slice(1):raw).trim();
-        const options:[string,string,string,'page'|'tool'|'action'][]=[];
-        if(prefix!=='>'&&prefix!=='@'&&prefix!=='#')PAGES.forEach(([href,label,desc])=>options.push([href,label,desc,'page']));
-        if(prefix==='@')PAGES.filter(([href])=>saved.includes(href)).forEach(([href,label,desc])=>options.push([href,label,desc,'page']));
-        if(prefix==='#')PAGES.filter(([href])=>recent.includes(href)).forEach(([href,label,desc])=>options.push([href,label,desc,'page']));
+        const options:[string,string,string,'page'|'tool'|'action',string?][]=[];
+        if(prefix!=='>'&&prefix!=='@'&&prefix!=='#')PAGES.forEach(p=>options.push([p.url,p.name,p.desc,'page',p.keywords]));
+        if(prefix==='@')PAGES.filter(p=>saved.includes(p.url)).forEach(p=>options.push([p.url,p.name,p.desc,'page']));
+        if(prefix==='#')PAGES.filter(p=>recent.includes(p.url)).forEach(p=>options.push([p.url,p.name,p.desc,'page']));
         if(prefix==='>'||!prefix){TOOLS.forEach(([id,label])=>options.push([id,label,'Open independent interactive workspace','tool']));
             [['save','Save / unsave current page'],['copy','Copy current URL'],['project','Copy project brief template'],['incident','Copy incident report template'],['clear','Clear recent history']].forEach(([id,label])=>options.push([id,label,'Quick action','action']));}
-        return options.filter(row=>!search||`${row[1]} ${row[2]} ${row[0]}`.toLowerCase().includes(search)).sort((a,b)=>Number(saved.includes(b[0]))-Number(saved.includes(a[0]))).slice(0,14);
+        return options.filter(row=>!search||search.split(/\s+/).every(term=>`${row[1]} ${row[2]} ${row[0]} ${row[4]||''}`.toLowerCase().includes(term))).sort((a,b)=>Number(saved.includes(b[0]))-Number(saved.includes(a[0]))).slice(0,55);
     },[query,saved,recent]);
     const run=async(row:(typeof results)[number])=>{
         const [id,, ,type]=row;if(type==='page'){onClose();router.visit(id);return;}

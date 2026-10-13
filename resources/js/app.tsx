@@ -17,7 +17,8 @@ const AppLayout = lazy(() => import('@/layouts/app-layout'));
 const AuthLayout = lazy(() => import('@/layouts/auth-layout'));
 const SettingsLayout = lazy(() => import('@/layouts/settings/layout'));
 
-const appName = import.meta.env.VITE_APP_NAME || 'Ayamil Coders';
+// Public titles must never inherit the default Laravel starter-kit brand.
+const appName = 'Ayamil Coders';
 
 const publicPages = [
     'welcome',
@@ -51,7 +52,8 @@ const bootstrapWindow = typeof window === 'undefined'
 if (!bootstrapWindow || !bootstrapWindow.__ayamilInertiaBootPromise) {
     if (bootstrapWindow) initializeTheme();
     const boot = Promise.resolve(createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
+    // Avoid repeating the brand in SEO titles that already contain it.
+    title: (title) => (title ? (title.toLowerCase().includes(appName.toLowerCase()) ? title : `${title} | ${appName}`) : appName),
 
     resolve: async (name) => {
         // Every page EXCEPT the homepage is lazy-loaded as its own chunk —

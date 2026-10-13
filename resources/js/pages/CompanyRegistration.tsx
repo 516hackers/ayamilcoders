@@ -32,6 +32,10 @@ type ShareMetrics = {
     source: string | null;
     last_updated: string | null;
     message?: string;
+    ledger_status?: 'disabled' | 'connected' | 'unavailable';
+    ledger_cash_per_share?: number | null;
+    ledger_as_of?: string | null;
+    ledger_description?: string;
 };
 
 type FeedState = 'loading' | 'connected' | 'pending' | 'error';
@@ -179,6 +183,7 @@ export default function CompanyRegistration() {
                 headers: {
                     Accept: 'application/json',
                 },
+                cache: 'no-store',
             });
 
             if (!response.ok) {
@@ -197,14 +202,19 @@ export default function CompanyRegistration() {
     }, []);
 
     useEffect(() => {
-        void loadMetrics();
-
-        const interval = window.setInterval(() => {
-            void loadMetrics();
-        }, 60_000);
-
+        // V29: no polling when the tab is hidden or the device is offline.
+        // The Laravel backend applies a separate 60-second server-side cache.
+        const refreshIfVisible = () => {
+            if (document.visibilityState === 'visible' && navigator.onLine) void loadMetrics();
+        };
+        refreshIfVisible();
+        const interval = window.setInterval(refreshIfVisible, 120_000);
+        document.addEventListener('visibilitychange', refreshIfVisible);
+        window.addEventListener('online', refreshIfVisible);
         return () => {
             window.clearInterval(interval);
+            document.removeEventListener('visibilitychange', refreshIfVisible);
+            window.removeEventListener('online', refreshIfVisible);
         };
     }, [loadMetrics]);
 
@@ -2167,6 +2177,26 @@ export default function CompanyRegistration() {
                                     {formatDate(metrics?.last_updated)}
                                 </strong>
                             </div>
+                        </div>
+
+                        {/* Transaction ledger supplies cash-equivalent balances only.
+                            This is intentionally NOT described as a share price or full book value. */}
+                        <div className="acreg-live-note" style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 9 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                                <WalletCards size={17} />
+                                <strong>Cash balance per ordinary share — indicative</strong>
+                            </div>
+                            <div style={{ fontFamily: 'var(--disp)', fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 800, color: 'var(--txt)' }} aria-live="polite">
+                                {metrics?.ledger_status === 'connected' && typeof metrics.ledger_cash_per_share === 'number'
+                                    ? formatPKR(metrics.ledger_cash_per_share)
+                                    : metrics?.ledger_status === 'disabled' ? 'Not enabled' : 'Unavailable'}
+                            </div>
+                            <span>
+                                {metrics?.ledger_status === 'connected'
+                                    ? `Active PKR bank/cash/wallet ledger balances ÷ ${TOTAL_SHARES.toLocaleString('en-PK')} ordinary shares. Ledger updated: ${formatDate(metrics.ledger_as_of)}. Feed responses are cached for up to 60 seconds and this page auto-refreshes approximately every 2 minutes.`
+                                    : 'Optional read-only transaction-ledger integration. No cash balance is published until a secure feed has been configured.'}
+                            </span>
+                            <small>This is a partial cash-balance indicator, not company equity, net assets, market price, fair value or an offer to trade shares. Other assets, liabilities and accounting adjustments are not included.</small>
                         </div>
 
                         <div className="acreg-live-note">

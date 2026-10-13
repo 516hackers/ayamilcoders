@@ -50,80 +50,20 @@
 
         <!-- Favicon -->
         <link rel="icon" href="/logo/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+            <link rel="apple-touch-icon" href="/logo/apple-touch-icon.png">
 
         <!-- Shared Styles & Scripts (static assets in public/css/ and public/js/) -->
         <link rel="stylesheet" href="/css/shared.css?v=23-nav-footer">
 
-        <!-- Sitewide Organization + WebSite JSON-LD, server-rendered so it is
-             visible to crawlers/LLM bots that do not execute JavaScript
-             (GPTBot, PerplexityBot, ClaudeBot, etc.) — GEO/LLMO/AISEO. -->
-        <script type="application/ld+json" id="ayamil-sitewide-schema">
-        {
-            "@context": "https://schema.org",
-            "@graph": [
-                {
-                    "@type": "WebSite",
-                    "@id": "https://ayamilcoders.com/#website",
-                    "name": "Ayamil Coders",
-                    "url": "https://ayamilcoders.com",
-                    "publisher": { "@id": "https://ayamilcoders.com/#organization" }
-                },
-                {
-                    "@type": "ProfessionalService",
-                    "@id": "https://ayamilcoders.com/#organization",
-                    "name": "Ayamil Coders",
-                    "url": "https://ayamilcoders.com",
-                    "logo": "https://ayamilcoders.com/logo/ac-512.png",
-                    "foundingDate": "2023-07-21",
-                    "founder": { "@type": "Person", "name": "Muhammad Muzamil" },
-                    "employee": [
-                        {
-                            "@type": "Person",
-                            "name": "Hidden Partner",
-                            "jobTitle": "Chief Executive Officer",
-                            "description": "Ayamil Coders' CEO, known publicly as the Hidden Partner. Their real-world identity is intentionally kept private by company policy."
-                        }
-                    ],
-                    "email": "info@ayamilcoders.com",
-                    "telephone": "+92-312-759-2672",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "Sadiqabad",
-                        "addressRegion": "Punjab",
-                        "addressCountry": "PK"
-                    },
-                    "areaServed": { "@type": "Place", "name": "Worldwide" },
-                    "sameAs": [
-                        "https://facebook.com/ayamilcoders",
-                        "https://www.linkedin.com/company/ayamilcoders",
-                        "https://www.instagram.com/ayamilcoders",
-                        "https://www.fiverr.com/muzamil516"
-                    ],
-                    "knowsAbout": ["Web Development", "Blockchain Development", "AI Development", "Bug Fixing"],
-                    "hasOfferCatalog": {
-                        "@type": "OfferCatalog",
-                        "name": "Ayamil Coders Services",
-                        "itemListElement": [
-                            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
-                            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Blockchain Development" } },
-                            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Development" } },
-                            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bug Fixing" } }
-                        ]
-                    }
-                }
-            ]
-        }
-        </script>
+        @include('partials.seo-bootstrap')
 
         {{-- DON'T include individual page files here! --}}
         @viteReactRefresh
         @vite(['resources/js/app.tsx'])
         
         <x-inertia::head>
-            <title>{{ config('app.name', 'Ayamil Coders') }}</title>
-        </x-inertia::head>
+        @include('partials.seo-fallback')
+    </x-inertia::head>
     </head>
     <body>
         <x-inertia::app />

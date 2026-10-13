@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { useLayoutEffect, useState, useEffect, FormEvent } from 'react';
 import { createPortal } from 'react-dom';
 import SEO from '@/components/SEO';
@@ -270,7 +270,6 @@ export default function Careers() {
                 url="https://ayamilcoders.com/careers"
                 schema={pageSchema}
             />
-            <Head title="Careers — Ayamil Coders" />
 
             {/* ── PAGE HERO ── */}
             <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>

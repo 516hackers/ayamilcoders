@@ -88,6 +88,9 @@ Route::get('/ceo', function () {
     return Inertia::render('Ceo');
 })->name('ceo');
 
+// Preserve old founder URL from historical search traffic without duplicate content.
+Route::redirect('/about/muhammad-muzamil', '/founder', 301);
+
 // Founder page — NOT linked from navbar/footer/legal sheet on purpose.
 // Reachable only via direct URL: /founder
 Route::get('/founder', function () {

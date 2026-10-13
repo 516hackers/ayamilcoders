@@ -213,10 +213,10 @@ export default function Founder() {
             <section className="fnd-hero">
                 <div className="fnd-blob" style={{ width: '480px', height: '480px', background: 'radial-gradient(circle,rgba(41,121,242,.10),transparent 70%)', top: '-160px', left: '50%', transform: 'translateX(-50%)' }}></div>
                 <div className="fnd-avatar" data-f>MM</div>
-                <div className="fnd-name" data-f data-fd="1">Muhammad Muzamil</div>
+                <h1 className="fnd-name" data-f data-fd="1">Muhammad Muzamil</h1>
                 <div className="fnd-role" data-f data-fd="2">FOUNDER & LEAD PROGRAMMER · AYAMIL CODERS</div>
                 <p className="fnd-tagline" data-f data-fd="3">
-                    Taught himself to code at age 11 in Sadiqabad — no institute, no mentor, no coding teacher. Now, at 20, he leads Ayamil Coders through 600+ delivered projects across web development, cybersecurity, and blockchain.
+                    Taught himself to code at age 11 in Sadiqabad — no institute, no mentor, no coding teacher. Today, he leads Ayamil Coders through 600+ delivered projects across web development, cybersecurity, and blockchain.
                 </p>
             </section>
 

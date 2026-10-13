@@ -9,6 +9,7 @@ import {
   Clock3, Settings2, LayoutGrid, MousePointer2, ArrowRightLeft, Info,
 } from 'lucide-react';
 import '../../css/interactive-tools.css';
+import { PUBLIC_PAGES } from '@/data/public-pages';
 
 type Tool='navigator'|'lens'|'compare'|'preview'|'guide'|'trail'|'access'|'decision'|'notes'|'share'|'updates';
 type LaunchId=Tool|'focus'|'search';
@@ -17,17 +18,7 @@ type LinkPreview={label:string;desc:string;href:string;x:number;y:number};
 type AccessPrefs={scale:number;wide:boolean;motion:boolean;contrast:boolean};
 const STORAGE='ayamil:v25:';
 const NAV:Record<string,string>={h:'/',s:'/services',e:'/solutions',c:'/contact',u:'/updates'};
-const PAGES=[
-  {url:'/',name:'Home',desc:'Explore Ayamil Coders and our capabilities'},
-  {url:'/services',name:'Services',desc:'Custom websites, security and software engineering'},
-  {url:'/about',name:'Our Story',desc:'Get to know Ayamil Coders'},
-  {url:'/solutions',name:'Solutions',desc:'Explore technical approaches for your needs'},
-  {url:'/contact',name:'Contact',desc:'Start a project conversation'},
-  {url:'/updates',name:'Updates & Changelog',desc:'Evidence-labelled release history'},
-  {url:'/benefits',name:'Client Benefits',desc:'How our delivery process supports clients'},
-  {url:'/careers',name:'Careers',desc:'Working with the team'},
-  {url:'/company-registration',name:'Company Registration',desc:'Corporate registration information'},
-];
+const PAGES=PUBLIC_PAGES;
 const SERVICES=[
   {name:'Custom Web Development',href:'/services#web-development',intro:'Purpose-built applications and secure backend systems.',fit:'New websites, platforms and connected workflows',deliver:'Discovery, application architecture, UX, backend, integration and testing',ask:'Users, workflows, data, integrations and performance goals'},
   {name:'Bug Fixing',href:'/services#bug-fixing',intro:'Investigating failures in existing production systems.',fit:'Broken features, deployment errors and integration defects',deliver:'Reproduction, root-cause analysis, repair and regression checks',ask:'Error examples, affected environment, expected and actual behavior'},
