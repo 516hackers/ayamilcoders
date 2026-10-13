@@ -1206,6 +1206,13 @@ export default function CompanyRegistration() {
                 color: var(--blue-lt);
             }
 
+            .acreg-ledger-description-mobile { display: none; }
+            @media (max-width: 639px) {
+                .acreg-ledger-description-desktop { display: none; }
+                .acreg-ledger-description-mobile { display: block; font-size: 11px; line-height: 1.45; }
+                .acreg-live-note { padding: 10px 12px; gap: 6px; line-height: 1.45; }
+            }
+
             /* Business */
             .acreg-business {
                 display: grid;
@@ -2170,10 +2177,15 @@ export default function CompanyRegistration() {
                                 <WalletCards size={17} />
                                 <strong>TXN cash balance indicator</strong>
                             </div>
-                            <span>
+                            <span className="acreg-ledger-description-desktop">
                                 {connected
                                     ? `Active PKR bank/cash/wallet ledger balances ÷ ${TOTAL_SHARES.toLocaleString('en-PK')} ordinary shares. Feed responses are cached for up to 60 seconds; this page refreshes about every 2 minutes.`
                                     : 'The secure TXN ledger feed is currently unavailable.'}
+                            </span>
+                            <span className="acreg-ledger-description-mobile">
+                                {connected
+                                    ? `PKR cash balance ÷ ${TOTAL_SHARES.toLocaleString('en-PK')} shares · Auto-refresh ~2 min`
+                                    : 'TXN ledger temporarily unavailable.'}
                             </span>
                             <small>
                                 Cash and cash equivalents are only part of company assets. This amount excludes other assets and liabilities and is not net assets, book value, fair value, a quoted market price, or an offer to trade shares.
