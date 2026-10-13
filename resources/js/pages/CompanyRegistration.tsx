@@ -1,4 +1,4 @@
-import { useLayoutEffect, useCallback, useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useCallback, useEffect, useState } from 'react';
 import SEO from '@/components/SEO';
 import {
     BadgeCheck,
@@ -193,7 +193,7 @@ export default function CompanyRegistration() {
             const data = (await response.json()) as ShareMetrics;
 
             setMetrics(data);
-            setFeedState(data.status === 'connected' ? 'connected' : 'pending');
+            setFeedState(data.ledger_status === 'connected' ? 'connected' : 'pending');
         } catch {
             setFeedState('error');
         } finally {
@@ -1615,27 +1615,13 @@ export default function CompanyRegistration() {
     }, []);
 
     const connected = feedState === 'connected';
+    const snapshotConnected = metrics?.status === 'connected';
 
-    const estimatedBookValue = useMemo(() => {
-        if (!metrics) {
-            return null;
-        }
-
-        if (typeof metrics.estimated_book_value_per_share === 'number') {
-            return metrics.estimated_book_value_per_share;
-        }
-
-        if (typeof metrics.net_assets === 'number') {
-            return metrics.net_assets / TOTAL_SHARES;
-        }
-
-        return null;
-    }, [metrics]);
 
     const feedText: Record<FeedState, string> = {
         loading: 'Checking financial feed',
-        connected: 'Financial data connected',
-        pending: 'Bank / accounting API pending',
+        connected: 'TXN cash ledger connected',
+        pending: 'TXN cash ledger unavailable',
         error: 'Financial feed unavailable',
     };
 
@@ -1695,7 +1681,7 @@ export default function CompanyRegistration() {
         <div className="acreg">
             <SEO
                 title="Company Registration & Corporate Information"
-                description="Public corporate registration profile for AYAMIL CODERS (SMC-PRIVATE) LIMITED, including SECP CUIN, FBR registration, share capital, principal business scope and an API-ready estimated book value per share."
+                description="Public corporate registration profile for AYAMIL CODERS (SMC-PRIVATE) LIMITED, including SECP CUIN, FBR registration, share capital, principal business scope and a live indicative cash-per-share metric from a read-only TXN ledger."
                 keywords="Ayamil Coders registration, AYAMIL CODERS SMC PRIVATE LIMITED, SECP CUIN 0357981, FBR K075347, company registration Pakistan"
                 url={PAGE_URL}
                 schema={schema}
@@ -2069,19 +2055,19 @@ export default function CompanyRegistration() {
                             </div>
 
                             <h2 className="acreg-h2">
-                                Estimated book value per share.
+                                Cash balance per ordinary share.
                             </h2>
 
                             <p className="acreg-desc">
-                                Once a bank or accounting source is connected, this
-                                section can update automatically from the latest
-                                synchronized financial snapshot.
+                                A read-only financial indicator sourced from the TXN
+                                ledger. This is a cash-balance indicator, not an
+                                estimated book value or a market share price.
                             </p>
                         </div>
 
                         <div className="acreg-chip">
                             <Calculator size={13} />
-                            Net assets ÷ 1,000
+                            Ledger cash ÷ 1,000
                         </div>
                     </div>
 
@@ -2090,20 +2076,20 @@ export default function CompanyRegistration() {
                             <div>
                                 <div className="acreg-live-label">
                                     <TrendingUp size={14} />
-                                    Estimated book value / share
+                                    Indicative cash / share
                                 </div>
 
                                 <div className="acreg-live-value" aria-live="polite">
                                     {feedState === 'loading'
                                         ? 'Loading…'
                                         : connected
-                                          ? formatPKR(estimatedBookValue)
-                                          : 'Not connected'}
+                                          ? formatPKR(metrics?.ledger_cash_per_share)
+                                          : 'TXN not connected'}
                                 </div>
 
                                 <div className="acreg-live-formula">
                                     <Calculator size={13} />
-                                    Net assets ÷ {TOTAL_SHARES.toLocaleString('en-PK')} ordinary shares
+                                    Active PKR ledger cash ÷ {TOTAL_SHARES.toLocaleString('en-PK')} ordinary shares
                                 </div>
                             </div>
 
@@ -2129,8 +2115,8 @@ export default function CompanyRegistration() {
                                         <span>Financial Data Source</span>
                                         <strong>
                                             {connected
-                                                ? metrics?.source || 'Financial sync'
-                                                : 'Awaiting bank / accounting integration'}
+                                                ? 'TXN read-only cash ledger'
+                                                : 'TXN feed unavailable'}
                                         </strong>
                                     </div>
 
@@ -2156,7 +2142,7 @@ export default function CompanyRegistration() {
                             <div className="acreg-live-stat">
                                 <span>Net Assets</span>
                                 <strong>
-                                    {connected
+                                    {snapshotConnected
                                         ? formatCompactPKR(metrics?.net_assets)
                                         : '—'}
                                 </strong>
@@ -2165,7 +2151,7 @@ export default function CompanyRegistration() {
                             <div className="acreg-live-stat">
                                 <span>Total Liabilities</span>
                                 <strong>
-                                    {connected
+                                    {snapshotConnected
                                         ? formatCompactPKR(metrics?.total_liabilities)
                                         : '—'}
                                 </strong>
@@ -2174,42 +2160,33 @@ export default function CompanyRegistration() {
                             <div className="acreg-live-stat">
                                 <span>Last Synchronized</span>
                                 <strong>
-                                    {formatDate(metrics?.last_updated)}
+                                    {formatDate(connected ? metrics?.ledger_as_of : metrics?.last_updated)}
                                 </strong>
                             </div>
                         </div>
 
-                        {/* Transaction ledger supplies cash-equivalent balances only.
-                            This is intentionally NOT described as a share price or full book value. */}
                         <div className="acreg-live-note" style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 9 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
                                 <WalletCards size={17} />
-                                <strong>Cash balance per ordinary share — indicative</strong>
-                            </div>
-                            <div style={{ fontFamily: 'var(--disp)', fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 800, color: 'var(--txt)' }} aria-live="polite">
-                                {metrics?.ledger_status === 'connected' && typeof metrics.ledger_cash_per_share === 'number'
-                                    ? formatPKR(metrics.ledger_cash_per_share)
-                                    : metrics?.ledger_status === 'disabled' ? 'Not enabled' : 'Unavailable'}
+                                <strong>TXN cash balance indicator</strong>
                             </div>
                             <span>
-                                {metrics?.ledger_status === 'connected'
-                                    ? `Active PKR bank/cash/wallet ledger balances ÷ ${TOTAL_SHARES.toLocaleString('en-PK')} ordinary shares. Ledger updated: ${formatDate(metrics.ledger_as_of)}. Feed responses are cached for up to 60 seconds and this page auto-refreshes approximately every 2 minutes.`
-                                    : 'Optional read-only transaction-ledger integration. No cash balance is published until a secure feed has been configured.'}
+                                {connected
+                                    ? `Active PKR bank/cash/wallet ledger balances ÷ ${TOTAL_SHARES.toLocaleString('en-PK')} ordinary shares. Feed responses are cached for up to 60 seconds; this page refreshes about every 2 minutes.`
+                                    : 'The secure TXN ledger feed is currently unavailable.'}
                             </span>
-                            <small>This is a partial cash-balance indicator, not company equity, net assets, market price, fair value or an offer to trade shares. Other assets, liabilities and accounting adjustments are not included.</small>
+                            <small>
+                                Cash and cash equivalents are only part of company assets. This amount excludes other assets and liabilities and is not net assets, book value, fair value, a quoted market price, or an offer to trade shares.
+                            </small>
                         </div>
 
                         <div className="acreg-live-note">
                             <ShieldCheck size={15} />
-
                             <span>
-                                <strong style={{ color: 'var(--txt2)' }}>
-                                    Financial context:
-                                </strong>{' '}
-                                this is an estimated book-value indicator based on
-                                company net assets. It is not a stock-market price,
-                                public trading quotation, valuation certificate or an
-                                offer to buy or sell shares.
+                                <strong style={{ color: 'var(--txt2)' }}>Full book-value accounting: </strong>
+                                {snapshotConnected
+                                    ? `Separate accounting snapshot available (source: ${metrics?.source || 'accounting'}). The cash indicator above continues to use TXN only.`
+                                    : 'Not connected. Full net assets and liabilities cannot be derived from the TXN cash feed alone.'}
                             </span>
                         </div>
                     </div>

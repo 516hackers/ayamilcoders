@@ -17,14 +17,14 @@ class CompanyMetricsController extends Controller
     {
         // Opt-in: never publish private ledger data automatically.
         if (filter_var(config('ayamil_ledger.public_enabled', false), FILTER_VALIDATE_BOOLEAN) !== true) {
-            return ['status' => 'disabled', 'cash_per_share' => null, 'as_of' => null];
+            return ['status' => 'disabled', 'cash_per_share' => null, 'as_of' => null, 'balance_sheet_status' => 'incomplete', 'total_assets' => null, 'total_liabilities' => null, 'net_assets' => null, 'financial_reviewed_at' => null];
         }
         $url = trim((string) config('ayamil_ledger.feed_url', ''));
         $token = trim((string) config('ayamil_ledger.feed_token', ''));
         if ($url === '' || strlen($token) < 32 || !str_starts_with($url, 'https://')) {
-            return ['status' => 'unavailable', 'cash_per_share' => null, 'as_of' => null];
+            return ['status' => 'unavailable', 'cash_per_share' => null, 'as_of' => null, 'balance_sheet_status' => 'incomplete', 'total_assets' => null, 'total_liabilities' => null, 'net_assets' => null, 'financial_reviewed_at' => null];
         }
-        $unavailable = ['status' => 'unavailable', 'cash_per_share' => null, 'as_of' => null];
+        $unavailable = ['status' => 'unavailable', 'cash_per_share' => null, 'as_of' => null, 'balance_sheet_status' => 'incomplete', 'total_assets' => null, 'total_liabilities' => null, 'net_assets' => null, 'financial_reviewed_at' => null];
         try {
             // Cache success AND upstream failures briefly to avoid stampedes or
             // high CPU/database load if the private txn host goes offline.
@@ -43,6 +43,11 @@ class CompanyMetricsController extends Controller
                         'status' => 'connected',
                         'cash_per_share' => round(((float) $amount) / self::TOTAL_SHARES, 2),
                         'as_of' => is_string($asOf) ? $asOf : null,
+                        'balance_sheet_status' => $response->json('balance_sheet_status') === 'connected' ? 'connected' : 'incomplete',
+                        'total_assets' => is_numeric($response->json('total_assets')) ? (float) $response->json('total_assets') : null,
+                        'total_liabilities' => is_numeric($response->json('total_liabilities')) ? (float) $response->json('total_liabilities') : null,
+                        'net_assets' => is_numeric($response->json('net_assets')) ? (float) $response->json('net_assets') : null,
+                        'financial_reviewed_at' => $response->json('financial_reviewed_at'),
                     ];
                 } catch (\Throwable $e) {
                     // Do not expose private exceptions or generate per-visitor logs.
@@ -82,6 +87,20 @@ class CompanyMetricsController extends Controller
             'ledger_as_of' => $ledger['as_of'],
             'ledger_description' => 'Cash and cash-equivalent balances / 1,000 shares (not a valuation)',
         ];
+        // Prefer the same authenticated TXN feed for cash and approved balance sheet.
+        if ($ledger['status'] === 'connected' && ($ledger['balance_sheet_status'] ?? null) === 'connected'
+            && $ledger['total_assets'] !== null && $ledger['total_liabilities'] !== null && $ledger['net_assets'] !== null) {
+            $result['status'] = 'connected';
+            $result['total_assets'] = round($ledger['total_assets'], 2);
+            $result['total_liabilities'] = round($ledger['total_liabilities'], 2);
+            $result['net_assets'] = round($ledger['net_assets'], 2);
+            $result['estimated_book_value_per_share'] = round($ledger['net_assets'] / self::TOTAL_SHARES, 2);
+            $result['source'] = 'TXN ledger + reviewed balance-sheet inputs';
+            $result['last_updated'] = $ledger['financial_reviewed_at'] ?? $ledger['as_of'];
+            return response()->json($result)
+                ->header('Cache-Control', 'private, no-store')
+                ->header('X-Content-Type-Options', 'nosniff');
+        }
         if (!$snapshot) {
             $result['message'] = 'Verified full financial snapshot not connected; cash indicator may be available separately.';
         } else {
