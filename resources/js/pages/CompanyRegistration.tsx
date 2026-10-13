@@ -1201,15 +1201,36 @@ export default function CompanyRegistration() {
                 line-height: 1.65;
             }
 
+            /* Cash note occupies the complete card width instead of the grid's narrow column. */
+            .acreg-live-note--cash {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 7px;
+                min-width: 0;
+            }
+            .acreg-live-note--cash > span,
+            .acreg-live-note--cash > small {
+                display: block;
+                width: 100%;
+                min-width: 0;
+                overflow-wrap: normal;
+                word-break: normal;
+            }
+            .acreg-live-note--cash > small {
+                font-size: 10px;
+                line-height: 1.5;
+            }
+
             .acreg-live-note svg {
                 margin-top: 2px;
                 color: var(--blue-lt);
             }
 
-            .acreg-ledger-description-mobile { display: none; }
+            .acreg-live-note--cash > .acreg-ledger-description-mobile { display: none; }
             @media (max-width: 639px) {
-                .acreg-ledger-description-desktop { display: none; }
-                .acreg-ledger-description-mobile { display: block; font-size: 11px; line-height: 1.45; }
+                .acreg-live-note--cash > .acreg-ledger-description-desktop { display: none; }
+                .acreg-live-note--cash > .acreg-ledger-description-mobile { display: block; font-size: 11px; line-height: 1.45; }
                 .acreg-live-note { padding: 10px 12px; gap: 6px; line-height: 1.45; }
             }
 
@@ -2172,7 +2193,7 @@ export default function CompanyRegistration() {
                             </div>
                         </div>
 
-                        <div className="acreg-live-note" style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 9 }}>
+                        <div className="acreg-live-note acreg-live-note--cash">
                             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
                                 <WalletCards size={17} />
                                 <strong>TXN cash balance indicator</strong>
