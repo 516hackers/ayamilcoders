@@ -44,6 +44,7 @@ const months: Month[] = [
     {
         id: '2026-10', title: 'October 2026', summary: 'Experience, reliability, and presentation refinements',
         entries: [
+            { date: '2026-10-12', title: 'Command Center and navigation experiments prepared', detail: 'Earlier prototypes explored interactive engineering pages, guided navigation and a Command Center. The separate prototypes were subsequently consolidated into the Command Center; live deployment is not independently confirmed.', category: 'feature', evidence: 'prepared' },
             { date: '2026-10-12', title: 'Mobile content and inquiry feedback', detail: 'Prepared additional mobile guidance and restored visible success/error toast feedback to the homepage inquiry flow.', category: 'experience', evidence: 'prepared' },
             { date: '2026-10-12', title: 'React navigation and DOM safety review', detail: 'Prepared safer React-managed form states, internal link consistency, and first-visit/hydration compatibility improvements.', category: 'fix', evidence: 'prepared' },
             { date: '2026-10-12', title: 'Mobile-first interaction refinements', detail: 'Reviewed mobile tabs, screen-reader behavior, touch gestures, input focus, small screens, and safe-area spacing.', category: 'experience', evidence: 'prepared' },

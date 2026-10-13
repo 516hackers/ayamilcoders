@@ -30,7 +30,7 @@ export default function SEO({
             <meta name="description" content={description} />
             <meta name="keywords" content={keywords} />
             <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-            <meta name="author" content="Muhammad Muzamil - Ayamil Coders" />
+            <meta name="author" content="Ayamil Coders" />
             <meta name="geo.region" content="PK-PB" />
             <meta name="geo.placename" content="Sadiqabad, Punjab, Pakistan" />
             <link rel="canonical" href={url} />
@@ -42,6 +42,7 @@ export default function SEO({
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />
+            <meta property="og:image:alt" content="Ayamil Coders official brand identity" />
             <meta property="og:site_name" content="Ayamil Coders" />
             <meta property="og:locale" content="en_US" />
             
@@ -51,6 +52,7 @@ export default function SEO({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={image} />
+            <meta name="twitter:image:alt" content="Ayamil Coders official brand identity" />
 
             
             

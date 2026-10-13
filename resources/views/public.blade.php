@@ -54,7 +54,7 @@
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <!-- Shared Styles & Scripts (static assets in public/css/ and public/js/) -->
-        <link rel="stylesheet" href="/css/shared.css?v=20-original-fonts">
+        <link rel="stylesheet" href="/css/shared.css?v=23-nav-footer">
 
         <!-- Sitewide Organization + WebSite JSON-LD, server-rendered so it is
              visible to crawlers/LLM bots that do not execute JavaScript

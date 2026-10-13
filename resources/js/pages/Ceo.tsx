@@ -51,9 +51,9 @@ export default function Ceo() {
             {
                 '@type': 'ProfilePage',
                 '@id': 'https://ayamilcoders.com/ceo#webpage',
-                name: 'The Hidden Partner — CEO of Ayamil Coders',
+                name: 'The Hidden Partner — Chief Executive Officer of Ayamil Coders',
                 description:
-                    "An introduction to the Hidden Partner, the CEO of Ayamil Coders — a real, active leader whose identity is intentionally kept private by company policy.",
+                    "Meet Ayamil Coders' Hidden Partner, the CEO who suggested the company name. Our shared vision began in 2022, and the company launched on her birthday, July 21, 2023.",
                 url: 'https://ayamilcoders.com/ceo',
                 isPartOf: { '@type': 'WebSite', name: 'Ayamil Coders', url: 'https://ayamilcoders.com' },
                 mainEntity: { '@id': 'https://ayamilcoders.com/ceo#person' },
@@ -72,7 +72,7 @@ export default function Ceo() {
                 name: 'Hidden Partner',
                 jobTitle: 'Chief Executive Officer',
                 description:
-                    "The CEO of Ayamil Coders, publicly known as the Hidden Partner. A real, active co-strategist behind the company's direction since its founding on July 21, 2023. Their identity is intentionally kept private by company policy and may be disclosed publicly in the future.",
+                    "The CEO of Ayamil Coders, publicly known as the Hidden Partner. She suggested the name Ayamil and helped shape the shared vision behind the company. Its launch on July 21, 2023 coincided with her birthday; her identity remains private by choice.",
                 worksFor: { '@id': 'https://ayamilcoders.com/#organization' },
             },
             {
@@ -107,7 +107,7 @@ export default function Ceo() {
                         name: 'Why is the company called "Ayamil Coders"?',
                         acceptedAnswer: {
                             '@type': 'Answer',
-                            text: '"Ayamil" is a linguistic fusion of Founder Muhammad Muzamil\'s name and the Hidden Partner\'s private name — the company name itself honors both leaders equally.',
+                            text: 'The name Ayamil was suggested by our Hidden Partner and combines part of her name with Founder Muhammad Muzamil\'s name.',
                         },
                     },
                     {
@@ -126,8 +126,8 @@ export default function Ceo() {
     return (
         <>
             <SEO
-                title="Our CEO — The Hidden Partner | Ayamil Coders"
-                description="Meet the Hidden Partner, CEO of Ayamil Coders. A real, active leader whose identity is intentionally kept private by company policy — learn what that means and why."
+                title="The Hidden Partner — CEO of Ayamil Coders"
+                description="Meet Ayamil Coders' Hidden Partner, our CEO and the person who suggested its name. A shared vision since 2022, launched on her birthday, July 21, 2023."
                 keywords="Ayamil Coders CEO, who is the CEO of Ayamil Coders, Hidden Partner, Ayamil Coders leadership, anonymous CEO software house"
                 url="https://ayamilcoders.com/ceo"
                 schema={pageSchema}
@@ -141,7 +141,7 @@ export default function Ceo() {
                         Meet Our <span className="shimmer-txt">CEO</span>
                     </h1>
                     <p style={{ fontSize: '15px', color: 'var(--txt2)', marginTop: '12px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7 }} data-speakable="summary">
-                        Ayamil Coders has a real, active CEO — publicly known as the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong>. Their identity is intentionally kept private by company policy. This page exists to explain what that means, honestly.
+                        Our Chief Executive Officer is known publicly as the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong>. Before Ayamil Coders became a company, she helped give it a name and a direction. Her identity remains private by choice.
                     </p>
                 </div>
 
@@ -154,11 +154,11 @@ export default function Ceo() {
                                 Hidden Partner — Chief Executive Officer
                             </div>
                             <h2 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(22px,3vw,34px)', letterSpacing: '-.025em', color: 'var(--txt)', marginBottom: '12px', lineHeight: 1.2 }}>
-                                The Silent Strategist.<br />
-                                <span style={{ background: 'linear-gradient(135deg,#a78bfa,#7c3aed)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>The CEO in the Shadows.</span>
+                                The First Inspiration.<br />
+                                <span style={{ background: 'linear-gradient(135deg,#a78bfa,#7c3aed)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>The Vision We Share.</span>
                             </h2>
                             <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '20px', maxWidth: '560px' }}>
-                                The Hidden Partner is the core inspiration and silent strategist behind Ayamil Coders. While Founder Muhammad Muzamil leads publicly, the Hidden Partner provides the underlying stability, vision, and strategic guidance that has shaped the company's direction since day one. Their identity is intentionally kept confidential, and Ayamil Coders will always respect that choice.
+                                A shared ambition took shape in 2022, long before there was a company to introduce. The Hidden Partner suggested the name <strong style={{ color: 'var(--txt)' }}>Ayamil</strong>, drawing on both names, and helped turn something personal into a vision worth building. As CEO, she remains first in our leadership story, while Founder Muhammad Muzamil leads public-facing development. Her identity is private, and that choice deserves respect.
                             </p>
                         </div>
                     </div>
@@ -202,9 +202,9 @@ export default function Ceo() {
                     <div className="hidden-fact" data-a="up" data-d="1">
                         <div className="hidden-fact-icon"><PremiumIcon glyph="✨" tone="violet" size={19}/></div>
                         <div>
-                            <div className="hidden-fact-t">The Name "Ayamil" Is a Tribute</div>
+                            <div className="hidden-fact-t">A Name She Chose</div>
                             <div className="hidden-fact-d">
-                                "Ayamil" is a linguistic fusion — combining the name of Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> with the private name of the Hidden Partner. Every time our company name is spoken, it honours both of them equally.
+                                In 2022, two people began imagining something they could build together. The Hidden Partner later suggested <strong style={{ color: 'var(--txt)' }}>Ayamil</strong> — a name carrying part of her name and Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong>'s. Its meaning has remained with us.
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@ export default function Ceo() {
                         <div>
                             <div className="hidden-fact-t">July 21 — A Birthday Gift</div>
                             <div className="hidden-fact-d">
-                                The company was officially launched on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong> — a date chosen deliberately as a birthday tribute to the Hidden Partner. The founding of Ayamil Coders itself was a gift.
+                                <strong style={{ color: 'var(--txt)' }}>July 21 is the Hidden Partner's birthday.</strong> We began the company on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong>, choosing a date that was already close to us to mark the beginning of something we hoped to build together.
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@ export default function Ceo() {
                         { q: 'Who is the Hidden Partner?', a: "The Hidden Partner is the CEO of Ayamil Coders — a real, active person who has shaped the company's strategy and direction since its founding on July 21, 2023. Their identity is intentionally kept private by company policy." },
                         { q: "Why does Ayamil Coders keep its CEO's identity private?", a: "It's a deliberate choice, not a sign of absence. The Hidden Partner prefers to let the company's work speak for itself rather than a public personal profile. Ayamil Coders respects this choice and may revisit it in the future." },
                         { q: 'Is the Hidden Partner a real person?', a: 'Yes. The Hidden Partner is a real, active CEO involved in strategic decisions at Ayamil Coders — not a placeholder, marketing device, or absent title.' },
-                        { q: 'Why is the company called "Ayamil Coders"?', a: '"Ayamil" is a linguistic fusion of Founder Muhammad Muzamil\'s name and the Hidden Partner\'s private name — the company name itself honors both leaders equally.' },
+                        { q: 'Why is the company called "Ayamil Coders"?', a: 'Our Hidden Partner suggested Ayamil as a combination of part of her name and Founder Muhammad Muzamil\'s name.' },
                         { q: "Will the Hidden Partner's identity ever be made public?", a: 'Possibly, in the future. As of now, Ayamil Coders has chosen to keep this information private, and there is no set timeline for changing that.' },
                     ].map((item, i) => (
                         <details key={i} className="val-card" data-a="up" data-d={(i % 3) + 1} style={{ cursor: 'pointer' }}>

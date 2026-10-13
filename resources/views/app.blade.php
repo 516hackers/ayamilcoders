@@ -57,7 +57,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Shared tokens and styling load before content to prevent layout/theme flash. -->
-    <link rel="stylesheet" href="/css/shared.css?v=20-original-fonts">
+    <link rel="stylesheet" href="/css/shared.css?v=23-nav-footer">
 
     <!-- JSON-LD -->
     @verbatim

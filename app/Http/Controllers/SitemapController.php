@@ -14,13 +14,13 @@ class SitemapController extends Controller
             // ===== Main Pages =====
             [
                 'loc' => '/',
-                'lastmod' => '2025-01-01',
+                'lastmod' => '2026-10-13',
                 'changefreq' => 'weekly',
                 'priority' => '1.00'
             ],
             [
                 'loc' => '/about',
-                'lastmod' => '2025-01-01',
+                'lastmod' => '2026-10-13',
                 'changefreq' => 'monthly',
                 'priority' => '0.85'
             ],
@@ -70,13 +70,13 @@ class SitemapController extends Controller
             // ===== Leadership Pages =====
             [
                 'loc' => '/ceo',
-                'lastmod' => '2025-01-01',
+                'lastmod' => '2026-10-13',
                 'changefreq' => 'weekly',
                 'priority' => '0.95'
             ],
             [
                 'loc' => '/founder',
-                'lastmod' => '2025-01-01',
+                'lastmod' => '2026-10-13',
                 'changefreq' => 'weekly',
                 'priority' => '0.95'
             ],

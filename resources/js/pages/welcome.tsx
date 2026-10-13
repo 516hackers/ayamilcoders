@@ -301,20 +301,20 @@ const PROCESS_STEPS = [
 
 const TEAM = [
     {
+        initials: '?', name: 'Hidden Partner', role: 'Chief Executive Officer',
+        roleColor: '#a78bfa',
+        bg: 'linear-gradient(135deg,#2d1b69,#5b21b6,#7c3aed)',
+        avatarBg: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)',
+        badgeCls: 'ip',
+        desc: 'Chief Executive Officer and the person who suggested the name Ayamil. Her vision helped shape a shared idea into a company; her identity remains private by choice.',
+    },
+    {
         initials: 'MM', name: 'Muhammad Muzamil', role: 'Founder',
         roleColor: 'var(--blue-lt)',
         bg: 'linear-gradient(135deg,#0b2d6e,#1248a8,#2979f2)',
         avatarBg: 'linear-gradient(135deg,#0d2f8c,#2979f2,#5a9af5)',
         badgeCls: 'ib',
         desc: 'Founder and lead developer guiding Ayamil Coders in delivering tailored digital solutions to international clients.',
-    },
-    {
-        initials: '?', name: 'Hidden Partner', role: 'Chief Executive Officer',
-        roleColor: '#a78bfa',
-        bg: 'linear-gradient(135deg,#2d1b69,#5b21b6,#7c3aed)',
-        avatarBg: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)',
-        badgeCls: 'ip',
-        desc: 'Overseeing operations, client relationships, and delivery coordination with an emphasis on dependable project execution.',
     },
     {
         initials: 'ZA', name: 'Zunaira Asif', role: 'Chief Technology Officer',
@@ -1078,6 +1078,7 @@ export default function Welcome() {
                             <div className="msh"><h2 className="msh-t" id="mobile-values-title">How We Work</h2></div>
                             <div className="ac-mobile-about-note mc-el">
                                 <p>From Sadiqabad to international client teams, our work is organized around reliable engineering, straightforward communication and a clear delivery process.</p>
+                                <p style={{ marginTop: '10px' }}>Our story began in 2022. The Hidden Partner, our CEO, suggested the name Ayamil, and we began the company on her birthday — <strong>July 21, 2023</strong>.</p>
                                 <button type="button" className="ac-mobile-text-link" onClick={() => (window as any).switchTab?.(3)}>Let's discuss your project <span aria-hidden="true">→</span></button>
                             </div>
                         </section>
@@ -1376,6 +1377,9 @@ export default function Welcome() {
                         <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontFamily: 'var(--disp)', fontWeight: 800, letterSpacing: '-.025em', marginTop: '6px' }}>
                             Meet the <span className="shimmer-txt">Leadership</span>
                         </h2>
+                        <p style={{ maxWidth: '620px', marginTop: '12px', color: 'var(--txt2)', fontSize: '13.5px', lineHeight: 1.8 }}>
+                            A shared vision began in 2022. Our CEO, known as the Hidden Partner, suggested the name Ayamil — a name carrying part of two people. We began the company on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong>, her birthday, and the meaning of that beginning remains with us.
+                        </p>
                     </div>
                     <div className="tgrid">
                         {TEAM.map((member, i) => (

@@ -1,0 +1,40 @@
+import { Link } from '@inertiajs/react';
+import { ArrowRight, Command, Info, ShieldCheck, GitBranch, Users, BookOpen, Search, ClipboardCopy } from 'lucide-react';
+import SEO from '@/components/SEO';
+import { ExperienceFrame, LAB_NAV } from '@/components/ExperienceUI';
+
+const TOPICS = [
+    {title:'Observe a system, not just a screenshot',description:'Explore failure modes, how states change, and why server-side guarantees matter even when a user interface seems stable.',href:'/fix-it',label:'Run a systems simulation'},
+    {title:'Read the diagnosis behind a repair',description:'Walk through symptoms, likely causes, source-level responses, and the verification still needed before calling a fix production-proven.',href:'/bug-museum',label:'Browse engineering notes'},
+    {title:'Understand where the work came from',description:'Separate company-reported history, repository commit evidence and locally prepared work instead of presenting every change as a verified launch.',href:'/journey',label:'Explore evidence-backed milestones'},
+];
+const QUESTIONS=[
+    {question:'Are these examples taken from customer projects?',answer:'No. The Bug Museum focuses on our own website development and source-level engineering changes. The interactive lab uses intentionally synthetic data, not customer records.'},
+    {question:'Does the engineering lab scan or modify my website?',answer:'No. It is a browser-only learning environment. It makes no scan requests, sends no submitted data and does not perform security testing against external websites.'},
+    {question:'Can I use the Command Center without a keyboard?',answer:'Yes. The navigation includes a search button. Desktop visitors can also press Ctrl+K (or Command+K on a Mac); the panel offers quick actions, recently visited destinations and saved pages.'},
+    {question:'Does the personalized experience change my account?',answer:'No account is required. The selected perspective and saved pages are optional browser preferences. You can change the perspective whenever you like.'},
+];
+export default function Experience() {
+    return <>
+        <SEO title="The Ayamil Experience | Interactive Engineering & Company Stories" description="Explore Ayamil Coders engineering case studies, advanced browser simulations, company milestones, role-based guidance and keyboard-powered navigation." keywords="Ayamil Coders experience, debugging case studies, interactive engineering lab, software company journey, development process" url="https://ayamilcoders.com/experience" schema={{'@context':'https://schema.org','@type':'CollectionPage',name:'The Ayamil Experience',url:'https://ayamilcoders.com/experience',isPartOf:{'@id':'https://ayamilcoders.com/#website'}}}/>
+        <ExperienceFrame eyebrow="The Ayamil Experience" title="Don't just read." accent="Explore." intro="A working collection of engineering stories, interactive system models, source-backed milestones and tailored discovery paths. It is designed to show how reliable software is reasoned about—not to impress you with animations or unsupported claims.">
+            <div className="acx-introline"><span><BookOpen size={17}/> Read the technical context</span><span><GitBranch size={17}/> Inspect decisions and trade-offs</span><span><Users size={17}/> Find your relevant next step</span></div>
+            <div className="acx-sectionhead"><div><span className="acx-eyebrow">FOUR EXPERIENCES</span><h2>Choose where to begin</h2></div><span className="acx-sub">Real content · useful interaction · clear evidence labels</span></div>
+            <div className="acx-grid">{LAB_NAV.map(({href,label,description,icon:Icon},i)=><Link key={href} href={href} className="acx-card acx-cardlink"><div className="acx-ic"><Icon size={20} aria-hidden="true"/></div><span className="acx-tag" style={{marginTop:15}}>EXPERIENCE 0{i+1}</span><h2>{label}</h2><p>{description}. Explore the technical reasoning, supporting context, practical questions and next decisions rather than reading a short promotional summary.</p><span className="acx-link">Open experience <ArrowRight size={16} aria-hidden="true"/></span></Link>)}</div>
+            <div className="acx-sectionhead"><div><span className="acx-eyebrow">WHY THESE EXPERIENCES EXIST</span><h2>Four principles behind better decisions</h2></div></div>
+            <div className="acx-grid">
+                <div className="acx-card"><span className="acx-tag">01 / Evidence</span><h2>Separate facts from assumptions</h2><p>A repository commit proves a source change exists. It does not, by itself, prove that the change reached production, resolved every related bug or improved a PageSpeed score. Our notes call out those distinctions clearly.</p></div>
+                <div className="acx-card"><span className="acx-tag">02 / Reliability</span><h2>Protect important invariants</h2><p>For a multi-user application, correct behavior depends on more than attractive components. Concurrency boundaries, permission checks, durable data integrity and repeat-safe processing all need attention.</p></div>
+                <div className="acx-card"><span className="acx-tag">03 / Usability</span><h2>Make outcomes understandable</h2><p>Visitors deserve accessible feedback, purposeful page flow and informative error states. Faster navigation and better content are valuable only when actions are predictable and easy to understand.</p></div>
+                <div className="acx-card"><span className="acx-tag">04 / Context</span><h2>Choose the right level of complexity</h2><p>Business owners, founders and developers ask different questions. One visitor needs outcomes and support boundaries; another needs architecture, failure analysis and the evidence for a technical decision.</p></div>
+            </div>
+            <div className="acx-sectionhead"><div><span className="acx-eyebrow">A SUGGESTED ROUTE</span><h2>Explore with a purpose</h2></div></div>
+            <div className="acx-steps">{TOPICS.map((item,i)=><div className="acx-card acx-featureline" key={item.title}><span className="acx-num">0{i+1}</span><div><h2>{item.title}</h2><p>{item.description}</p><Link href={item.href} className="acx-link">{item.label}<ArrowRight size={15}/></Link></div></div>)}</div>
+            <div className="acx-card acx-featureline" style={{marginTop:16}}><div className="acx-ic"><Command size={21}/></div><div><span className="acx-eyebrow">GLOBAL QUICK ACCESS</span><h2>Command Center — more than search</h2><p>Press <kbd className="acx-kbd">Ctrl + K</kbd> or <kbd className="acx-kbd">⌘ K</kbd> to search every key page and technical subject. Type <kbd className="acx-kbd">&gt;</kbd> for actions, <kbd className="acx-kbd">@</kbd> for bookmarked pages or <kbd className="acx-kbd">#</kbd> for recent destinations. Copy a project discovery template, copy a structured bug-report template, change your visitor perspective or save the current page without leaving the panel.</p><Link href="/for-you" className="acx-link">Set your preferred perspective <ArrowRight size={16}/></Link></div></div>
+            <div className="acx-sectionhead"><div><span className="acx-eyebrow">QUESTIONS WE EXPECT</span><h2>How to use this section</h2></div></div>
+            <div className="acx-steps">{QUESTIONS.map(q=><details className="acx-case" key={q.question}><summary><span style={{flex:1}}><h2>{q.question}</h2></span><Search size={16} aria-hidden="true"/></summary><div className="acx-casebody"><p>{q.answer}</p></div></details>)}</div>
+            <div className="acx-note"><Info size={17}/><span>Transparency matters: source-prepared changes are not automatically verified production releases. These experiences contain instructional content and do not substitute for a security audit of a client's infrastructure.</span></div>
+            <div className="acx-actions"><Link href="/contact" className="acx-button"><ClipboardCopy size={16}/> Discuss your requirements <ArrowRight size={15}/></Link><Link href="/updates" className="acx-button secondary"><ShieldCheck size={16}/> View development notes</Link></div>
+        </ExperienceFrame>
+    </>;
+}

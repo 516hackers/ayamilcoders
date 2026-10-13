@@ -154,7 +154,8 @@ export default function Founder() {
     const timeline = [
         { year: '2016', title: 'Began Independent Programming Studies', desc: 'No coding bootcamp, no institute, no mentor nearby in Sadiqabad — just an internet connection and HTML/CSS documentation worked through line by line.' },
         { year: 'Matric Years', title: 'First International Client Engagements', desc: 'Took on paid international client work through direct professional contacts — years before most developers finish their education.' },
-        { year: 'Jul 21, 2023', title: 'Founded Ayamil Coders', desc: 'Officially launched Ayamil Coders in Sadiqabad, Punjab, Pakistan — a date chosen as a birthday tribute to the company\'s Hidden Partner.' },
+        { year: '2022', title: 'The Shared Idea', desc: 'Met the person who would become the company\'s Hidden Partner and CEO. A shared idea began to take shape; she later suggested the name Ayamil, combining part of both their names.' },
+        { year: 'Jul 21, 2023', title: 'Ayamil Coders Begins', desc: 'Launched Ayamil Coders in Sadiqabad, Punjab, Pakistan on July 21 — the Hidden Partner\'s birthday, a date chosen for its personal meaning.' },
         { year: '2025 — Today', title: '600+ projects, 50+ international clients', desc: 'A 72% repeat-client rate across web development, cybersecurity, and blockchain work delivered from Sadiqabad to clients worldwide.' },
         { year: 'What\'s Next', title: 'Pakistan\'s first blockchain platform, from Sadiqabad', desc: 'Growing into a full agency team and building toward international recognition — without moving out of the city where it all started.' },
     ];
@@ -237,7 +238,7 @@ export default function Founder() {
                         He didn't wait to finish school before working with real clients. While still sitting for his Matric exams, he was already taking on paid international projects — built through direct professional contacts, not freelancing platforms — juggling early mornings, late nights, and exam pressure at the same time.
                     </p>
                     <p>
-                        On <strong>July 21, 2023</strong>, that freelance practice became something more deliberate: Ayamil Coders, founded in Sadiqabad. The name itself carries the story — a fusion of Muhammad's name with the private name of the company's Hidden Partner, its CEO, and the date is a birthday tribute to them. Today, at 20, Muhammad still works hands-on as the company's technical backbone — architecture, development, and delivery all pass through him personally.
+                        On <strong>July 21, 2023</strong>, that freelance practice became something more deliberate: Ayamil Coders, founded in Sadiqabad. The name itself carries the story — suggested by the Hidden Partner, the company's CEO, as a combination of their names. July 21 is her birthday, and the date was chosen with meaning. Today, Muhammad continues working hands-on as the company's technical backbone — architecture, development, and delivery all pass through him personally.
                     </p>
                 </div>
             </section>

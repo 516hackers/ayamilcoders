@@ -140,9 +140,14 @@ export default function About() {
     // ===== DATA =====
     const timeline = [
         {
+            year: '2022',
+            title: 'Before the Company — A Shared Vision',
+            desc: 'Two people met, grew close, and began imagining something meaningful they could build together. The Hidden Partner later suggested a name drawn from both of theirs: Ayamil.',
+        },
+        {
             year: 'Jul 21, 2023',
-            title: 'Ayamil Coders Founded — A Birthday Gift',
-            desc: 'Muhammad Muzamil officially launches Ayamil Coders on July 21, 2023 — a date chosen specifically as a birthday tribute to the Hidden Partner, the silent inspiration behind the company.',
+            title: 'Ayamil Coders Begins — July 21',
+            desc: 'Ayamil Coders began on July 21, 2023, the Hidden Partner\'s birthday — a date chosen for its meaning long before it became a company milestone.',
         },
         {
             year: 'Late 2023',
@@ -207,7 +212,7 @@ export default function About() {
             roleColor: '#a78bfa',
             bg: 'linear-gradient(135deg,#2d1b69,#5b21b6,#7c3aed)',
             avBg: 'linear-gradient(135deg,#3d1a78,#7c3aed,#a78bfa)',
-            desc: "The silent strategist behind Ayamil Coders' direction. A real, active CEO whose identity is intentionally kept private by company policy — their influence shows in the company's work, not a name on a page.",
+            desc: 'Our first leader and the person who suggested the name Ayamil. Chief Executive Officer since the beginning, with her identity kept private by choice.', 
             tags: [['tp', 'Strategy'], ['tb', 'Vision'], ['tg', 'Private by Choice']],
             showBadge: true,
         },
@@ -457,7 +462,7 @@ export default function About() {
         <>
             <SEO
                 title="About Ayamil Coders — Software House Pakistan | Web, Blockchain, AI & Bug Fixing"
-                description="Ayamil Coders is a Pakistan-based software house founded July 21, 2023 in Sadiqabad, Punjab — a birthday tribute to the Hidden Partner. We deliver Web Development, Blockchain Development, AI Development, and Bug Fixing to 50+ international clients."
+                description="Discover Ayamil Coders: a shared vision from 2022, named by our Hidden Partner and launched on her birthday, July 21, 2023. Explore our leadership and software services."
                 keywords="about Ayamil Coders, software house Pakistan, web development company Pakistan, blockchain development services, smart contract developers, AI development company, bug fixing service Pakistan, debug code online, Sadiqabad Punjab, Muhammad Muzamil, hidden partner Ayamil, silent strategist, Zunaira Asif CTO, Zayan Ali COO"
                 url="https://ayamilcoders.com/about"
                 schema={pageSchema}
@@ -505,13 +510,13 @@ export default function About() {
                             Rooted in Sadiqabad.<br />Connected Worldwide.
                         </h2>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '16px' }}>
-                            Ayamil Coders was born in July 2023 out of a simple conviction: exceptional engineering should be accessible beyond established technology hubs. Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> started the company in <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab, Pakistan</strong>, guided from day one by the strategic direction of the company's CEO — known publicly as the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong> — operating fully remotely and building a team of full-stack engineers, blockchain specialists, AI developers, and dedicated bug-fixing/QA testers.
+                            Before there was a company, there was a story. In <strong style={{ color: 'var(--txt)' }}>2022</strong>, two people met and found a shared reason to build something meaningful. When it needed a name, the <strong style={{ color: 'var(--txt)' }}>Hidden Partner</strong> suggested <strong style={{ color: 'var(--txt)' }}>Ayamil</strong> — quietly bringing together a part of both their names. A personal beginning became a shared ambition.
                         </p>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '16px' }}>
-                            While Muhammad Muzamil leads publicly as Founder, the Hidden Partner has steered the company's long-term vision and decision-making as CEO since its earliest days — their identity kept private by choice, not absence. Every major milestone in this timeline carries their fingerprint, even where their name doesn't appear.
+                            We chose to begin Ayamil Coders on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong>, the Hidden Partner's birthday. The date was already special; that year, it became a beginning we would share. She leads as our <strong style={{ color: 'var(--txt)' }}>Chief Executive Officer</strong>, while Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> represents the company publicly. Her name remains private, never her place in the story.
                         </p>
                         <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '24px' }}>
-                            In just over two years, the company grew from a solo freelancer on Fiverr to a structured software house led by the CEO and Founder together, with a dedicated CTO (<strong style={{ color: 'var(--txt)' }}>Zunaira Asif</strong>), COO (<strong style={{ color: 'var(--txt)' }}>Zayan Ali</strong>), and a full engineering team — shipping everything from React/Laravel web apps to audited Solidity smart contracts, DeFi protocols, AI automation pipelines, and fast-turnaround bug fixing for projects built by other teams.
+                            Today, that origin lives alongside a professional purpose: custom engineering built with care. From <strong style={{ color: 'var(--txt)' }}>Sadiqabad, Punjab</strong>, our team works across web applications, blockchain, AI solutions, and bug fixing for clients worldwide. The people behind the vision matter deeply; the work we deliver must speak for itself.
                         </p>
                         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                             <span className="tag tb">🇵🇰 Sadiqabad, Punjab</span>
@@ -588,11 +593,11 @@ export default function About() {
                                 Hidden Partner — Chief Executive Officer
                             </div>
                             <h3 style={{ fontFamily: 'var(--disp)', fontWeight: 800, fontSize: 'clamp(22px,3vw,34px)', letterSpacing: '-.025em', color: 'var(--txt)', marginBottom: '12px', lineHeight: 1.2 }}>
-                                The Silent Strategist.<br />
-                                <span style={{ background: 'linear-gradient(135deg,#a78bfa,#7c3aed)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>The CEO in the Shadows.</span>
+                                The Person Behind the Vision.<br />
+                                <span style={{ background: 'linear-gradient(135deg,#a78bfa,#7c3aed)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Our Chief Executive Officer.</span>
                             </h3>
                             <p style={{ fontSize: '14px', color: 'var(--txt2)', lineHeight: 1.8, marginBottom: '20px', maxWidth: '560px' }}>
-                                The Hidden Partner is the core inspiration and silent strategist behind Ayamil Coders — our unseen foundation. While Muhammad Muzamil leads publicly, the Hidden Partner provides the underlying stability, vision, and strategic guidance that shapes the company's long-term direction. Their identity is intentionally kept confidential and will remain so.
+                                Before Ayamil Coders had an official identity, it had a shared vision. Our Hidden Partner suggested its name and helped give that vision direction. As Chief Executive Officer, she holds the first place in our leadership story. Her personal identity remains private by choice; her contribution is recognized with pride.
                             </p>
 
                             {/* Three key facts */}
@@ -602,7 +607,7 @@ export default function About() {
                                     <div>
                                         <div className="hidden-fact-t">The Name "Ayamil" Is a Tribute</div>
                                         <div className="hidden-fact-d">
-                                            "Ayamil" is a linguistic fusion — combining the name of Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong> with the private name of the Hidden Partner. Every time our company name is spoken, it honours both of them equally.
+                                            The name <strong style={{ color: 'var(--txt)' }}>Ayamil</strong> was suggested by the Hidden Partner. It brings together part of her name and Founder <strong style={{ color: 'var(--txt)' }}>Muhammad Muzamil</strong>'s — a meaning we carry quietly into everything we build.
                                         </div>
                                     </div>
                                 </div>
@@ -611,7 +616,7 @@ export default function About() {
                                     <div>
                                         <div className="hidden-fact-t">July 21 — A Birthday Gift</div>
                                         <div className="hidden-fact-d">
-                                            The company was officially launched on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong> — a date chosen deliberately as a birthday tribute to the Hidden Partner. The founding of Ayamil Coders itself was a gift.
+                                            <strong style={{ color: 'var(--txt)' }}>July 21 is the Hidden Partner's birthday.</strong> We began Ayamil Coders on <strong style={{ color: 'var(--txt)' }}>July 21, 2023</strong> so that a meaningful personal date would also mark the start of our shared dream.
                                         </div>
                                     </div>
                                 </div>

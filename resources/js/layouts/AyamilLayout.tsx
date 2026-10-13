@@ -1,6 +1,10 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useLayoutEffect, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { Moon, Sun, House, Code2, UsersRound, BriefcaseBusiness, MessageCircle, ShieldCheck, FileText, RotateCcw, History } from 'lucide-react';
+import CommandPalette from '@/components/CommandPalette';
+// The 14 interactive tools live in their own JS chunk rather than inflating
+// the initial public-page bundle. Search and the core shell stay immediate.
+const InteractiveTools = lazy(() => import('@/components/InteractiveTools'));
+import { Moon, Sun, House, Code2, UsersRound, BriefcaseBusiness, ShieldCheck, FileText, RotateCcw, History, Search, Command, LayoutGrid } from 'lucide-react';
 
 // Identical ticker markup for server rendering and the browser's first render.
 const TICKER_ITEMS: Array<{ value: string; label: string } | { text: string }> = [
@@ -16,6 +20,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     // SSR and the browser must render identical initial attributes. The saved
     // theme is read only after hydration has completed.
     const [activeTheme, setActiveTheme] = useState<'dark' | 'light'>('dark');
+    const [commandOpen, setCommandOpen] = useState(false);
 
     // Remove the pre-JS homepage skeleton OUTSIDE #app after React mounts.
     // Inserting arbitrary nodes into #app before hydration breaks SSR.
@@ -57,7 +62,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     // the new page paints. Inertia keeps the public layout mounted between routes.
     useLayoutEffect(() => {
         document.getElementById('legal-overlay')?.classList.remove('open');
-        document.getElementById('srch-overlay')?.classList.remove('open');
+        setCommandOpen(false);
         document.body.style.overflow = '';
         const innerScroll = document.getElementById('scr-page');
         if (innerScroll) innerScroll.scrollTop = 0;
@@ -753,10 +758,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <span className="sb-name">Ayamil Coders</span>
                 </div>
                 <div className="sb-r">
-                    <Link href="/solutions" className="sb-icon-btn" aria-label="Explore our solutions">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                    </Link>
-                    <a href="tel:+923127592672" className="sb-icon-btn" aria-label="Call Ayamil Coders">
+                    <button type="button" className="sb-icon-btn acv-mobile-tools" onClick={() => window.dispatchEvent(new CustomEvent('ayamil:tool', { detail: 'launcher' }))} aria-label="Open interactive tools" title="Interactive tools"><LayoutGrid size={17} aria-hidden="true"/></button>
+                    <button type="button" className="sb-icon-btn" style={{cursor:'pointer'}} onClick={() => setCommandOpen(true)} aria-label="Open Command Center and search website" title="Search website"><Search size={17} aria-hidden="true"/></button>
+                    <a href="tel:+923127592672" className="sb-icon-btn acv-mobile-call" aria-label="Call Ayamil Coders">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.63 19a19.5 19.5 0 0 1-6.91-6.91A19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.75-.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </a>
                     <button type="button" className="mobile-theme" id="m-theme-btn" onClick={toggleTheme} aria-label={activeTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}><Moon className="ac-theme-moon" size={19}/><Sun className="ac-theme-sun" size={19}/></button>
@@ -766,14 +770,11 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
             {/* ════════ PROGRESS BAR ════════ */}
             <div id="prog-bar"><div className="prog-fill"></div></div>
 
-            {/* ════════ SEARCH OVERLAY ════════ */}
-            <div id="srch-overlay" onClick={(e) => { if (e.target === e.currentTarget) { e.currentTarget.classList.remove('open'); } }}>
-                <div className="srch-box">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--txt3)" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input className="srch-input" id="srch-inp" type="search" aria-label="Search website content" placeholder="Explore services, expertise, insights..." autoComplete="off" onKeyDown={(e) => { if (e.key === 'Escape') { document.getElementById('srch-overlay')?.classList.remove('open'); } }} />
-                    <button type="button" className="srch-close" aria-label="Close search" onClick={() => document.getElementById('srch-overlay')?.classList.remove('open')}>✕</button>
-                </div>
-            </div>
+            {/* Independent interactive tools and standalone Spotlight search (V25). */}
+            <Suspense fallback={null}>
+                <InteractiveTools searchOpen={commandOpen} onSearch={() => setCommandOpen(true)} onSearchClose={() => setCommandOpen(false)} />
+            </Suspense>
+            <CommandPalette open={commandOpen} onOpen={() => setCommandOpen(true)} onClose={() => setCommandOpen(false)} />
 
             {/* ════════ DESKTOP SIDEBAR ════════ */}
             <nav id="sidebar" aria-label="Desktop primary navigation">
@@ -795,7 +796,6 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                     <Link href="/services" prefetch="hover" aria-label="Expertise" title="Expertise" className={`nav-a${isActive('/services') ? ' act' : ''}`}><Code2 className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Expertise</span><span className="nav-dot"></span></Link>
                     <Link href="/about" prefetch="hover" aria-label="Our Story" title="Our Story" className={`nav-a${isActive('/about') ? ' act' : ''}`}><UsersRound className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Our Story</span><span className="nav-dot"></span></Link>
                     <Link href="/careers" prefetch="hover" aria-label="Careers" title="Careers" className={`nav-a${isActive('/careers') ? ' act' : ''}`}><BriefcaseBusiness className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Careers</span><span className="nav-dot"></span></Link>
-                    <Link href="/contact" prefetch="hover" aria-label="Connect" title="Connect" className={`nav-a${isActive('/contact') ? ' act' : ''}`}><MessageCircle className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Connect</span><span className="nav-dot"></span></Link>
                     <Link href="/privacy-policy" prefetch="hover" aria-label="Privacy" title="Privacy" className={`nav-a${isActive('/privacy-policy') ? ' act' : ''}`}><ShieldCheck className="nav-ico" size={20} aria-hidden="true"/><span className="nav-lbl">Privacy</span><span className="nav-dot"></span></Link>
                 </div>
                 <div style={{ marginTop: '8px', width: '100%' }}>
@@ -827,15 +827,16 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                 <div className="topbar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
                         <span style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--txt3)', letterSpacing: '.1em', textTransform: 'uppercase' }}>© 2026 Ayamil Coders</span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--txt3)' }}>
+                        <span className="ac-topbar-status" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--txt3)' }}>
                             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green)', animation: 'blink 2s ease infinite', display: 'inline-block' }}></span>
                             All systems operational
                         </span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                        <a href="mailto:info@ayamilcoders.com" style={{ fontSize: '12px', color: 'var(--txt3)', textDecoration: 'none' }}>info@ayamilcoders.com</a>
+                        <a className="ac-topbar-email" href="mailto:info@ayamilcoders.com" style={{ fontSize: '12px', color: 'var(--txt3)', textDecoration: 'none' }}>info@ayamilcoders.com</a>
                         <a href="tel:+923127592672" style={{ fontSize: '12px', color: 'var(--txt3)', textDecoration: 'none', fontFamily: 'var(--mono)' }}>+92 312 759 2672</a>
-                        <a href="https://ayamilcoders.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', fontWeight: 600, padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(41,121,242,.3)', color: 'var(--blue-lt)', textDecoration: 'none' }}>Visit Website ↗</a>
+                        <button type="button" className="ac-top-command" onClick={() => window.dispatchEvent(new CustomEvent('ayamil:tool', { detail: 'launcher' }))} aria-label="Open interactive tools" title="Open interactive tools"><LayoutGrid size={16}/><span>Tools</span></button>
+                        <button type="button" className="ac-top-command" onClick={() => setCommandOpen(true)} aria-label="Open website search and Command Center" aria-keyshortcuts="Control+K Meta+K" title="Search website · Ctrl+K"><Search size={15} aria-hidden="true"/><span>Search</span><kbd className="ac-top-command-shortcut" aria-hidden="true">Ctrl K</kbd></button>
                     </div>
                 </div>
 
@@ -887,13 +888,9 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
                         <div data-a="up" data-d="3">
                             <div className="fct">Company</div>
                             <ul className="flinks">
+                                <li><Link href="/ceo">Our CEO · Hidden Partner</Link></li>
                                 <li><Link href="/about">Our Story</Link></li>
-                                <li>
-    <Link href="/company-registration">
-        Company Registration
-    </Link>
-</li>
-                                <li><Link href="/ceo">Our CEO</Link></li>
+                                <li><Link href="/company-registration">Company Registration</Link></li>
                                 <li><Link href="/top-it-company-sadiqabad">IT Company in Sadiqabad</Link></li>
                                 <li><Link href="/careers">Careers</Link></li>
                                 <li><Link href="/updates">Updates &amp; Changelog</Link></li>

@@ -1,0 +1,37 @@
+/* V24 · Lean command-only styles extracted from V23 Experience bundle. */
+.acx-note{display:flex;gap:12px;align-items:flex-start;color:var(--txt2);font-size:12.5px;line-height:1.7;background:var(--surf);border:1px solid var(--brd);border-radius:13px;padding:14px 16px;margin:19px 0}
+.acx-note svg{flex-shrink:0;color:var(--blue);margin-top:2px}
+.acx-command-trigger{border:1px solid var(--brd);color:var(--txt2);background:var(--surf);border-radius:10px;min-height:36px;padding:7px 10px;display:inline-flex;align-items:center;gap:9px;font:600 12px var(--font);cursor:pointer}
+.acx-command-trigger kbd{margin-left:auto;border:1px solid var(--brd);border-radius:5px;padding:2px 5px;font:10px var(--mono)}
+.acx-command-trigger:hover,.acx-command-trigger:focus-visible{border-color:var(--blue);color:var(--txt)}
+.acx-cmdback{position:fixed;inset:0;z-index:5000;background:rgba(3,10,21,.72);display:flex;align-items:flex-start;justify-content:center;padding:clamp(58px,13vh,125px) 16px 16px}
+.acx-cmdpanel{width:min(100%,620px);max-height:min(72vh,690px);overflow:hidden;border:1px solid var(--brd2);border-radius:20px;background:var(--bg2);box-shadow:0 25px 75px rgba(0,0,0,.27);display:flex;flex-direction:column}
+.acx-cmdinputrow{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--brd)}
+.acx-cmdinputrow svg{color:var(--txt2);flex:0 0 auto}
+.acx-cmdinputrow input{border:none;background:transparent;outline:none;min-width:0;flex:1;color:var(--txt);font:400 16px var(--font)}
+.acx-cmdinputrow input::placeholder{color:var(--txt2)}
+.acx-cmdclose{border:1px solid var(--brd);background:var(--surf);color:var(--txt2);border-radius:7px;padding:5px 8px;font:11px var(--mono);cursor:pointer}
+.acx-cmdlist{overflow:auto;padding:9px 10px;overscroll-behavior:contain}
+.acx-cmditem{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:1px solid transparent;background:none;color:var(--txt);border-radius:11px;padding:12px;text-decoration:none;min-height:53px}
+.acx-cmditem svg:first-child{color:var(--blue);flex-shrink:0}
+.acx-cmditem span{flex:1;min-width:0}
+.acx-cmditem strong{font-size:13px;display:block}
+.acx-cmditem small{color:var(--txt2);font-size:11px;display:block;margin-top:2px}
+.acx-cmditem svg:last-child{color:var(--txt2)}
+.acx-cmditem[aria-selected="true"],.acx-cmditem:hover{background:rgba(41,121,242,.11);border-color:var(--brd2)}
+.acx-cmdfoot{padding:10px 15px;border-top:1px solid var(--brd);font-size:11px;color:var(--txt2);display:flex;justify-content:space-between;gap:12px}
+@media (max-width:639px) {.acx-cmdback{padding:calc(62px + env(safe-area-inset-top,0px)) 10px 16px}
+.acx-cmdpanel{max-height:65vh;border-radius:15px}}
+@media (max-width:379px) {#sb .acx-mobile-solutions{display:none!important}}
+.acx-cmdchips{display:flex;gap:7px;flex-wrap:wrap;padding:10px 15px;border-bottom:1px solid var(--brd)}
+.acx-cmdchip{cursor:pointer;background:var(--surf);color:var(--txt2);border:1px solid var(--brd);padding:7px 10px;border-radius:9px;font:600 11px var(--font);min-height:34px}
+.acx-cmdchip span{font:700 13px var(--mono);margin-right:5px;color:var(--blue)}
+.acx-cmdchip[aria-pressed=true]{border-color:var(--blue);color:var(--txt);background:rgba(41,121,242,.11)}
+.acx-cmdchip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.acx-cmditem{font:inherit;cursor:pointer}
+.acx-cmditem>span{display:block;text-align:left}
+.acx-cmdstatus{border-top:1px solid var(--brd);padding:10px 16px;color:var(--txt);font-size:12px;display:flex;gap:9px;align-items:center}
+.acx-cmdstatus svg{color:var(--blue);flex-shrink:0}
+@media (max-width:639px) {.acx-cmdfoot{flex-wrap:wrap}
+.acx-cmdinputrow{gap:8px;padding:13px}
+.acx-cmdinputrow input{font-size:14px}}
