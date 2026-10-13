@@ -55,8 +55,6 @@
     <link rel="icon" href="/logo/favicon.ico?v=2026" sizes="any">
     <link rel="apple-touch-icon" href="/logo/apple-touch-icon.png">
 
-    <!-- Shared tokens and styling load before content to prevent layout/theme flash. -->
-    <link rel="stylesheet" href="/css/shared.css?v=33-preload-layout">
 
     @php($seoBootstrap = \App\Support\PublicSeo::forRequest(request()))
     @include('partials.seo-bootstrap')
@@ -66,6 +64,9 @@
         'resources/css/app.css',
         'resources/js/app.tsx'
     ])
+
+    {{-- V34: one shared stylesheet, after Vite CSS for unchanged cascade order. --}}
+    <link rel="stylesheet" href="/css/shared.css?v=34-single-copy">
 
     {{-- Fallback metadata is rendered directly by Blade, then Inertia can add SSR head tags. --}}
     @include('partials.seo-fallback')

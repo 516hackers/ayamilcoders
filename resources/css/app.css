@@ -1,7 +1,9 @@
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
-@import './../../public/css/shared.css';
+/* V34: shared.css is linked once from app.blade.php AFTER Vite CSS.
+   Do not @import it here: importing it into the Vite bundle duplicated
+   its bytes and forced duplicate parse/cascade on every navigation. */
 
 
 @source '../views';
