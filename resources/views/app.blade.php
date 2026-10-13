@@ -56,7 +56,7 @@
     <link rel="apple-touch-icon" href="/logo/apple-touch-icon.png">
 
     <!-- Shared tokens and styling load before content to prevent layout/theme flash. -->
-    <link rel="stylesheet" href="/css/shared.css?v=31-optimized">
+    <link rel="stylesheet" href="/css/shared.css?v=33-preload-layout">
 
     @php($seoBootstrap = \App\Support\PublicSeo::forRequest(request()))
     @include('partials.seo-bootstrap')
