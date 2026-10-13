@@ -72,7 +72,7 @@ function Dialog({title,children,onClose,kind}:{title:string;children:ReactNode;o
 }
 function Head({title,caption,onClose}:{title:string;caption:string;onClose:()=>void}){return <header className="acv-head"><div><span className="acv-eyebrow">AYAMIL CODERS · INTERACTIVE TOOLS</span><h2>{title}</h2><p>{caption}</p></div><Close onClick={onClose}/></header>;}
 
-export default function InteractiveTools({searchOpen,onSearch,onSearchClose}:{searchOpen:boolean;onSearch:()=>void;onSearchClose:()=>void}) {
+export default function InteractiveTools({searchOpen,onSearch,onSearchClose,initialLaunch}:{searchOpen:boolean;onSearch:()=>void;onSearchClose:()=>void;initialLaunch?:string|null}) {
  const {url}=usePage();const path=url.split(/[?#]/)[0]||'/';
  const [launcher,setLauncher]=useState(false),[active,setActive]=useState<Tool|null>(null);
  const [focus,setFocus]=useState(false),[lens,setLens]=useState(false),[quick,setQuick]=useState(false),[share,setShare]=useState(false);
@@ -103,6 +103,13 @@ export default function InteractiveTools({searchOpen,onSearch,onSearchClose}:{se
    if(id==='notes')setNotePos({x:0,y:0});
    setActive(id);
  },[onSearch]);
+ // First click may occur before this lazy chunk has finished downloading.
+ // Replay its intent inside the mounted component without losing that click.
+ useEffect(() => {
+   if (!initialLaunch) return;
+   if (initialLaunch === 'launcher') setLauncher(true);
+   else if (LAUNCH.some(item => item.id === initialLaunch)) openTool(initialLaunch as LaunchId);
+ }, [initialLaunch, openTool]);
  useEffect(()=>{setTrail(read<string[]>('trail',[],true));setPrefs(read<AccessPrefs>('access',{scale:100,wide:false,motion:false,contrast:false}));},[]);
  useEffect(()=>{const to=location.pathname+location.search;setTrail(prev=>{const next=[to,...prev.filter(x=>x!==to)].slice(0,14);write('trail',next,true);return next;});setActive(null);setLens(false);setShare(false);setPreview(null);},[url]);
  useEffect(()=>{setNotes(read<string>('notes:'+path,''));setNotesMessage('');setNotePos({x:0,y:0});},[path]);

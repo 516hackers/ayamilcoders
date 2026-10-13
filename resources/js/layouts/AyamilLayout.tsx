@@ -21,6 +21,35 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
     // theme is read only after hydration has completed.
     const [activeTheme, setActiveTheme] = useState<'dark' | 'light'>('dark');
     const [commandOpen, setCommandOpen] = useState(false);
+    // Load the optional tools bundle only when someone asks for it.
+    // Keeping this off the initial homepage path eliminates the tools/icons CSS/JS chain.
+    const [toolsEnabled, setToolsEnabled] = useState(false);
+    const [firstTool, setFirstTool] = useState<string | null>(null);
+    const toolsEnabledRef = React.useRef(false);
+    useEffect(() => {
+        const openOnDemand = (event: Event) => {
+            if (toolsEnabledRef.current) return;
+            const id = (event as CustomEvent<string>).detail || 'launcher';
+            setFirstTool(id);
+            toolsEnabledRef.current = true;
+            setToolsEnabled(true);
+        };
+        const keyboardOnDemand = (event: KeyboardEvent) => {
+            if (toolsEnabledRef.current || event.altKey || event.ctrlKey || event.metaKey) return;
+            if (!(event.shiftKey && /^[mdcphagnsu]$/i.test(event.key))) return;
+            const target = event.target as HTMLElement | null;
+            if (target?.closest('input,textarea,select,[contenteditable]')) return;
+            const map: Record<string,string> = {m:'navigator',d:'lens',c:'compare',p:'preview',h:'trail',a:'access',g:'decision',n:'notes',s:'share',u:'updates'};
+            const requested = map[event.key.toLowerCase()];
+            if (requested) openOnDemand(new CustomEvent('ayamil:tool', {detail:requested}));
+        };
+        window.addEventListener('ayamil:tool', openOnDemand);
+        window.addEventListener('keydown', keyboardOnDemand);
+        return () => {
+            window.removeEventListener('ayamil:tool', openOnDemand);
+            window.removeEventListener('keydown', keyboardOnDemand);
+        };
+    }, []);
 
     // Remove the pre-JS homepage skeleton OUTSIDE #app after React mounts.
     // Inserting arbitrary nodes into #app before hydration breaks SSR.
@@ -698,7 +727,7 @@ export default function AyamilLayout({ children }: { children: React.ReactNode }
 
             {/* Independent interactive tools and standalone Spotlight search (V25). */}
             <Suspense fallback={null}>
-                <InteractiveTools searchOpen={commandOpen} onSearch={() => setCommandOpen(true)} onSearchClose={() => setCommandOpen(false)} />
+                {toolsEnabled && <InteractiveTools initialLaunch={firstTool} searchOpen={commandOpen} onSearch={() => setCommandOpen(true)} onSearchClose={() => setCommandOpen(false)} />}
             </Suspense>
             <CommandPalette open={commandOpen} onOpen={() => setCommandOpen(true)} onClose={() => setCommandOpen(false)} />
 

@@ -11,7 +11,9 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
             refresh: true,
         }),
-        inertia(),
+        // The Inertia v3 plugin reuses app.tsx for server rendering.
+        // Keep the SSR endpoint bound to loopback in production.
+        inertia({ ssr: { host: '127.0.0.1' } }),
         react({
             babel: {
                 plugins: ['babel-plugin-react-compiler'],
