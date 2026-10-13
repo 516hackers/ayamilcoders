@@ -1,6 +1,6 @@
 {{-- V27: HTTP-response metadata is usable without client JavaScript. --}}
 @php
-    $seoBootstrap = \App\Support\PublicSeo::forRequest(request());
+    $seoBootstrap = $seoBootstrap ?? \App\Support\PublicSeo::forRequest(request());
     $seoPrivate = $seoBootstrap === null;
     $seoGraph = \App\Support\PublicSeo::organizationGraph();
 @endphp

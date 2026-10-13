@@ -67,16 +67,11 @@
         'resources/js/app.tsx'
     ])
 
-    <x-inertia::head>
-        @include('partials.seo-fallback')
-    </x-inertia::head>
+    {{-- Fallback metadata is rendered directly by Blade, then Inertia can add SSR head tags. --}}
+    @include('partials.seo-fallback')
+    @inertiaHead
 </head>
 
-    @php
-        // The original public Blade root used <body> without Tailwind font-sans.
-        // Authenticated views keep their existing Tailwind typography.
-        $ayamilPublicSite = request()->routeIs('home', 'about', 'services', 'contact', 'careers', 'privacy-policy', 'terms', 'refund-policy', 'cookie-policy', 'disclaimer', 'ceo', 'founder', 'sadiqabad-it-company', 'solutions', 'benefits', 'updates', 'best-software-house-pakistan', 'company-registration');
-    @endphp
     <body class="{{ request()->routeIs('home', 'about', 'services', 'contact', 'careers', 'privacy-policy', 'terms', 'refund-policy', 'cookie-policy', 'disclaimer', 'ceo', 'founder', 'sadiqabad-it-company', 'solutions', 'benefits', 'updates', 'best-software-house-pakistan', 'company-registration') ? 'antialiased' : 'font-sans antialiased' }}">
     <x-inertia::app />
 
