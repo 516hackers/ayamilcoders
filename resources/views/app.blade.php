@@ -56,7 +56,7 @@
     <link rel="apple-touch-icon" href="/logo/apple-touch-icon.png">
 
     <!-- Shared tokens and styling load before content to prevent layout/theme flash. -->
-    <link rel="stylesheet" href="/css/shared.css?v=23-nav-footer">
+    <link rel="stylesheet" href="/css/shared.css?v=31-optimized">
 
     @php($seoBootstrap = \App\Support\PublicSeo::forRequest(request()))
     @include('partials.seo-bootstrap')
@@ -77,7 +77,7 @@
         // Authenticated views keep their existing Tailwind typography.
         $ayamilPublicSite = request()->routeIs('home', 'about', 'services', 'contact', 'careers', 'privacy-policy', 'terms', 'refund-policy', 'cookie-policy', 'disclaimer', 'ceo', 'founder', 'sadiqabad-it-company', 'solutions', 'benefits', 'updates', 'best-software-house-pakistan', 'company-registration');
     @endphp
-    <body class="{{ $ayamilPublicSite ? 'antialiased' : 'font-sans antialiased' }}">
+    <body class="{{ request()->routeIs('home', 'about', 'services', 'contact', 'careers', 'privacy-policy', 'terms', 'refund-policy', 'cookie-policy', 'disclaimer', 'ceo', 'founder', 'sadiqabad-it-company', 'solutions', 'benefits', 'updates', 'best-software-house-pakistan', 'company-registration') ? 'antialiased' : 'font-sans antialiased' }}">
     <x-inertia::app />
 
     {{-- ═══════════ HOMEPAGE SKELETON ═══════════
