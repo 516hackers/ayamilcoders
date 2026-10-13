@@ -1,5 +1,5 @@
 {{-- V28: output only when Inertia SSR is unavailable. SSR Head owns metadata otherwise. --}}
-@if($seoBootstrap)
+@if(isset($seoBootstrap) && is_array($seoBootstrap))
     <title>{{ $seoBootstrap['title'] }}</title>
     <meta data-inertia="description" name="description" content="{{ $seoBootstrap['description'] }}">
     <meta data-inertia="robots" name="robots" content="{{ $seoBootstrap['robots'] }}">

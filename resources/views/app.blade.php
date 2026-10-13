@@ -58,6 +58,11 @@
     <!-- Shared tokens and styling load before content to prevent layout/theme flash. -->
     <link rel="stylesheet" href="/css/shared.css?v=23-nav-footer">
 
+    @php
+        // Shared with both included SEO partials; each Blade include has its own scope.
+        $seoBootstrap = \App\Support\PublicSeo::forRequest(request());
+    @endphp
+
     @include('partials.seo-bootstrap')
 
     @viteReactRefresh
